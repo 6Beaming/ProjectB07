@@ -1,4 +1,4 @@
-package com.example.b07demosummer2024;
+package com.group15.b07project;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

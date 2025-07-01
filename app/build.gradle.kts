@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.b07demosummer2024"
+    namespace = "com.group15.b07project"
     compileSdk = 34
 
     defaultConfig {
