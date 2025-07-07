@@ -36,7 +36,7 @@ public class AddItemFragment extends Fragment {
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
         buttonAdd = view.findViewById(R.id.buttonAdd);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance("https://projectb07-62fc7-default-rtdb.firebaseio.com/");
 
         // Set up the spinner with categories
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -66,7 +66,7 @@ public class AddItemFragment extends Fragment {
             return;
         }
 
-        itemsRef = db.getReference("categories/" + category);
+        itemsRef = db.getReference("b07project" + category);
         String id = itemsRef.push().getKey();
         Item item = new Item(id, title, author, genre, description);
 
