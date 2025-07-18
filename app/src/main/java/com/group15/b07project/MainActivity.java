@@ -27,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
         }
+        // show questionnaire
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new QuestionnaireFragment())
+                .commit();
     }
 
     private void loadFragment(Fragment fragment) {
