@@ -40,4 +40,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_emergency_exit"
+        android:layout_width="73dp"
+        android:layout_height="79dp"
+        android:layout_margin="16dp"
+        android:contentDescription="Emergency Exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
