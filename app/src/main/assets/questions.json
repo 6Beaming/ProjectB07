@@ -39,19 +39,64 @@
         "text": "Which form(s) of abuse are you experiencing?",
         "options": ["Physical", "Emotional", "Financial", "Other"]
       },
-      { "id": "logging", "type": "single", "text": "Are you recording the incidents?", "options": ["Yes","No"] },
-      { "id": "contact_name", "type": "text", "text": "Name one person you can call immediately in an emergency." }
+      {
+        "id": "logging",
+        "type": "single",
+        "text": "Are you recording the incidents?",
+        "options": ["Yes","No"]
+      },
+      {
+        "id": "contact_name",
+        "type": "text",
+        "text": "Name one person you can call immediately in an emergency."
+      }
     ],
     "Planning to leave": [
-      { "id": "leave_date", "type": "date", "text": "When do you plan to leave?" },
-      { "id": "go_bag", "type": "single", "text": "Do you have a go-bag packed?", "options": ["Yes","No"] },
-      { "id": "money_loc", "type": "text", "text": "Where do you keep emergency cash or cards?" },
-      { "id": "shelter", "type": "single+text", "text": "Have you identified a safe place to stay?", "options":["Yes","No"], "followupTextPrompt":"Enter your temporary shelter"}
+      {
+        "id": "leave_date",
+        "type": "date",
+        "text": "When do you plan to leave?"
+      },
+      {
+        "id": "go_bag",
+        "type": "single",
+        "text": "Do you have a go-bag packed?",
+        "options": ["Yes","No"]
+      },
+      {
+        "id": "money_loc",
+        "type": "text",
+        "text": "Where do you keep emergency cash or cards?"
+      },
+      {
+        "id": "shelter",
+        "type": "single+text",
+        "text": "Have you identified a safe place to stay?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter your temporary shelter"
+      }
     ],
     "Post-separation": [
-      { "id": "abuser_contact", "type": "single", "text": "Has the abuser continued any contact?", "options":["Yes","No"] },
-      { "id": "protect_order", "type": "single+text", "text": "Do you have a protection order?", "options":["Yes","No"], "followupTextPrompt":"Enter the legal order"} ,
-      { "id": "tools", "type": "single+text", "text": "Are you using any safety tools?", "options":["Yes","No"], "followupTextPrompt":"Which equipment?"}
+      {
+        "id": "abuser_contact",
+        "type": "single",
+        "text": "Has the abuser continued any contact?",
+        "options":["Yes","No"]
+      },
+      {
+        "id": "protect_order",
+        "type": "single+text",
+        "text": "Do you have a protection order?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter the legal order"
+      },
+      {
+        "id": "tools",
+        "type": "single+text",
+        "text": "Are you using any safety tools?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Which equipment?"
+      }
     ]
   },
   "followUp": [
