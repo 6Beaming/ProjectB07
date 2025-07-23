@@ -55,7 +55,7 @@
       {
         "id": "leave_date",
         "type": "date",
-        "text": "When do you plan to leave? (yyyy-MM-dd)"
+        "text": "When do you plan to leave? (e.g. yyyy-MM-dd)"
       },
       {
         "id": "go_bag",
