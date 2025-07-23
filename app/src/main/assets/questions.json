@@ -95,7 +95,7 @@
         "type": "single+text",
         "text": "Are you using any safety tools(cameras, door alarms)?",
         "options":["Yes","No"],
-        "followupTextPrompt":"Which equipment?"
+        "followupTextPrompt":"Enter your equipment"
       }
     ]
   },
