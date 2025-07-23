@@ -15,7 +15,8 @@
     {
       "id": "safe_room",
       "type": "text",
-      "text": "Which room in your home feels the safest if you need to get away quickly?"
+      "text": "Which room in your home feels the safest if you need to get away quickly?",
+      "followupTextPrompt": "(e.g. “Basement,” “Bedroom,” “Laundry room”)"
     },
     {
       "id": "live_with",
@@ -42,20 +43,22 @@
       {
         "id": "logging",
         "type": "single",
-        "text": "Are you recording the incidents (dates, times, details)",
+        "text": "Are you recording the incidents(dates, times, details)",
         "options": ["Yes","No"]
       },
       {
         "id": "contact_name",
         "type": "text",
-        "text": "Name one person you can call immediately in an emergency. (e.g. “mother”, “father”, “friend”)"
+        "text": "Name one person you can call immediately in an emergency.",
+        "followupTextPrompt": "(e.g. “mother”, “father”, “friend”)"
       }
     ],
     "Planning to leave": [
       {
         "id": "leave_date",
         "type": "date",
-        "text": "When do you plan to leave? (e.g. yyyy-MM-dd)"
+        "text": "When do you plan to leave?",
+        "followupTextPrompt": "(e.g. yyyy-MM-dd)"
       },
       {
         "id": "go_bag",
@@ -66,7 +69,8 @@
       {
         "id": "money_loc",
         "type": "text",
-        "text": "Where do you keep emergency cash or cards? (e.g. “closet”, “under bed”, etc) "
+        "text": "Where do you keep emergency cash or cards?",
+        "followupTextPrompt": "(e.g. “closet”, “under bed”, etc)"
       },
       {
         "id": "shelter",
