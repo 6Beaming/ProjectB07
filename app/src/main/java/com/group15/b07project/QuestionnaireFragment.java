@@ -48,7 +48,7 @@ public class QuestionnaireFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {  // after view exists
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Bind views
         container = view.findViewById(R.id.container);
         btnPrev = view.findViewById(R.id.btnPrev);
@@ -366,7 +366,7 @@ public class QuestionnaireFragment extends Fragment {
         wrap.addView(tv);
         // add input view
         if ("single".equals(q.type) || "single+text".equals(q.type)) {
-            wrap.addView(createSingle(q, wrap));
+            wrap.addView(createSingle(q));
         }
         else if ("multiple".equals(q.type)) {
             wrap.addView(createMultiple(q));
@@ -402,49 +402,88 @@ public class QuestionnaireFragment extends Fragment {
 //        }
 //        return rg;
 //    }
-    private RadioGroup createSingle(Question q, LinearLayout wrap) {
-        // create a radio group for single choice
+//    private RadioGroup createSingle(Question q, LinearLayout wrap) {
+//        // create a radio group for single choice
+//        RadioGroup rg = new RadioGroup(getContext());
+//        Object saved = answers.get(q.id);  // previous answer if any
+//        // populate radio buttons
+//        for (String opt : q.options) {
+//            RadioButton rb = new RadioButton(getContext());
+//            rb.setText(opt);
+//            if (opt.equals(saved)) rb.setChecked(true);
+//            rg.addView(rb);
+//        }
+//        // listener for selection changes
+//        rg.setOnCheckedChangeListener((group, checkedId) -> {
+//            RadioButton selected = group.findViewById(checkedId);
+//            String sel = selected.getText().toString();
+//            answers.put(q.id, sel);  // save new answer
+//            // for single+text, show or hide follow-up input
+//            if ("single+text".equals(q.type)) {
+//                View followView = wrap.findViewWithTag(q.id + "_text");
+//                if (followView != null) {
+//                    followView.setVisibility("Yes".equals(sel) ? View.VISIBLE : View.GONE);
+//                }
+//            }
+//        });
+//        wrap.addView(rg);
+//
+//        // if this question has an additional text prompt
+//        if ("single+text".equals(q.type)) {
+//            // create follow-up text input, initially hidden or shown based on saved answer
+//            EditText et = new EditText(getContext());
+//            et.setHint(q.followupTextPrompt);
+//            et.setTag(q.id + "_text");
+//            Object prev = answers.get(q.id + "_text");
+//            if (prev != null) et.setText(prev.toString());
+//            // only visible when answer is "Yes"
+//            et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
+//            // save text changes
+//            et.addTextChangedListener(new SimpleTextWatcher(s ->
+//                    answers.put(q.id + "_text", s)
+//            ));
+//            wrap.addView(et);
+//        }
+//        return rg;
+//    }
+    private View createSingle(Question q) {
+        LinearLayout singleWrap = new LinearLayout(getContext());
+        singleWrap.setOrientation(LinearLayout.VERTICAL);
+
+        Object saved = answers.get(q.id);
         RadioGroup rg = new RadioGroup(getContext());
-        Object saved = answers.get(q.id);  // previous answer if any
-        // populate radio buttons
         for (String opt : q.options) {
             RadioButton rb = new RadioButton(getContext());
             rb.setText(opt);
             if (opt.equals(saved)) rb.setChecked(true);
             rg.addView(rb);
         }
-        // listener for selection changes
         rg.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton selected = group.findViewById(checkedId);
-            String sel = selected.getText().toString();
-            answers.put(q.id, sel);  // save new answer
-            // for single+text, show or hide follow-up input
-            if ("single+text".equals(q.type)) {
-                View followView = wrap.findViewWithTag(q.id + "_text");
-                if (followView != null) {
-                    followView.setVisibility("Yes".equals(sel) ? View.VISIBLE : View.GONE);
-                }
+            String sel = ((RadioButton)group.findViewById(checkedId))
+                    .getText().toString();
+            answers.put(q.id, sel);
+
+            // show/hide follow‑up field if needed
+            View follow = singleWrap.findViewWithTag(q.id + "_text");
+            if (follow != null) {
+                follow.setVisibility("Yes".equals(sel) ? View.VISIBLE : View.GONE);
             }
         });
-        wrap.addView(rg);
+        singleWrap.addView(rg);
 
-        // if this question has an additional text prompt
         if ("single+text".equals(q.type)) {
-            // create follow-up text input, initially hidden or shown based on saved answer
             EditText et = new EditText(getContext());
             et.setHint(q.followupTextPrompt);
             et.setTag(q.id + "_text");
             Object prev = answers.get(q.id + "_text");
             if (prev != null) et.setText(prev.toString());
-            // only visible when answer is "Yes"
             et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
-            // save text changes
             et.addTextChangedListener(new SimpleTextWatcher(s ->
                     answers.put(q.id + "_text", s)
             ));
-            wrap.addView(et);
+            singleWrap.addView(et);
         }
-        return rg;
+        return singleWrap;
     }
 
     private LinearLayout createMultiple(Question q) {
