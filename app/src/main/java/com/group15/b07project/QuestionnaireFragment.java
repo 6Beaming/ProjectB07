@@ -24,7 +24,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-// Divide the questionnaire into three sections(pages) and submit button is on the last page,
+// Modularize the questionnaire into three sections(pages) and submit button is on the last page,
 // so that it'll be convenient for them to navigate their answers and edit them later on
 public class QuestionnaireFragment extends Fragment {
     private enum Page { WARMUP, BRANCH, FOLLOWUP } // Use enumeration type to track different pages
@@ -34,8 +34,10 @@ public class QuestionnaireFragment extends Fragment {
     private Button btnPrev; // previous button
     private Button btnNext; // next button
     private QuestionsBundle qBundle; // parsed JSON holder
-    private final Map<String, Object> answers = new HashMap<>(); // user’s answers, Object as in String for single answer q;
-                                                                 //                             List<String> for multiple answers
+    private final Map<String, Object> answers = new HashMap<>(); // key = question ID;
+                                                                // value = String (single-choice, dropdown, date, or text answers)
+                                                                //          or List<String> (multiple-choice answers)
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
@@ -54,9 +56,25 @@ public class QuestionnaireFragment extends Fragment {
         btnSubmit = view.findViewById(R.id.btnSubmit);
 
         // Handle button clicks
-        btnPrev.setOnClickListener(v -> goToPage(previousPage()));
-        btnNext.setOnClickListener(v -> goToPage(nextPage()));
-        btnSubmit.setOnClickListener(v -> onSubmit());
+        // Validate, then navigate
+        // If no all answers on this page is answered -> a red text warning will be inserted below the question
+        btnPrev.setOnClickListener(v -> goToPage(previousPage())); // You can go to previous page
+                                                                        // even if you haven't answered current page's answer
+
+        // Next: validate, then navigate
+        btnNext.setOnClickListener(v -> {
+            clearErrors();
+            if (validatePage()) {
+                goToPage(nextPage());
+            }
+        });
+
+        btnSubmit.setOnClickListener(v -> {
+            clearErrors();
+            if (validatePage()) {
+                onSubmit();
+            }
+        });
 
         loadQuestions();   // parse questions.json
         goToPage(Page.WARMUP);    // show warm‑up questions
@@ -104,14 +122,6 @@ public class QuestionnaireFragment extends Fragment {
     // Render the specified page
     private void goToPage(Page page) {
         if (page == null) return; // nothing to do
-        // If trying to go to BRANCH without answering status, bounce back
-        String status = (String) answers.get("status");      // get selected status
-        if (page == Page.BRANCH && status == null) { // trying to go to Branch page, but
-                                                    // no status :( --> prompt to select
-            Toast.makeText(getContext(),"Please select your status first", Toast.LENGTH_SHORT).show();
-            goToPage(Page.WARMUP); // redirect to warm-up
-            return;  // stop further processing
-        }
 
         currentPage = page; // update currentPage
         container.removeAllViews(); // clear old views so that each page works for their own type
@@ -121,256 +131,382 @@ public class QuestionnaireFragment extends Fragment {
                 container.addView(createViewForQuestion(q));  // add each warm-up question to views
             }
             // Warmup page only shows Next button
+            btnPrev.setVisibility(View.GONE);
             btnNext.setVisibility(View.VISIBLE);
+            btnSubmit.setVisibility(View.GONE);
         }
         else if (page == Page.BRANCH) { // now status is non-null, and you can go to Branch page
+            String status = (String) answers.get("status");
+            // after you hit the button, validatePage will validate if you have answered all of the questions
+            // so your status will surely be chosen
             List<Question> branchQs = qBundle.branch.get(status); // get the specified branch questions
             if (branchQs != null) {  // verify the status exists
                 for (Question q : branchQs)
-                    container.addView(createViewForQuestion(q));
+                    container.addView(createViewForQuestion(q)); // add each branch question to views
             }
             // Branch page shows: Previous, Next
             btnPrev.setVisibility(View.VISIBLE);
             btnNext.setVisibility(View.VISIBLE);
+            btnSubmit.setVisibility(View.GONE);
         }
-        else if (page == Page.FOLLOWUP) {
+        else { // FOLLOWUP
             for (Question q : qBundle.followUp) {
                 container.addView(createViewForQuestion(q)); // add each follow up question to views
             }
             // Followup page shows: Previous, Submit
             btnPrev.setVisibility(View.VISIBLE);
+            btnNext.setVisibility(View.GONE);
             btnSubmit.setVisibility(View.VISIBLE);
         }
-
-        btnSubmit.setEnabled(allAnswered()); // Enable submit button if all questions are answered
     }
 
-
-//    private void WarmUp() {
-//        //qBundle.warmup is a List of Question
-//        for (Question q : qBundle.warmUp) {
-//            View qv = createViewForQuestion(q);  // build its views
-//            container.addView(qv); // add each qv to UI
-//            if ("status".equals(q.id)) {                               // detect status field
-//                // qv is already a RadioGroup, so cast it:
-//                RadioGroup rg = (RadioGroup) qv;
-//                rg.setOnCheckedChangeListener((group, checkedId) -> {  // on status change
-//                    String sel = ((RadioButton)
-//                            group.findViewById(checkedId))
-//                            .getText().toString();                           // get choice text
-//                    answers.put("status", sel);                        // save status
-//                    BranchAndFollowUp();   // show branch & followUp questions
-//                });
-//            }
-//        }
-//    }
-
-    /* Previous method:
-     * After status selected, render branch‑specific + follow‑up questions
-     * [ status question ]
-     * [ city question   ]
-     * [ safe_room       ]
-     * [ live_with       ]
-     * [ children        ]
-     * [ Submit button   ]
-     *  As soon as status is answered, the branch and follow‑up questions are injected below:
-     * [ status          ]
-     * [ city            ]
-     * [ safe_room       ]
-     * [ live_with       ]
-     * [ children        ]
-     *  ———————————————
-     * [ branch Q1       ]
-     * [ branch Q2       ]
-     * [ branch Q3       ]
-     *  ———————————————
-     * [ followUp Q1     ]
-     * [ Submit button   ]
-     * So the previous questions won't disappear and users can choose to answer again
-     */
-
-//    private void BranchAndFollowUp() {
-//        int warmUpCount = qBundle.warmUp.size(); // how many warmUp
-//        while (container.getChildCount() > warmUpCount + 1) {  // clear old dynamic
-//            container.removeViewAt(warmUpCount);  // keep submit button
-//        }
-//        String status = (String) answers.get("status");   // get selected status
-//        List<Question> branchQs = qBundle.branch.get(status);  // corresponding questions
-//        if (branchQs != null) {
-//            for (Question q : branchQs) {
-//                container.addView(createViewForQuestion(q));  // add its UI
-//            }
-//        }
-//        for (Question q : qBundle.followUp) {  // then follow‑up
-//            container.addView(createViewForQuestion(q)); // render it
-//        }
-//    }
-
-    // Create UI for a single question
-    private View createViewForQuestion(Question q) {
-        TextView tv = new TextView(getContext());                 // create label
-        tv.setText(q.text);                                       // set text
-        container.addView(tv);                                    // add to layout
-
-        if ("single".equals(q.type) || "single+text".equals(q.type)) { // single-choice
-            RadioGroup rg = new RadioGroup(getContext());         // create group
-            Object saved = answers.get(q.id);                    // get saved
-            for (String opt : q.options) {                        // for each option
-                RadioButton rb = new RadioButton(getContext());  // create radio
-                rb.setText(opt);                                // set label
-                if (saved != null && saved.equals(opt)) {       // pre-select
-                    rb.setChecked(true);
-                }
-                rg.addView(rb);                                 // add to RG
-            }
-            rg.setOnCheckedChangeListener((group, checkedId) -> {// on select
-                String sel = ((RadioButton)group.findViewById(checkedId)).getText().toString(); // get text
-                answers.put(q.id, sel);                         // save
-                btnSubmit.setEnabled(allAnswered());                            // update Submit
-            });
-            container.addView(rg);                               // add RG
-
-            if ("single+text".equals(q.type)) {               // if has follow-up
-                EditText et = new EditText(getContext());      // create field
-                et.setHint(q.followupTextPrompt);              // set hint
-                et.setTag(q.id+"_follow");                   // tag
-                Object followSaved = answers.get(q.id+"_text"); // saved text
-                if ("Yes".equals(answers.get(q.id))) {       // show if Yes
-                    et.setVisibility(View.VISIBLE);           // visible
-                    if (followSaved!=null) et.setText(followSaved.toString()); // set text
-                }
-                else {
-                    et.setVisibility(View.GONE);              // hide otherwise
-                }
-                et.addTextChangedListener(new SimpleTextWatcher(s -> {// on text
-                    answers.put(q.id+"_text",s);             // save
-                    btnSubmit.setEnabled(allAnswered());                       // update Submit
-                }));
-                container.addView(et);                         // add field
-            }
-            return rg;                                           // return group
+    // Validate every question on the current page.
+    // If any is missing, show an inline error under it and return false.
+    private boolean validatePage() {
+        List<Question> pageQs = new ArrayList<>();
+        // replace switch-case with if-else
+        if (currentPage == Page.WARMUP) {
+            pageQs = qBundle.warmUp; // qBundle.warmUp is a 'List' of Question
+        }
+        else if (currentPage == Page.BRANCH) {
+            String status = (String) answers.get("status");
+            // if your currentPage is Branch, that means you have answered WarmUp questions;
+            // otherwise the button won't allow you to switch currentPage
+            // so status must be answered
+            pageQs = qBundle.branch.get(status); // qBundle.branch is a Map<String, List<Question>>
+                                                 // String(status) is the key
+            if (pageQs ==null)
+                pageQs = new ArrayList<>(); // avoid NullPointer exception
+        }
+        else if (currentPage == Page.FOLLOWUP) {
+            pageQs = qBundle.followUp;
         }
 
-        else if ("multiple".equals(q.type)) {                // multiple-choice
-            LinearLayout ll = new LinearLayout(getContext());    // vertical layout
-            ll.setOrientation(LinearLayout.VERTICAL);           // set orientation
-            List<String> savedList = (List<String>) answers.get(q.id); // get saved, answers map q.id(String) to the answer(actual type is ArrayList<String>)
-                                                                        // The cast only changes the reference type
-            for (String opt : q.options) {
-                CheckBox cb = new CheckBox(getContext());       // create checkbox
-                cb.setText(opt);                                 // set label
-                if (savedList!=null && savedList.contains(opt)) { // pre-check
-                    cb.setChecked(true);
-                }
-                // Updates answers.get(q.id) based on the checkbox for each opt
-                cb.setOnCheckedChangeListener((button,checked) -> { // on toggle
-                    List<String> list = new ArrayList<>();
-                    if (answers.get(q.id) != null) // update the list if there are answered stored
-                        list = (List<String>) answers.get(q.id); // e.g. First time(null) empty -> add opt1 -> opt1
-                                                                // Second time empty -> opt1(updated) -> add opt2 -> opt1,opt2
-                    if(checked)
-                        list.add(opt);                    // add if checked
-                    else
-                        list.remove(opt);                  // remove if unchecked, no exception if opt is not in list
-                    answers.put(q.id, list);   // each time you do it, it mutates
-                    btnSubmit.setEnabled(allAnswered());         // update Submit
-                });
-                ll.addView(cb); // add to ll
-            }
-            container.addView(ll);
-            return ll;  // return the linear layout
-        }
+        boolean ifAllAnswered = true;
 
-        else if ("dropdown".equals(q.type)) {                // dropdown
-            Spinner sp = new Spinner(getContext());             // create spinner
-            ArrayAdapter<String> ad=new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,q.options); // adapter
-            ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // set style
-            sp.setAdapter(ad);                                   // attach adapter
-            Object sel=answers.get(q.id);                        // get saved
-            if(sel!=null){                                       // if exists
-                int idx=q.options.indexOf(sel.toString());      // find index
-                if(idx>=0) sp.setSelection(idx);                 // pre-select
-            }
-            sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-                @Override public void onItemSelected(AdapterView<?> p,View v,int pos,long id){ // on select
-                    answers.put(q.id,q.options.get(pos));       // save
-                    btnSubmit.setEnabled(allAnswered());                           // update Submit
-                }
-                @Override public void onNothingSelected(AdapterView<?> p){}
-            });
-            container.addView(sp);                               // add spinner
-            return sp;                                           // return spinner
-        }
-
-        else if ("text".equals(q.type)||"date".equals(q.type)) { // text or date
-            EditText et= new EditText(getContext());              // create text field
-            et.setHint(q.text);                                  // set hint
-            if("date".equals(q.type))
-                et.setInputType(InputType.TYPE_CLASS_DATETIME); // date input
-            Object savedText=answers.get(q.id);                   // get saved
-            if(savedText!=null)
-                et.setText(savedText.toString()); // pre-fill
-            et.addTextChangedListener(new SimpleTextWatcher(s->{ // on text change
-                answers.put(q.id,s);                             // save
-                btnSubmit.setEnabled(allAnswered());                              // update Submit
-            }));
-            container.addView(et);                               // add to layout
-            return et;                                           // return field
-        }                                                          // no matching type
-        return tv;                                                // return TextView fallback
-    }
-
-
-    // Check all sections answered
-    private boolean allAnswered() {
-        // Create question sets that user is supposed to answer
-        List<Question> all = new ArrayList<>(qBundle.warmUp); // initiate with qBundle.warmUp
-                                                            // actual type for all is ArrayList
-                                                            // qBundle.warmUp is a 'List' of Question
-        String status = (String) answers.get("status");
-        // Add other specific questions to the question set
-        if (status != null) {
-            List<Question> branchQs = qBundle.branch.get(status); // qBundle.branch is a Map<String, List<Question>>
-                                                                // String status is the key
-            if (branchQs != null) // check if the status exists
-                all.addAll(branchQs);
-
-            all.addAll(qBundle.followUp);
-        }
-        // If status is null, then there must exists a q.id == status answer.get(q.id) that is NULL
-        // so it'll return false
-        for (Question q : all) {
+        for (Question q : pageQs) {
             Object ans = answers.get(q.id);
-            if (ans == null) // answer is missing
-                return false;
-            if (ans instanceof String && ((String) ans).trim().isEmpty()) // if empty (single choice q not answered)
-                return false;
-            if (ans instanceof List && ((List<?>) ans).isEmpty()) // if empty list (multiples q not answered)
-                return false;
-            if ("single+text".equals(q.type)
-                    && "Yes".equals(answers.get(q.id))
-                    && ((String) answers.get(q.id + "_text")).trim().isEmpty()) {
-                return false;
+            if (ans == null) { // answer is missing including Date type, single choice(including single+text)
+                showErrorForQuestion(q);
+                ifAllAnswered = false;
+            }
+            else if (ans instanceof String && ((String) ans).trim().isEmpty()) { // if text type q not answered
+                showErrorForQuestion(q);
+                ifAllAnswered = false;
+            }
+            else if (ans instanceof List && ((List<?>) ans).isEmpty()) { // if empty list (multiples q not answered)
+                showErrorForQuestion(q);
+                ifAllAnswered = false;
+            }
+            else if ("single+text".equals(q.type) && "Yes".equals(answers.get(q.id))){ // if single+text, but
+                Object text = answers.get(q.id + "_text");
+                if ((text == null) ||((String) text).trim().isEmpty()) { // if text is missing or text is just whitespace
+                    showErrorForQuestion(q);
+                    ifAllAnswered = false;
+                }
             }
         }
-        return true;
+
+        return ifAllAnswered;
     }
 
-    // Store answers under /questionnaires in Firebase
-    private void onSubmit() {
-        // if no all questions are answered, and users try to hit the submit button:
-        // a text will prompt users to complete; no submission is made
-        if (!allAnswered()) {
-            // show prompt if no answer all the question
-            Toast.makeText(getContext(),"Please complete all questions before submitting", Toast.LENGTH_SHORT).show();
-            return; // stop submit
+
+    // Remove any previously shown error messages on this page
+    private void clearErrors() {
+        for (int i = 0; i < container.getChildCount(); i++) {
+            View child = container.getChildAt(i);
+            if (child instanceof LinearLayout) {
+                LinearLayout qLayout = (LinearLayout) child; // now you can safely cast it
+                String tag = (String) qLayout.getTag();
+                if (tag != null && tag.startsWith("question_")) {
+                    String qid = tag.substring("question_".length());
+                    View err = qLayout.findViewWithTag("error_" + qid);
+                    if (err != null) {
+                        qLayout.removeView(err);
+                    }
+                }
+            }
         }
+    }
+
+    // Show a red "This question is required." under the given question
+    private void showErrorForQuestion(Question q) {
+        LinearLayout qLayout = container.findViewWithTag("q_" + q.id);
+        if (qLayout == null) return;
+
+        // remove old if present
+        View old = qLayout.findViewWithTag("error_" + q.id);
+        if (old != null)
+            qLayout.removeView(old);
+
+        // add new view
+        TextView err = new TextView(getContext());
+        err.setText(R.string.this_question_is_required);
+        err.setTextColor(0xFFFF0000);  // red
+        err.setTag("error_" + q.id);
+        qLayout.addView(err);
+    }
+
+//    // Create UI for a single question
+//    private View createViewForQuestion(Question q) {
+//        TextView tv = new TextView(getContext());                 // create label
+//        tv.setText(q.text);                                       // set text
+//        container.addView(tv);                                    // add to layout
+//
+//        if ("single".equals(q.type) || "single+text".equals(q.type)) { // single-choice
+//            RadioGroup rg = new RadioGroup(getContext());         // create group
+//            Object saved = answers.get(q.id);                    // get saved
+//            for (String opt : q.options) {                        // for each option
+//                RadioButton rb = new RadioButton(getContext());  // create radio
+//                rb.setText(opt);                                // set label
+//                if (saved != null && saved.equals(opt)) {       // pre-select
+//                    rb.setChecked(true);
+//                }
+//                rg.addView(rb);                                 // add to RG
+//            }
+//            rg.setOnCheckedChangeListener((group, checkedId) -> {// on select
+//                String sel = ((RadioButton)group.findViewById(checkedId)).getText().toString(); // get text
+//                answers.put(q.id, sel);                         // save
+//            });
+//            container.addView(rg);                               // add RG
+//
+//            if ("single+text".equals(q.type)) {               // if has follow-up
+//                EditText et = new EditText(getContext());      // create field
+//                et.setHint(q.followupTextPrompt);              // set hint
+//                et.setTag(q.id+"_follow");                   // tag
+//                Object followSaved = answers.get(q.id+"_text"); // saved text
+//                if ("Yes".equals(answers.get(q.id))) {       // show if Yes
+//                    et.setVisibility(View.VISIBLE);           // visible
+//                    if (followSaved!=null) et.setText(followSaved.toString()); // set text
+//                }
+//                else {
+//                    et.setVisibility(View.GONE);              // hide otherwise
+//                }
+//                et.addTextChangedListener(new SimpleTextWatcher(s -> {// on text
+//                    answers.put(q.id+"_text",s);             // save
+//                }));
+//                container.addView(et);                         // add field
+//            }
+//            return rg;                                           // return group
+//        }
+//
+//        else if ("multiple".equals(q.type)) {                // multiple-choice
+//            LinearLayout ll = new LinearLayout(getContext());    // vertical layout
+//            ll.setOrientation(LinearLayout.VERTICAL);           // set orientation
+//            List<String> savedList = (List<String>) answers.get(q.id); // get saved, answers map q.id(String) to the answer(actual type is ArrayList<String>)
+//                                                                        // The cast only changes the reference type
+//            for (String opt : q.options) {
+//                CheckBox cb = new CheckBox(getContext());       // create checkbox
+//                cb.setText(opt);                                 // set label
+//                if (savedList!=null && savedList.contains(opt)) { // pre-check
+//                    cb.setChecked(true);
+//                }
+//                // Updates answers.get(q.id) based on the checkbox for each opt
+//                cb.setOnCheckedChangeListener((button,checked) -> { // on toggle
+//                    List<String> list = new ArrayList<>();
+//                    if (answers.get(q.id) != null) // update the list if there are answered stored
+//                        list = (List<String>) answers.get(q.id); // e.g. First time(null) empty -> add opt1 -> opt1
+//                                                                // Second time empty -> opt1(updated) -> add opt2 -> opt1,opt2
+//                    if(checked)
+//                        list.add(opt);                    // add if checked
+//                    else
+//                        list.remove(opt);                  // remove if unchecked, no exception if opt is not in list
+//                    answers.put(q.id, list);   // each time you do it, it mutates
+//                });
+//                ll.addView(cb); // add to ll
+//            }
+//            container.addView(ll);
+//            return ll;  // return the linear layout
+//        }
+//
+//        else if ("dropdown".equals(q.type)) {                // dropdown
+//            Spinner sp = new Spinner(getContext());             // create spinner
+//            ArrayAdapter<String> ad=new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,q.options); // adapter
+//            ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // set style
+//            sp.setAdapter(ad);                                   // attach adapter
+//            Object sel=answers.get(q.id);                        // get saved
+//            if(sel!=null){                                       // if exists
+//                int idx=q.options.indexOf(sel.toString());      // find index
+//                if(idx>=0) sp.setSelection(idx);                 // pre-select
+//            }
+//            sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+//                @Override public void onItemSelected(AdapterView<?> p,View v,int pos,long id){ // on select
+//                    answers.put(q.id,q.options.get(pos));       // save
+//                }
+//                @Override public void onNothingSelected(AdapterView<?> p){}
+//            });
+//            container.addView(sp);                               // add spinner
+//            return sp;                                           // return spinner
+//        }
+//
+//        else if ("text".equals(q.type)||"date".equals(q.type)) { // text or date
+//            EditText et= new EditText(getContext());              // create text field
+//            et.setHint(q.text);                                  // set hint
+//            if("date".equals(q.type))
+//                et.setInputType(InputType.TYPE_CLASS_DATETIME); // change the keyboard layout to digits
+//            Object savedText=answers.get(q.id);                   // get saved
+//            if(savedText!=null)
+//                et.setText(savedText.toString()); // pre-fill
+//            et.addTextChangedListener(new SimpleTextWatcher(s->{ // on text change
+//                answers.put(q.id,s);                             // save
+//            }));
+//            container.addView(et);                               // add to layout
+//            return et;                                           // return field
+//        }                                                          // no matching type
+//        return tv;                                                // return TextView fallback
+//    }
+
+    /** Wrap question UI in a LinearLayout tagged for error handling */
+    private View createViewForQuestion(Question q) { // This return view will be added into container
+        LinearLayout wrap = new LinearLayout(getContext());
+        wrap.setOrientation(LinearLayout.VERTICAL);
+        wrap.setTag("q_" + q.id);
+        TextView tv = new TextView(getContext());
+        tv.setText(q.text);
+        wrap.addView(tv);
+        // add input view
+        if ("single".equals(q.type) || "single+text".equals(q.type)) {
+            wrap.addView(createSingle(q, wrap));
+        }
+        else if ("multiple".equals(q.type)) {
+            wrap.addView(createMultiple(q));
+        }
+        else if ("dropdown".equals(q.type)) {
+            wrap.addView(createDropdown(q));
+        }
+        else {
+            wrap.addView(createText(q));
+        }
+        return wrap;
+    }
+
+
+    // -- Input renderers --
+//    private RadioGroup createSingle(Question q, LinearLayout wrap) {
+//        RadioGroup rg = new RadioGroup(getContext());
+//        Object saved = answers.get(q.id);
+//        for (String opt : q.options) {
+//            RadioButton rb = new RadioButton(getContext()); rb.setText(opt);
+//            if (opt.equals(saved)) rb.setChecked(true);
+//            rg.addView(rb);
+//        }
+//        rg.setOnCheckedChangeListener((g,id) -> answers.put(q.id,
+//                ((RadioButton)g.findViewById(id)).getText().toString()));
+//        if ("single+text".equals(q.type)) {
+//            EditText et = new EditText(getContext());
+//            et.setHint(q.followupTextPrompt);
+//            et.setTag(q.id + "_text");
+//            wrap.addView(et);
+//            et.addTextChangedListener(new SimpleTextWatcher(s ->
+//                    answers.put(q.id + "_text", s)));
+//        }
+//        return rg;
+//    }
+    private RadioGroup createSingle(Question q, LinearLayout wrap) {
+        // create a radio group for single choice
+        RadioGroup rg = new RadioGroup(getContext());
+        Object saved = answers.get(q.id);  // previous answer if any
+        // populate radio buttons
+        for (String opt : q.options) {
+            RadioButton rb = new RadioButton(getContext());
+            rb.setText(opt);
+            if (opt.equals(saved)) rb.setChecked(true);
+            rg.addView(rb);
+        }
+        // listener for selection changes
+        rg.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton selected = group.findViewById(checkedId);
+            String sel = selected.getText().toString();
+            answers.put(q.id, sel);  // save new answer
+            // for single+text, show or hide follow-up input
+            if ("single+text".equals(q.type)) {
+                View followView = wrap.findViewWithTag(q.id + "_text");
+                if (followView != null) {
+                    followView.setVisibility("Yes".equals(sel) ? View.VISIBLE : View.GONE);
+                }
+            }
+        });
+        wrap.addView(rg);
+
+        // if this question has an additional text prompt
+        if ("single+text".equals(q.type)) {
+            // create follow-up text input, initially hidden or shown based on saved answer
+            EditText et = new EditText(getContext());
+            et.setHint(q.followupTextPrompt);
+            et.setTag(q.id + "_text");
+            Object prev = answers.get(q.id + "_text");
+            if (prev != null) et.setText(prev.toString());
+            // only visible when answer is "Yes"
+            et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
+            // save text changes
+            et.addTextChangedListener(new SimpleTextWatcher(s ->
+                    answers.put(q.id + "_text", s)
+            ));
+            wrap.addView(et);
+        }
+        return rg;
+    }
+
+    private LinearLayout createMultiple(Question q) {
+        LinearLayout ll = new LinearLayout(getContext()); ll.setOrientation(LinearLayout.VERTICAL);
+        @SuppressWarnings("unchecked") List<String> saved =
+                (List<String>) answers.get(q.id);
+        for (String opt : q.options) {
+            CheckBox cb = new CheckBox(getContext()); cb.setText(opt);
+            if (saved != null && saved.contains(opt)) cb.setChecked(true);
+            cb.setOnCheckedChangeListener((b,chk) -> {
+                List<String> list = new ArrayList<>();
+                @SuppressWarnings("unchecked") List<String> ex=
+                        (List<String>)answers.get(q.id);
+                if (ex!=null) list=ex;
+                if (chk) list.add(opt); else list.remove(opt);
+                answers.put(q.id, list);
+            });
+            ll.addView(cb);
+        }
+        return ll;
+    }
+
+    private Spinner createDropdown(Question q) {
+        Spinner sp = new Spinner(getContext());
+        ArrayAdapter<String> ad = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, q.options);
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp.setAdapter(ad);
+        Object sel=answers.get(q.id);
+        if (sel!=null) {
+            int idx=q.options.indexOf(sel.toString());
+            if(idx>=0)
+                sp.setSelection(idx);
+        }
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+                answers.put(q.id, q.options.get(pos));
+            }
+            @Override public void onNothingSelected(AdapterView<?> p) {}
+        });
+        return sp;
+    }
+
+    private EditText createText(Question q) {
+        EditText et = new EditText(getContext());
+        et.setHint(q.followupTextPrompt);
+        if ("date".equals(q.type))
+            et.setInputType(InputType.TYPE_CLASS_DATETIME);  // change the keyboard layout to digits
+        Object txt=answers.get(q.id);
+        if(txt!=null)
+            et.setText(txt.toString());
+        et.addTextChangedListener(new SimpleTextWatcher(s -> answers.put(q.id, s)));
+        return et;
+    }
+
+    // Store answers under users/questionnaire in Firebase
+    private void onSubmit() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get user
         if (user == null) { // not signed in
             Toast.makeText(getContext(),"Login required to submit", Toast.LENGTH_SHORT).show();
             return;   // stop submit
         }
-        String uid = user.getUid();                            // get UID
+        String uid = user.getUid();  // get UID
         // DB ref
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = database.getReference("users");
