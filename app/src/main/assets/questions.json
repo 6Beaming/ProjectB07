@@ -10,7 +10,7 @@
       "id": "city",
       "type": "dropdown",
       "text": "What city do you live in?",
-      "options": ["Toronto", "Vancouver", "Ottawa", "Edmonton"]
+      "options": ["Toronto", "Vancouver", "Ottawa", "Edmonton", "Montreal"]
     },
     {
       "id": "safe_room",
@@ -42,31 +42,31 @@
       {
         "id": "logging",
         "type": "single",
-        "text": "Are you recording the incidents?",
+        "text": "Are you recording the incidents (dates, times, details)",
         "options": ["Yes","No"]
       },
       {
         "id": "contact_name",
         "type": "text",
-        "text": "Name one person you can call immediately in an emergency."
+        "text": "Name one person you can call immediately in an emergency. (e.g. “mother”, “father”, “friend”)"
       }
     ],
     "Planning to leave": [
       {
         "id": "leave_date",
         "type": "date",
-        "text": "When do you plan to leave?"
+        "text": "When do you plan to leave? (yyyy-MM-dd)"
       },
       {
         "id": "go_bag",
         "type": "single",
-        "text": "Do you have a go-bag packed?",
+        "text": "Do you have a go-bag packed with essentials?",
         "options": ["Yes","No"]
       },
       {
         "id": "money_loc",
         "type": "text",
-        "text": "Where do you keep emergency cash or cards?"
+        "text": "Where do you keep emergency cash or cards? (e.g. “closet”, “under bed”, etc) "
       },
       {
         "id": "shelter",
@@ -86,14 +86,14 @@
       {
         "id": "protect_order",
         "type": "single+text",
-        "text": "Do you have a protection order?",
+        "text": "Do you have a protection order? If yes, which type?",
         "options":["Yes","No"],
         "followupTextPrompt":"Enter the legal order"
       },
       {
         "id": "tools",
         "type": "single+text",
-        "text": "Are you using any safety tools?",
+        "text": "Are you using any safety tools(cameras, door alarms)?",
         "options":["Yes","No"],
         "followupTextPrompt":"Which equipment?"
       }
