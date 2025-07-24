@@ -2,6 +2,7 @@ package com.group15.b07project;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -231,7 +232,7 @@ public class QuestionnaireFragment extends Fragment {
 
     // Show a red "This question is required." under the given question
     private void showErrorForQuestion(Question q) {
-        LinearLayout qLayout = container.findViewWithTag("q_" + q.id);
+        LinearLayout qLayout = container.findViewWithTag("question_" + q.id);
         if (qLayout == null) return;
 
         // remove old if present
@@ -243,126 +244,37 @@ public class QuestionnaireFragment extends Fragment {
         TextView err = new TextView(getContext());
         err.setText(R.string.this_question_is_required);
         err.setTextColor(0xFFFF0000);  // red
+        err.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f); // set error message font size to 13sp
         err.setTag("error_" + q.id);
         qLayout.addView(err);
     }
 
-//    // Create UI for a single question
-//    private View createViewForQuestion(Question q) {
-//        TextView tv = new TextView(getContext());                 // create label
-//        tv.setText(q.text);                                       // set text
-//        container.addView(tv);                                    // add to layout
-//
-//        if ("single".equals(q.type) || "single+text".equals(q.type)) { // single-choice
-//            RadioGroup rg = new RadioGroup(getContext());         // create group
-//            Object saved = answers.get(q.id);                    // get saved
-//            for (String opt : q.options) {                        // for each option
-//                RadioButton rb = new RadioButton(getContext());  // create radio
-//                rb.setText(opt);                                // set label
-//                if (saved != null && saved.equals(opt)) {       // pre-select
-//                    rb.setChecked(true);
-//                }
-//                rg.addView(rb);                                 // add to RG
-//            }
-//            rg.setOnCheckedChangeListener((group, checkedId) -> {// on select
-//                String sel = ((RadioButton)group.findViewById(checkedId)).getText().toString(); // get text
-//                answers.put(q.id, sel);                         // save
-//            });
-//            container.addView(rg);                               // add RG
-//
-//            if ("single+text".equals(q.type)) {               // if has follow-up
-//                EditText et = new EditText(getContext());      // create field
-//                et.setHint(q.followupTextPrompt);              // set hint
-//                et.setTag(q.id+"_follow");                   // tag
-//                Object followSaved = answers.get(q.id+"_text"); // saved text
-//                if ("Yes".equals(answers.get(q.id))) {       // show if Yes
-//                    et.setVisibility(View.VISIBLE);           // visible
-//                    if (followSaved!=null) et.setText(followSaved.toString()); // set text
-//                }
-//                else {
-//                    et.setVisibility(View.GONE);              // hide otherwise
-//                }
-//                et.addTextChangedListener(new SimpleTextWatcher(s -> {// on text
-//                    answers.put(q.id+"_text",s);             // save
-//                }));
-//                container.addView(et);                         // add field
-//            }
-//            return rg;                                           // return group
-//        }
-//
-//        else if ("multiple".equals(q.type)) {                // multiple-choice
-//            LinearLayout ll = new LinearLayout(getContext());    // vertical layout
-//            ll.setOrientation(LinearLayout.VERTICAL);           // set orientation
-//            List<String> savedList = (List<String>) answers.get(q.id); // get saved, answers map q.id(String) to the answer(actual type is ArrayList<String>)
-//                                                                        // The cast only changes the reference type
-//            for (String opt : q.options) {
-//                CheckBox cb = new CheckBox(getContext());       // create checkbox
-//                cb.setText(opt);                                 // set label
-//                if (savedList!=null && savedList.contains(opt)) { // pre-check
-//                    cb.setChecked(true);
-//                }
-//                // Updates answers.get(q.id) based on the checkbox for each opt
-//                cb.setOnCheckedChangeListener((button,checked) -> { // on toggle
-//                    List<String> list = new ArrayList<>();
-//                    if (answers.get(q.id) != null) // update the list if there are answered stored
-//                        list = (List<String>) answers.get(q.id); // e.g. First time(null) empty -> add opt1 -> opt1
-//                                                                // Second time empty -> opt1(updated) -> add opt2 -> opt1,opt2
-//                    if(checked)
-//                        list.add(opt);                    // add if checked
-//                    else
-//                        list.remove(opt);                  // remove if unchecked, no exception if opt is not in list
-//                    answers.put(q.id, list);   // each time you do it, it mutates
-//                });
-//                ll.addView(cb); // add to ll
-//            }
-//            container.addView(ll);
-//            return ll;  // return the linear layout
-//        }
-//
-//        else if ("dropdown".equals(q.type)) {                // dropdown
-//            Spinner sp = new Spinner(getContext());             // create spinner
-//            ArrayAdapter<String> ad=new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,q.options); // adapter
-//            ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // set style
-//            sp.setAdapter(ad);                                   // attach adapter
-//            Object sel=answers.get(q.id);                        // get saved
-//            if(sel!=null){                                       // if exists
-//                int idx=q.options.indexOf(sel.toString());      // find index
-//                if(idx>=0) sp.setSelection(idx);                 // pre-select
-//            }
-//            sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-//                @Override public void onItemSelected(AdapterView<?> p,View v,int pos,long id){ // on select
-//                    answers.put(q.id,q.options.get(pos));       // save
-//                }
-//                @Override public void onNothingSelected(AdapterView<?> p){}
-//            });
-//            container.addView(sp);                               // add spinner
-//            return sp;                                           // return spinner
-//        }
-//
-//        else if ("text".equals(q.type)||"date".equals(q.type)) { // text or date
-//            EditText et= new EditText(getContext());              // create text field
-//            et.setHint(q.text);                                  // set hint
-//            if("date".equals(q.type))
-//                et.setInputType(InputType.TYPE_CLASS_DATETIME); // change the keyboard layout to digits
-//            Object savedText=answers.get(q.id);                   // get saved
-//            if(savedText!=null)
-//                et.setText(savedText.toString()); // pre-fill
-//            et.addTextChangedListener(new SimpleTextWatcher(s->{ // on text change
-//                answers.put(q.id,s);                             // save
-//            }));
-//            container.addView(et);                               // add to layout
-//            return et;                                           // return field
-//        }                                                          // no matching type
-//        return tv;                                                // return TextView fallback
-//    }
 
-    /** Wrap question UI in a LinearLayout tagged for error handling */
+    // Wrap question UI in a LinearLayout tagged for error handling
     private View createViewForQuestion(Question q) { // This return view will be added into container
+        // Create the wrapper
         LinearLayout wrap = new LinearLayout(getContext());
         wrap.setOrientation(LinearLayout.VERTICAL);
-        wrap.setTag("q_" + q.id);
+        wrap.setTag("question_" + q.id);
+
+        // Give it some bottom margin so questions don’t butt up against each other :)
+        int marginDp = 24;
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                marginDp,
+                getResources().getDisplayMetrics()
+        );
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        lp.setMargins(0, 0, 0, px);
+        wrap.setLayoutParams(lp);
+
+        // Add the question label
         TextView tv = new TextView(getContext());
         tv.setText(q.text);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f); // set question font size to 18sp
         wrap.addView(tv);
         // add input view
         if ("single".equals(q.type) || "single+text".equals(q.type)) {
@@ -382,70 +294,6 @@ public class QuestionnaireFragment extends Fragment {
 
 
     // -- Input renderers --
-//    private RadioGroup createSingle(Question q, LinearLayout wrap) {
-//        RadioGroup rg = new RadioGroup(getContext());
-//        Object saved = answers.get(q.id);
-//        for (String opt : q.options) {
-//            RadioButton rb = new RadioButton(getContext()); rb.setText(opt);
-//            if (opt.equals(saved)) rb.setChecked(true);
-//            rg.addView(rb);
-//        }
-//        rg.setOnCheckedChangeListener((g,id) -> answers.put(q.id,
-//                ((RadioButton)g.findViewById(id)).getText().toString()));
-//        if ("single+text".equals(q.type)) {
-//            EditText et = new EditText(getContext());
-//            et.setHint(q.followupTextPrompt);
-//            et.setTag(q.id + "_text");
-//            wrap.addView(et);
-//            et.addTextChangedListener(new SimpleTextWatcher(s ->
-//                    answers.put(q.id + "_text", s)));
-//        }
-//        return rg;
-//    }
-//    private RadioGroup createSingle(Question q, LinearLayout wrap) {
-//        // create a radio group for single choice
-//        RadioGroup rg = new RadioGroup(getContext());
-//        Object saved = answers.get(q.id);  // previous answer if any
-//        // populate radio buttons
-//        for (String opt : q.options) {
-//            RadioButton rb = new RadioButton(getContext());
-//            rb.setText(opt);
-//            if (opt.equals(saved)) rb.setChecked(true);
-//            rg.addView(rb);
-//        }
-//        // listener for selection changes
-//        rg.setOnCheckedChangeListener((group, checkedId) -> {
-//            RadioButton selected = group.findViewById(checkedId);
-//            String sel = selected.getText().toString();
-//            answers.put(q.id, sel);  // save new answer
-//            // for single+text, show or hide follow-up input
-//            if ("single+text".equals(q.type)) {
-//                View followView = wrap.findViewWithTag(q.id + "_text");
-//                if (followView != null) {
-//                    followView.setVisibility("Yes".equals(sel) ? View.VISIBLE : View.GONE);
-//                }
-//            }
-//        });
-//        wrap.addView(rg);
-//
-//        // if this question has an additional text prompt
-//        if ("single+text".equals(q.type)) {
-//            // create follow-up text input, initially hidden or shown based on saved answer
-//            EditText et = new EditText(getContext());
-//            et.setHint(q.followupTextPrompt);
-//            et.setTag(q.id + "_text");
-//            Object prev = answers.get(q.id + "_text");
-//            if (prev != null) et.setText(prev.toString());
-//            // only visible when answer is "Yes"
-//            et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
-//            // save text changes
-//            et.addTextChangedListener(new SimpleTextWatcher(s ->
-//                    answers.put(q.id + "_text", s)
-//            ));
-//            wrap.addView(et);
-//        }
-//        return rg;
-//    }
     private View createSingle(Question q) {
         LinearLayout singleWrap = new LinearLayout(getContext());
         singleWrap.setOrientation(LinearLayout.VERTICAL);
@@ -455,6 +303,7 @@ public class QuestionnaireFragment extends Fragment {
         for (String opt : q.options) {
             RadioButton rb = new RadioButton(getContext());
             rb.setText(opt);
+            rb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
             if (opt.equals(saved)) rb.setChecked(true);
             rg.addView(rb);
         }
@@ -474,6 +323,7 @@ public class QuestionnaireFragment extends Fragment {
         if ("single+text".equals(q.type)) {
             EditText et = new EditText(getContext());
             et.setHint(q.followupTextPrompt);
+            et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
             et.setTag(q.id + "_text");
             Object prev = answers.get(q.id + "_text");
             if (prev != null) et.setText(prev.toString());
@@ -491,7 +341,9 @@ public class QuestionnaireFragment extends Fragment {
         @SuppressWarnings("unchecked") List<String> saved =
                 (List<String>) answers.get(q.id);
         for (String opt : q.options) {
-            CheckBox cb = new CheckBox(getContext()); cb.setText(opt);
+            CheckBox cb = new CheckBox(getContext());
+            cb.setText(opt);
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
             if (saved != null && saved.contains(opt)) cb.setChecked(true);
             cb.setOnCheckedChangeListener((b,chk) -> {
                 List<String> list = new ArrayList<>();
@@ -529,6 +381,7 @@ public class QuestionnaireFragment extends Fragment {
     private EditText createText(Question q) {
         EditText et = new EditText(getContext());
         et.setHint(q.followupTextPrompt);
+        et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
         if ("date".equals(q.type))
             et.setInputType(InputType.TYPE_CLASS_DATETIME);  // change the keyboard layout to digits
         Object txt=answers.get(q.id);
