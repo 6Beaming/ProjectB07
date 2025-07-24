@@ -274,7 +274,7 @@ public class QuestionnaireFragment extends Fragment {
         // Add the question label
         TextView tv = new TextView(getContext());
         tv.setText(q.text);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set question font size to 16sp
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f); // set question font size to 18sp
         wrap.addView(tv);
         // add input view
         if ("single".equals(q.type) || "single+text".equals(q.type)) {
@@ -303,7 +303,7 @@ public class QuestionnaireFragment extends Fragment {
         for (String opt : q.options) {
             RadioButton rb = new RadioButton(getContext());
             rb.setText(opt);
-            rb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f); // set font size to 14 sp
+            rb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
             if (opt.equals(saved)) rb.setChecked(true);
             rg.addView(rb);
         }
@@ -323,7 +323,7 @@ public class QuestionnaireFragment extends Fragment {
         if ("single+text".equals(q.type)) {
             EditText et = new EditText(getContext());
             et.setHint(q.followupTextPrompt);
-            et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f); // set prompt font size to 14sp
+            et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
             et.setTag(q.id + "_text");
             Object prev = answers.get(q.id + "_text");
             if (prev != null) et.setText(prev.toString());
@@ -343,7 +343,7 @@ public class QuestionnaireFragment extends Fragment {
         for (String opt : q.options) {
             CheckBox cb = new CheckBox(getContext());
             cb.setText(opt);
-            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f); // set font size to 14 sp
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
             if (saved != null && saved.contains(opt)) cb.setChecked(true);
             cb.setOnCheckedChangeListener((b,chk) -> {
                 List<String> list = new ArrayList<>();
@@ -381,7 +381,7 @@ public class QuestionnaireFragment extends Fragment {
     private EditText createText(Question q) {
         EditText et = new EditText(getContext());
         et.setHint(q.followupTextPrompt);
-        et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f); // set prompt font size to 14sp
+        et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
         if ("date".equals(q.type))
             et.setInputType(InputType.TYPE_CLASS_DATETIME);  // change the keyboard layout to digits
         Object txt=answers.get(q.id);
