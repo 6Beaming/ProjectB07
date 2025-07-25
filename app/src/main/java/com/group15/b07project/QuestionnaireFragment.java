@@ -210,26 +210,9 @@ public class QuestionnaireFragment extends Fragment {
     }
 
 
-//    // Remove any previously shown error messages on this page
-//    private void clearErrors() {
-//        for (int i = 0; i < container.getChildCount(); i++) {
-//            View child = container.getChildAt(i);
-//            if (child instanceof LinearLayout) {
-//                LinearLayout qLayout = (LinearLayout) child; // now you can safely cast it
-//                String tag = (String) qLayout.getTag();
-//                if (tag != null && tag.startsWith("question_")) {
-//                    String qid = tag.substring("question_".length());
-//                    View err = qLayout.findViewWithTag("error_" + qid);
-//                    if (err != null) {
-//                        qLayout.removeView(err);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     // Remove the error message("This question is required") as soon as users answer the question
     // instead of waiting until you press the Next/Submit button
+    // This method is called from each input’s listener, immediately after you save the answer
     private void clearErrorForQuestion(Question q) {
         LinearLayout wrap = container.findViewWithTag("question_" + q.id);
         if (wrap == null) return;
@@ -301,22 +284,29 @@ public class QuestionnaireFragment extends Fragment {
     }
 
 
-    // -- Input renderers --
+    // Input renderers
     private View createSingle(Question q) {
         LinearLayout singleWrap = new LinearLayout(getContext());
         singleWrap.setOrientation(LinearLayout.VERTICAL);
 
-        Object saved = answers.get(q.id);
+        Object saved = answers.get(q.id); // previously selected value, if any
         RadioGroup rg = new RadioGroup(getContext());
         for (String opt : q.options) {
             RadioButton rb = new RadioButton(getContext());
             rb.setText(opt);
+            rb.setId(View.generateViewId()); // unique ID per button!!!
             rb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
-            if (opt.equals(saved)) rb.setChecked(true);
+
+            if (opt.equals(saved)) {
+                rb.setChecked(true);  // pre‑select if we have a saved answer
+            }
             rg.addView(rb);
         }
+        // When the user selects a radio button(physically tap one), it will
+        // Unchecks the previously selected button, Checks the new one
         rg.setOnCheckedChangeListener((group, checkedId) -> {
-            String sel = ((RadioButton)group.findViewById(checkedId)).getText().toString();
+            RadioButton selected = group.findViewById(checkedId);
+            String sel = selected.getText().toString();
             answers.put(q.id, sel);
             clearErrorForQuestion(q);
 
@@ -333,8 +323,11 @@ public class QuestionnaireFragment extends Fragment {
             et.setHint(q.followupTextPrompt);
             et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
             et.setTag(q.id + "_text");
+            // pre‑fill if we previously saved text
             Object prev = answers.get(q.id + "_text");
-            if (prev != null) et.setText(prev.toString());
+            if (prev != null) {
+                et.setText(prev.toString());
+            }
             et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
             et.addTextChangedListener(new SimpleTextWatcher(s -> {
                 answers.put(q.id + "_text", s);
@@ -370,28 +363,12 @@ public class QuestionnaireFragment extends Fragment {
     }
 
     private Spinner createDropdown(Question q) {
-//        Spinner sp = new Spinner(getContext());
-//        ArrayAdapter<String> ad = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, q.options);
-//        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        sp.setAdapter(ad);
-//        Object sel=answers.get(q.id);
-//        if (sel!=null) {
-//            int idx=q.options.indexOf(sel.toString());
-//            if(idx>=0)
-//                sp.setSelection(idx);
-//        }
-//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
-//                answers.put(q.id, q.options.get(pos));
-//            }
-//            @Override public void onNothingSelected(AdapterView<?> p) {}
-//        });
-//        return sp;
-//    }
         Spinner spinner = new Spinner(requireContext());
+        String saved = (String)answers.get(q.id);
 
         // Build a list with a prompt at the last index
         List<String> opts = new ArrayList<>(q.options); // add the question options
+        int index = opts.indexOf(saved);
         opts.add("Select a city");  // prompt as last item
 
         // Create an ArrayAdapter that uses your custom layouts
@@ -405,9 +382,10 @@ public class QuestionnaireFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // dropdown layout
         spinner.setAdapter(adapter);
 
-        // Show the prompt initially, but don't fire the listener yet
-        //
-        spinner.setSelection(adapter.getCount(), false);
+        if (index != -1) // saved answers -> show the saved answer in the spinner
+            spinner.setSelection(index, false);
+        else // no saved answers -> show prompt initially
+            spinner.setSelection(adapter.getCount(), false);
 
         // Install a listener that ignores the dummy prompt at pos 0(the prompt)
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
