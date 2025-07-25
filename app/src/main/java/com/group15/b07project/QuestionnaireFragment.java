@@ -25,8 +25,10 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-// Modularize the questionnaire into three sections(pages) and submit button is on the last page,
+// Modularize the questionnaire into three sections(pages)
 // so that it'll be convenient for them to navigate their answers and edit them later on
+// Submit button is on the last page, which guarantees users have answered all the questions before the last page
+// Note that the user must answer all the questions from Warm-Up, Branch-Specific, and Follow-Up sections.
 public class QuestionnaireFragment extends Fragment {
     private enum Page { WARMUP, BRANCH, FOLLOWUP } // Use enumeration type to track different pages
     private Page currentPage = Page.WARMUP;
@@ -78,8 +80,6 @@ public class QuestionnaireFragment extends Fragment {
         loadQuestions();   // parse questions.json
         goToPage(Page.WARMUP);    // show warm‑up questions
     }
-
-    //Note that the user must answer all the questions from Warm-Up, Branch-Specific, and Follow-Up sections.
 
     //Load and parse JSON from assets into qBundle
     private void loadQuestions() {
@@ -374,9 +374,11 @@ public class QuestionnaireFragment extends Fragment {
         // Create an ArrayAdapter that uses your custom layouts
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, opts) {
             @Override
-            public int getCount() {
+            public int getCount() { // tells the spinner how many items are in the dropdown list
                 // Hide the last item(the prompt) from the dropdown view
-                return super.getCount() - 1;
+                return super.getCount() - 1; // e.g. opts = ["A","B","prompt"] super.getCount() returns 3 -> get.Count() returns 2
+                                            // only the first 2 items (index 0 to 1) are shown in the dropdown.
+                                            // but the last item is not gone in opts
             }
         };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // dropdown layout
@@ -386,21 +388,23 @@ public class QuestionnaireFragment extends Fragment {
             spinner.setSelection(index, false);
         else // no saved answers -> show prompt initially
             spinner.setSelection(adapter.getCount(), false);
+        // adapter.getCount() now gives the last index == opts.size() - 1
 
         // Install a listener that ignores the dummy prompt at pos 0(the prompt)
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                // e.g. opts = ["A","B","prompt"]
                 if (pos < opts.size() - 1) {
-                    // a real city (pos 0..n-1)
+                    // the city (pos 0, 1) < 3(opts.size)-1
                     answers.put(q.id, opts.get(pos));
                     clearErrorForQuestion(q);
-                } else {
-                    // prompt selected—or programmatic show—treat as no answer
+                } else { // pos == 2, prompt selected as no answer
                     answers.remove(q.id);
                 }
             }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
+            @Override public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         return spinner;
@@ -422,7 +426,7 @@ public class QuestionnaireFragment extends Fragment {
         return et;
     }
 
-    // Store answers under users/questionnaire in Firebase
+    // Store answers under users/{uid}/questionnaire in Firebase
     private void onSubmit() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get user
         if (user == null) { // not signed in
