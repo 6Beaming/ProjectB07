@@ -21,13 +21,13 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
     @Override
     public TipViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.plan_tip_adapter , parent, false);
         return new TipViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TipViewHolder holder, int position) {
-        holder.textView.setText(tips.get(position));
+        holder.tip.setText(tips.get(position));
     }
 
     @Override
@@ -36,11 +36,11 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
     }
 
     static class TipViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView tip;
 
         public TipViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+            tip = itemView.findViewById(R.id.tip);
         }
     }
 }

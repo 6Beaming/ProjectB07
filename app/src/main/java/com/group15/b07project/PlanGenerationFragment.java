@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,7 +39,7 @@ import java.util.StringJoiner;
 public class PlanGenerationFragment extends Fragment {
     private RecyclerView recyclerView;
     private TipAdapter tipAdapter;
-    private List<String> tips = new ArrayList<>();
+    private List<String> tips;
     private String status;
 
     public PlanGenerationFragment() {
@@ -53,16 +55,52 @@ public class PlanGenerationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recyclerViewTips);
+        Button home_button=view.findViewById(R.id.home_button);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        tips=new ArrayList<>();
         tipAdapter = new TipAdapter(tips);
         recyclerView.setAdapter(tipAdapter);
 
         tips.clear();
-        tips.add("Personalized Plan");
-        loadTips(); // or from arguments
+        addOpening(tips);
+        loadTips(); // into tips
+        addClosing(tips);
 
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new HomeFragment());
+            }
+        });
+    }
+
+    private void addOpening(List<String> tips){
+        tips.add("Based on the answers you shared with us, " +
+                "we have made a personalized safety plan for you. Your situation is unique, " +
+                "and your safety matters to us. We want to provide support and guidance on any difficulty you may be facing.");
+        tips.add("Think of this as a living guide—something you can return to, update, or change as your needs shift.");
+        tips.add("You’re in control of what is saved or removed. Nothing is stored unless you choose to.");
+        tips.add("We understand that safety planning can feel overwhelming, especially during uncertain times. This guide is here to support you, gently and privately.");
 
     }
+
+    private void addClosing(List<String> tips){
+        tips.add("Revisit this plan as often as you need. Small steps matter, and even reviewing your plan is an act of care.");
+        tips.add("You're not alone. Help is always available, and your safety and autonomy come first.");
+        tips.add("Take care of yourself, and remember: you’re the expert of your own life.");
+        tips.add("Please remember: this plan is not a substitute for emergency services. If you’re ever in immediate danger, call 911 or your local emergency number.");
+
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 
     private void loadTips() {
         String json = loadJSONFromAsset(getContext(), "questions.json");
