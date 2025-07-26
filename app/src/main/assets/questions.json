@@ -14,12 +14,13 @@
       "type": "dropdown",
       "text": "What city do you live in?",
       "options": ["Toronto", "Vancouver", "Ottawa", "Edmonton"],
-      "tips": "Save the local support numbers for {city} in your phone’s speed-dial so you can call immediately if you need help."
+      "tips": "Save the local support numbers for {answer} in your phone’s speed-dial so you can call immediately if you need help."
     },
     {
       "id": "safe_room",
       "type": "text",
       "text": "Which room in your home feels the safest if you need to get away quickly?",
+      "followupTextPrompt": "(e.g. “Basement,” “Bedroom,” “Laundry room”)",
       "tips": "Keep your essentials (phone, keys, and a small flashlight) in {safe_room} so you can grab them instantly when you need to leave."
     },
     {
@@ -37,7 +38,7 @@
       "text": "Do you have children?",
       "options": ["Yes", "No"],
       "followupTextPrompt": "Enter a code word for your children",
-      "tips": ["Practice your safety plan with your children so that when they hear {code_word},they know exactly what to do.",
+      "tips": ["Practice your safety plan with your children so that when they hear {answer},they know exactly what to do.",
                 "Even without children, it helps to identify a second safe space in your home."]
     }
   ],
@@ -54,21 +55,24 @@
         "tips": ["Log each incident (date, time, and a brief note) so you have clear records if needed later.",
                   "Even brief notes on your phone can be helpful. Start logging today."]},
       { "id": "contact_name", "type": "text", "text": "Name one person you can call immediately in an emergency.",
-        "tips": "Save {contact_name} in your phone under a code-word so you can quietly call them when you need help."}
+        "followupTextPrompt": "(e.g. “mother”, “father”, “friend”)",
+        "tips": "Save {answer} in your phone under a code-word so you can quietly call them when you need help."}
     ],
     "Planning to leave": [
       { "id": "leave_date", "type": "date", "text": "When do you plan to leave?",
-        "tips": "Set a real target {leave_timing} and pack one essential item each day until you’re ready."
+        "followupTextPrompt": "(e.g. yyyy-MM-dd)",
+        "tips": "Set a real target {answer} and pack one essential item each day until you’re ready."
       },
       { "id": "go_bag", "type": "single", "text": "Do you have a go-bag packed?", "options": ["Yes","No"],
         "tips": ["Great! Keep your go-bag in a hidden spot so you can grab it quickly.",
                   "Pack a simple go-bag today with essentials like your ID, some cash, and a charger."]
       },
       { "id": "money_loc", "type": "text", "text": "Where do you keep emergency cash or cards?",
-        "tips": "Stash some cash and a spare card in {money_location}, a spot your partner won’t suspect."
+        "followupTextPrompt": "(e.g. “closet”, “under bed”, etc)",
+        "tips": "Stash some cash and a spare card in {answer}, a spot your partner won’t suspect."
       },
       { "id": "shelter", "type": "single+text", "text": "Have you identified a safe place to stay?", "options":["Yes","No"], "followupTextPrompt":"Enter your temporary shelter",
-        "tips": ["Make sure {temp_shelter} knows you may arrive unexpectedly and how to contact you.",
+        "tips": ["Make sure {answer} knows you may arrive unexpectedly and how to contact you.",
                   "Reach out to Victim Services Toronto or a trusted friend now to secure a shelter option before you leave."]
       }
     ],
@@ -78,11 +82,11 @@
                   "Even without contact, keep your doors locked and your phone on in case you need to call 911."]
       },
       { "id": "protect_order", "type": "single+text", "text": "Do you have a protection order?", "options":["Yes","No"], "followupTextPrompt":"Enter the legal order",
-        "tips": ["Carry your {legal_order} at all times and share copies with anyone who needs to know.",
+        "tips": ["Carry your {answer} at all times and share copies with anyone who needs to know.",
                   "Consider applying for a protection order; it can help deter unwanted contact."]
       } ,
-      { "id": "tools", "type": "single+text", "text": "Are you using any safety tools?", "options":["Yes","No"], "followupTextPrompt":"Which equipment?",
-        "tips": ["Make sure your {equipment} is in working order and placed where you’ll notice it.",
+      { "id": "tools", "type": "single+text", "text": "Are you using any safety tools?", "options":["Yes","No"], "followupTextPrompt":"Enter your equipment",
+        "tips": ["Make sure your {answer} is in working order and placed where you’ll notice it.",
                   "Consider installing a simple door alarm or camera to alert you to unexpected entry."]
       }
     ]
