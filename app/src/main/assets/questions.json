@@ -6,14 +6,15 @@
       "text": "Which best describes your situation?",
       "options": ["Still in a relationship", "Planning to leave", "Post-separation"],
       "tips": ["Keep this plan updated, and remember you can always reach out if things escalate.",
-              "Start packing small items now so you’re ready when you decide to leave.",
-              "It’s normal to feel unsettled, refer back to this plan whenever you need a safety reminder."]
+        "Start packing small items now so you’re ready when you decide to leave.",
+        "It’s normal to feel unsettled, refer back to this plan whenever you need a safety reminder."]
+
     },
     {
       "id": "city",
       "type": "dropdown",
       "text": "What city do you live in?",
-      "options": ["Toronto", "Vancouver", "Ottawa", "Edmonton"],
+      "options": ["Toronto", "Vancouver", "Ottawa", "Edmonton", "Montreal"],
       "tips": "Save the local support numbers for {answer} in your phone’s speed-dial so you can call immediately if you need help."
     },
     {
@@ -29,8 +30,9 @@
       "text": "Who do you live with?",
       "options": ["Family", "Roommates", "Alone", "Partner"],
       "tips": ["Let those you live with: {family/roommates} know your safe room and cue‐word so they can support you in an emergency.",
-                "Since you live alone, identify a trusted neighbor or friend and share your safe room location with them.",
-                "Because you live with your partner, keep your safety plan hidden (in {safe_room}), and consider storing a digital copy in a password-protected note they won’t see."]
+        "Since you live alone, identify a trusted neighbor or friend and share your safe room location with them.",
+        "Because you live with your partner, keep your safety plan hidden (in {safe_room}), and consider storing a digital copy in a password-protected note they won’t see."]
+
     },
     {
       "id": "children",
@@ -39,7 +41,8 @@
       "options": ["Yes", "No"],
       "followupTextPrompt": "Enter a code word for your children",
       "tips": ["Practice your safety plan with your children so that when they hear {answer},they know exactly what to do.",
-                "Even without children, it helps to identify a second safe space in your home."]
+        "Even without children, it helps to identify a second safe space in your home."]
+
     }
   ],
   "branch": {
@@ -50,44 +53,92 @@
         "text": "Which form(s) of abuse are you experiencing?",
         "options": ["Physical", "Emotional", "Financial", "Other"],
         "tips": "If you face {abuse_type} abuse, remember you don’t have to face it alone. Reach out to your emergency contact right away."
+
       },
-      { "id": "logging", "type": "single", "text": "Are you recording the incidents?", "options": ["Yes","No"],
+      {
+        "id": "logging",
+        "type": "single",
+        "text": "Are you recording the incidents(dates, times, details)",
+        "options": ["Yes","No"],
         "tips": ["Log each incident (date, time, and a brief note) so you have clear records if needed later.",
-                  "Even brief notes on your phone can be helpful. Start logging today."]},
-      { "id": "contact_name", "type": "text", "text": "Name one person you can call immediately in an emergency.",
+          "Even brief notes on your phone can be helpful. Start logging today."]
+
+      },
+      {
+        "id": "contact_name",
+        "type": "text",
+        "text": "Name one person you can call immediately in an emergency.",
         "followupTextPrompt": "(e.g. “mother”, “father”, “friend”)",
-        "tips": "Save {answer} in your phone under a code-word so you can quietly call them when you need help."}
+        "tips": "Save {answer} in your phone under a code-word so you can quietly call them when you need help."
+
+      }
     ],
     "Planning to leave": [
-      { "id": "leave_date", "type": "date", "text": "When do you plan to leave?",
+      {
+        "id": "leave_date",
+        "type": "date",
+        "text": "When do you plan to leave?",
         "followupTextPrompt": "(e.g. yyyy-MM-dd)",
         "tips": "Set a real target {answer} and pack one essential item each day until you’re ready."
+
       },
-      { "id": "go_bag", "type": "single", "text": "Do you have a go-bag packed?", "options": ["Yes","No"],
+      {
+        "id": "go_bag",
+        "type": "single",
+        "text": "Do you have a go-bag packed with essentials?",
+        "options": ["Yes","No"],
         "tips": ["Great! Keep your go-bag in a hidden spot so you can grab it quickly.",
-                  "Pack a simple go-bag today with essentials like your ID, some cash, and a charger."]
+          "Pack a simple go-bag today with essentials like your ID, some cash, and a charger."]
+
       },
-      { "id": "money_loc", "type": "text", "text": "Where do you keep emergency cash or cards?",
+      {
+        "id": "money_loc",
+        "type": "text",
+        "text": "Where do you keep emergency cash or cards?",
         "followupTextPrompt": "(e.g. “closet”, “under bed”, etc)",
         "tips": "Stash some cash and a spare card in {answer}, a spot your partner won’t suspect."
+
       },
-      { "id": "shelter", "type": "single+text", "text": "Have you identified a safe place to stay?", "options":["Yes","No"], "followupTextPrompt":"Enter your temporary shelter",
+      {
+        "id": "shelter",
+        "type": "single+text",
+        "text": "Have you identified a safe place to stay?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter your temporary shelter",
         "tips": ["Make sure {answer} knows you may arrive unexpectedly and how to contact you.",
-                  "Reach out to Victim Services Toronto or a trusted friend now to secure a shelter option before you leave."]
+          "Reach out to Victim Services Toronto or a trusted friend now to secure a shelter option before you leave."]
+
       }
     ],
     "Post-separation": [
-      { "id": "abuser_contact", "type": "single", "text": "Has the abuser continued any contact?", "options":["Yes","No"],
+      {
+        "id": "abuser_contact",
+        "type": "single",
+        "text": "Has the abuser continued any contact?",
+        "options":["Yes","No"],
         "tips": ["Since you’ve heard from them, stay vigilant and keep your protection order handy if you have one.",
-                  "Even without contact, keep your doors locked and your phone on in case you need to call 911."]
+          "Even without contact, keep your doors locked and your phone on in case you need to call 911."]
+
       },
-      { "id": "protect_order", "type": "single+text", "text": "Do you have a protection order?", "options":["Yes","No"], "followupTextPrompt":"Enter the legal order",
+      {
+        "id": "protect_order",
+        "type": "single+text",
+        "text": "Do you have a protection order? If yes, which type?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter the legal order",
         "tips": ["Carry your {answer} at all times and share copies with anyone who needs to know.",
-                  "Consider applying for a protection order; it can help deter unwanted contact."]
-      } ,
-      { "id": "tools", "type": "single+text", "text": "Are you using any safety tools?", "options":["Yes","No"], "followupTextPrompt":"Enter your equipment",
+          "Consider applying for a protection order; it can help deter unwanted contact."]
+
+      },
+      {
+        "id": "tools",
+        "type": "single+text",
+        "text": "Are you using any safety tools(cameras, door alarms)?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter your equipment",
         "tips": ["Make sure your {answer} is in working order and placed where you’ll notice it.",
-                  "Consider installing a simple door alarm or camera to alert you to unexpected entry."]
+          "Consider installing a simple door alarm or camera to alert you to unexpected entry."]
+
       }
     ]
   },
@@ -98,6 +149,9 @@
       "text": "Which type of support would help most right now?",
       "options": ["Counselling","Legal aid","Financial guidance","Co‑parenting resources"],
       "tips": "Reach out to {support_choice} - they can offer the specialized help you need right now."
+
     }
   ]
 }
+
+
