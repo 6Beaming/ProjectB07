@@ -22,20 +22,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Emergency Exit button initialization start
+        // Emergency Exit button initialization start
         FloatingActionButton exitFab = findViewById(R.id.fab_emergency_exit);
         exitFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create an intent to open Google in the device’s default browser
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://www.google.com"));
+                // Launch the browser in a new task and clear this app’s task stack
                 browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                // Start the browser activity
                 startActivity(browserIntent);
+                // Finish this activity and remove its task from the Recent Apps list
                 finishAndRemoveTask();
             }
         });
-        //Emergency Exit button initialization complete
+        // Emergency Exit button initialization complete
 
         db = FirebaseDatabase.getInstance("https://projectb07-62fc7-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("b07project");
