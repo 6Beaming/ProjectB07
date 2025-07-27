@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // —— 紧急退出按钮初始化 ——
+        //Emergency Exit button initialization start
         FloatingActionButton exitFab = findViewById(R.id.fab_emergency_exit);
         exitFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 finishAndRemoveTask();
             }
         });
-        // —— 紧急退出按钮初始化完毕 ——
+        //Emergency Exit button initialization complete
 
         db = FirebaseDatabase.getInstance("https://projectb07-62fc7-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("b07project");
