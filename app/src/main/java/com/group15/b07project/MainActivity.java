@@ -27,12 +27,17 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
         }
+        // show questionnaire -- Need refactoring
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new QuestionnaireFragment())
+                .commit();
     }
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(null); //  This line enables "Back" to return to previous fragment
         transaction.commit();
     }
 

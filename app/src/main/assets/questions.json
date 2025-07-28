@@ -1,0 +1,114 @@
+{
+  "warmUp": [
+    {
+      "id": "status",
+      "type": "single",
+      "text": "Which best describes your situation?",
+      "options": ["Still in a relationship", "Planning to leave", "Post-separation"]
+    },
+    {
+      "id": "city",
+      "type": "dropdown",
+      "text": "What city do you live in?",
+      "options": ["Toronto", "Vancouver", "Ottawa", "Edmonton", "Montreal"]
+    },
+    {
+      "id": "safe_room",
+      "type": "text",
+      "text": "Which room in your home feels the safest if you need to get away quickly?",
+      "followupTextPrompt": "(e.g. “Basement,” “Bedroom,” “Laundry room”)"
+    },
+    {
+      "id": "live_with",
+      "type": "single",
+      "text": "Who do you live with?",
+      "options": ["Family", "Roommates", "Alone", "Partner"]
+    },
+    {
+      "id": "children",
+      "type": "single+text",
+      "text": "Do you have children?",
+      "options": ["Yes", "No"],
+      "followupTextPrompt": "Enter a code word for your children"
+    }
+  ],
+  "branch": {
+    "Still in a relationship": [
+      {
+        "id": "abuse_types",
+        "type": "multiple",
+        "text": "Which form(s) of abuse are you experiencing?",
+        "options": ["Physical", "Emotional", "Financial", "Other"]
+      },
+      {
+        "id": "logging",
+        "type": "single",
+        "text": "Are you recording the incidents(dates, times, details)",
+        "options": ["Yes","No"]
+      },
+      {
+        "id": "contact_name",
+        "type": "text",
+        "text": "Name one person you can call immediately in an emergency.",
+        "followupTextPrompt": "(e.g. “mother”, “father”, “friend”)"
+      }
+    ],
+    "Planning to leave": [
+      {
+        "id": "leave_date",
+        "type": "date",
+        "text": "When do you plan to leave?",
+        "followupTextPrompt": "(e.g. yyyy-MM-dd)"
+      },
+      {
+        "id": "go_bag",
+        "type": "single",
+        "text": "Do you have a go-bag packed with essentials?",
+        "options": ["Yes","No"]
+      },
+      {
+        "id": "money_loc",
+        "type": "text",
+        "text": "Where do you keep emergency cash or cards?",
+        "followupTextPrompt": "(e.g. “closet”, “under bed”, etc)"
+      },
+      {
+        "id": "shelter",
+        "type": "single+text",
+        "text": "Have you identified a safe place to stay?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter your temporary shelter"
+      }
+    ],
+    "Post-separation": [
+      {
+        "id": "abuser_contact",
+        "type": "single",
+        "text": "Has the abuser continued any contact?",
+        "options":["Yes","No"]
+      },
+      {
+        "id": "protect_order",
+        "type": "single+text",
+        "text": "Do you have a protection order? If yes, which type?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter the legal order"
+      },
+      {
+        "id": "tools",
+        "type": "single+text",
+        "text": "Are you using any safety tools(cameras, door alarms)?",
+        "options":["Yes","No"],
+        "followupTextPrompt":"Enter your equipment"
+      }
+    ]
+  },
+  "followUp": [
+    {
+      "id": "support",
+      "type": "single",
+      "text": "Which type of support would help most right now?",
+      "options": ["Counselling","Legal aid","Financial guidance","Co‑parenting resources"]
+    }
+  ]
+}
