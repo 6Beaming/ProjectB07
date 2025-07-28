@@ -33,15 +33,13 @@ public class QuestionnaireFragment extends Fragment {
     private enum Page { WARMUP, BRANCH, FOLLOWUP } // Use enumeration type to track different pages
     private Page currentPage = Page.WARMUP;
     private LinearLayout container; // holds question views
-    private Button btnSubmit; // submit button
-    private Button btnPrev; // previous button
-    private Button btnNext; // next button
+    private Button btnSubmit;
+    private Button btnPrev;
+    private Button btnNext;
     private QuestionsBundle qBundle; // parsed JSON holder
     private final Map<String, Object> answers = new HashMap<>(); // key = question ID;
                                                                 // value = String (single-choice, dropdown, date, or text answers)
                                                                 //          or List<String> (multiple-choice answers)
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View view;
@@ -96,7 +94,6 @@ public class QuestionnaireFragment extends Fragment {
         }
     }
 
-    // Return what will be the previous page
     private Page previousPage() {
         if (currentPage == Page.BRANCH) {
             return Page.WARMUP; // On Branch page when you hit Prev, go to Warmup
@@ -104,10 +101,9 @@ public class QuestionnaireFragment extends Fragment {
         else if (currentPage == Page.FOLLOWUP) {
             return Page.BRANCH; // On Followup page when you hit Prev, go to Branch
         }
-        return null; // no previous
+        return null;
     }
 
-    // Return what will be the next page
     private Page nextPage() {
         if (currentPage == Page.WARMUP) {
             return Page.BRANCH; // On Warmup page when you hit Next, you go to Branch
@@ -115,12 +111,12 @@ public class QuestionnaireFragment extends Fragment {
         else if (currentPage == Page.BRANCH) {
             return Page.FOLLOWUP;  // On Branch page when you hit Next, go to Followup
         }
-        return null; // no next
+        return null;
     }
 
     // Render the specified page
     private void goToPage(Page page) {
-        if (page == null) return; // nothing to do
+        if (page == null) return;
 
         currentPage = page; // update currentPage
         container.removeAllViews(); // clear old views so that each page works for their own type
@@ -171,7 +167,7 @@ public class QuestionnaireFragment extends Fragment {
             String status = (String) answers.get("status");
             // if your currentPage is Branch, that means you have answered WarmUp questions;
             // otherwise the button won't allow you to switch currentPage
-            // so status must be answered
+            // so status must be answered, i.e. not null
             pageQs = qBundle.branch.get(status); // qBundle.branch is a Map<String, List<Question>>
                                                  // String(status) is the key
             if (pageQs ==null)
@@ -217,7 +213,8 @@ public class QuestionnaireFragment extends Fragment {
         LinearLayout wrap = container.findViewWithTag("question_" + q.id);
         if (wrap == null) return;
         View err = wrap.findViewWithTag("error_" + q.id);
-        if (err != null) wrap.removeView(err);
+        if (err != null)
+            wrap.removeView(err);
     }
 
 
@@ -305,15 +302,15 @@ public class QuestionnaireFragment extends Fragment {
         // When the user selects a radio button(physically tap one), it will
         // Unchecks the previously selected button, Checks the new one
         rg.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton selected = group.findViewById(checkedId);
-            String sel = selected.getText().toString();
-            answers.put(q.id, sel);
+            RadioButton selected_button = group.findViewById(checkedId);
+            String selected = selected_button.getText().toString();
+            answers.put(q.id, selected);
             clearErrorForQuestion(q);
 
             // show/hide follow‑up field if needed
             View follow = singleWrap.findViewWithTag(q.id + "_text");
             if (follow != null) {
-                follow.setVisibility("Yes".equals(sel) ? View.VISIBLE : View.GONE);
+                follow.setVisibility("Yes".equals(selected) ? View.VISIBLE : View.GONE);
             }
         });
         singleWrap.addView(rg);
@@ -323,14 +320,16 @@ public class QuestionnaireFragment extends Fragment {
             et.setHint(q.followupTextPrompt);
             et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
             et.setTag(q.id + "_text");
+
             // pre‑fill if we previously saved text
             Object prev = answers.get(q.id + "_text");
             if (prev != null) {
                 et.setText(prev.toString());
             }
+            // Show the text block only if the answer is "Yes"
             et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
             et.addTextChangedListener(new SimpleTextWatcher(s -> {
-                answers.put(q.id + "_text", s);
+                answers.put(q.id + "_text", s); // store the input text into answers
                 clearErrorForQuestion(q);
             }));
 
@@ -340,20 +339,23 @@ public class QuestionnaireFragment extends Fragment {
     }
 
     private LinearLayout createMultiple(Question q) {
-        LinearLayout ll = new LinearLayout(getContext()); ll.setOrientation(LinearLayout.VERTICAL);
-        @SuppressWarnings("unchecked") List<String> saved =
-                (List<String>) answers.get(q.id);
+        LinearLayout ll = new LinearLayout(getContext());
+        ll.setOrientation(LinearLayout.VERTICAL);
+        @SuppressWarnings("unchecked") List<String> saved = (List<String>) answers.get(q.id);
         for (String opt : q.options) {
             CheckBox cb = new CheckBox(getContext());
             cb.setText(opt);
             cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
             if (saved != null && saved.contains(opt)) cb.setChecked(true);
-            cb.setOnCheckedChangeListener((b,chk) -> {
+            cb.setOnCheckedChangeListener((b,checked) -> {
                 List<String> list = new ArrayList<>();
-                @SuppressWarnings("unchecked") List<String> ex=
-                        (List<String>)answers.get(q.id);
-                if (ex!=null) list=ex;
-                if (chk) list.add(opt); else list.remove(opt);
+                @SuppressWarnings("unchecked") List<String> ex= (List<String>)answers.get(q.id);
+                if (ex!=null)
+                    list=ex; // pre-fill the answer
+                if (checked)
+                    list.add(opt);
+                else
+                    list.remove(opt);
                 answers.put(q.id, list);
                 clearErrorForQuestion(q);
             });
@@ -418,7 +420,7 @@ public class QuestionnaireFragment extends Fragment {
             et.setInputType(InputType.TYPE_CLASS_DATETIME);  // change the keyboard layout to digits
         Object txt=answers.get(q.id);
         if(txt!=null)
-            et.setText(txt.toString());
+            et.setText(txt.toString()); // pre-fill
         et.addTextChangedListener(new SimpleTextWatcher(s -> {
             answers.put(q.id, s);
             clearErrorForQuestion(q);
