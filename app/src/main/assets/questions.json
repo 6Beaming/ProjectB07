@@ -22,7 +22,7 @@
       "type": "text",
       "text": "Which room in your home feels the safest if you need to get away quickly?",
       "followupTextPrompt": "(e.g. “Basement,” “Bedroom,” “Laundry room”)",
-      "tips": "Keep your essentials (phone, keys, and a small flashlight) in {safe_room} so you can grab them instantly when you need to leave."
+      "tips": "Keep your essentials (phone, keys, and a small flashlight) in {answer} so you can grab them instantly when you need to leave."
     },
     {
       "id": "live_with",
