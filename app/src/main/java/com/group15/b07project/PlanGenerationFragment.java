@@ -66,7 +66,7 @@ public class PlanGenerationFragment extends Fragment {
         tips.clear();
         addOpening(tips);
         loadTips(); // into tips
-        addClosing(tips);
+
 
         home_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,12 +121,14 @@ public class PlanGenerationFragment extends Fragment {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("Firebase", "Snapshot contents: " + new Gson().toJson(snapshot.getValue()));
+
 
                 loadWarmupTips(tips, questions, snapshot); //this also sets value of status
                 loadBranchTips(tips,questions,snapshot);
                 loadFollowupTips(tips,questions,snapshot);
-
-
+                addClosing(tips);
+                tipAdapter.notifyDataSetChanged();
 
             }
 
@@ -165,17 +167,17 @@ public class PlanGenerationFragment extends Fragment {
                 String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
                 if (answer.equals("Family")||answer.equals("Roommates")){
                     tips.add(
-                            ((List<String>)question.tips).get(0).replace("{family/roommates}",answer)
+                            "👨‍👩‍👧‍👦 "+((List<String>)question.tips).get(0).replace("{family/roommates}",answer)
                     );
                 } else if (answer.equals("Alone")) {
                     tips.add(
-                            ((List<String>)question.tips).get(1)
+                            "😊 "+((List<String>)question.tips).get(1)
                     );
                 }else {
-                    String safe_room=snapshot.child(question.id).getValue(String.class);
+                    String safe_room=snapshot.child("safe_room").getValue(String.class);
                     assert safe_room != null;
                     tips.add(
-                            ((List<String>)question.tips).get(2).replace("{safe_room}",safe_room)
+                            "📒 "+((List<String>)question.tips).get(2).replace("{safe_room}",safe_room)
                     );
                 }
             }else{
@@ -200,7 +202,7 @@ public class PlanGenerationFragment extends Fragment {
                     }
                     String cat_answer=joiner.toString();
                     tips.add(
-                            ((String)question.tips).replace("{abuse_type}",cat_answer)
+                            "🔥 "+((String)question.tips).replace("{abuse_type}",cat_answer)
                     );
                 }else {
                     processTip(tips,snapshot,question);
@@ -215,7 +217,7 @@ public class PlanGenerationFragment extends Fragment {
         String answer=snapshot.child(followupQuestion.id).getValue(String.class);
         assert answer != null;
         tips.add(
-                ((String) followupQuestion.tips).replace("{support_choice}",answer)
+                "📕 "+((String) followupQuestion.tips).replace("{support_choice}",answer)
         );
     }
 
@@ -236,7 +238,7 @@ public class PlanGenerationFragment extends Fragment {
                               @NonNull Question question) { //precondition: type is dropdown,date,text. except safe_room
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
         tips.add(
-                ((String)question.tips).replace("{answer}", answer)
+                "📒 "+((String)question.tips).replace("{answer}", answer)
         );
 
     }
@@ -246,7 +248,7 @@ public class PlanGenerationFragment extends Fragment {
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
         int choice_index=question.options.indexOf(answer);
         tips.add(
-                ((List<String>)question.tips).get(choice_index)
+                "📃 "+((List<String>)question.tips).get(choice_index)
         );
     }
 
@@ -255,12 +257,12 @@ public class PlanGenerationFragment extends Fragment {
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
         if (question.options.indexOf(answer)==1){
             tips.add(
-                    ((List<String>)question.tips).get(1)    //because all followup occur in first choice
+                    "🌻 "+((List<String>)question.tips).get(1)    //because all followup occur in first choice
             );
         }else {
             String text = Objects.requireNonNull(snapshot.child(question.id + "_text").getValue(String.class));
             tips.add(
-                    ((List<String>)question.tips).get(0).replace("{answer}",text)
+                    "☀️ "+((List<String>)question.tips).get(0).replace("{answer}",text)
             );
         }
     }
