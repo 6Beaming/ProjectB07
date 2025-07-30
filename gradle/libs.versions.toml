@@ -11,6 +11,7 @@ googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 gson = "2.10.1"
 firebaseAuth = "23.2.1"
+annotationJvm = "1.9.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,6 +24,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
