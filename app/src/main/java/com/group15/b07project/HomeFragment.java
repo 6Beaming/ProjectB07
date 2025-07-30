@@ -16,36 +16,38 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_home_fragment, container, false);
 
-        Button buttonRecyclerView = view.findViewById(R.id.buttonRecyclerView);
-        Button buttonScroller = view.findViewById(R.id.buttonScroller);
-        Button buttonSpinner = view.findViewById(R.id.buttonSpinner);
-        Button buttonManageItems = view.findViewById(R.id.buttonManageItems);
+        Button buttonQuestionnaire = view.findViewById(R.id.buttonQuestionnaire);
+        Button buttonPlan = view.findViewById(R.id.buttonPlan);
+        Button buttonEmergencyInfo = view.findViewById(R.id.buttonEmergencyInfo);
+        Button buttonSupport = view.findViewById(R.id.buttonSupport);
 
-        buttonRecyclerView.setOnClickListener(new View.OnClickListener() {
+        buttonQuestionnaire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new RecyclerViewFragment());
+                loadFragment(new QuestionnaireFragment());
             }
         });
 
-        buttonScroller.setOnClickListener(new View.OnClickListener() {
+
+        buttonPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new ScrollerFragment());
             }
         });
 
-        buttonSpinner.setOnClickListener(new View.OnClickListener() {
+        buttonEmergencyInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { loadFragment(new ManageItemsFragment());}
+        });
+
+        buttonSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new SpinnerFragment());
             }
         });
 
-        buttonManageItems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new ManageItemsFragment());}
-        });
 
         return view;
     }

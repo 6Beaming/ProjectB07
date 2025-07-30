@@ -7,44 +7,46 @@
     tools:context=".HomeFragment">
 
     <Button
-        android:id="@+id/buttonRecyclerView"
+        android:id="@+id/buttonQuestionnaire"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/recyclerview"
+        android:text="Edit Questionnaire"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonScroller"/>
+        app:layout_constraintBottom_toTopOf="@+id/buttonPlan"/>
 
     <Button
-        android:id="@+id/buttonScroller"
+        android:id="@+id/buttonPlan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/scroller"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRecyclerView"
+        android:text="View Safety Plan"
+        app:layout_constraintTop_toBottomOf="@+id/buttonQuestionnaire"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSpinner"/>
+        app:layout_constraintBottom_toTopOf="@+id/buttonEmergencyInfo"/>
 
     <Button
-        android:id="@+id/buttonSpinner"
+        android:id="@+id/buttonEmergencyInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/spinner"
+        android:text="Emergency information"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPlan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/buttonSupport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Support Services"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonScroller" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonEmergencyInfo" />
 
-    <Button
-        android:id="@+id/buttonManageItems"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/manage_items"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
