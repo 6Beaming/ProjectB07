@@ -10,6 +10,8 @@
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
     <string name="submit">Submit</string>
+   <string name="plan_header">Your Personalized Saftey Plan</string>
+    <string name="homeButton">Back to Home</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="this_question_is_required">This question is required.</string>

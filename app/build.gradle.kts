@@ -38,9 +38,23 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.gson)
     implementation(libs.firebase.auth)
+
+    implementation(libs.annotation.jvm)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.annotation:annotation-jvm:1.9.1")
+        // If needed, exclude the older version explicitly
+        eachDependency {
+            if (requested.group == "androidx.annotation" && requested.name == "annotation") {
+                useTarget("androidx.annotation:annotation-jvm:1.9.1")
+            }
+        }
+    }
 }
