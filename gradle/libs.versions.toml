@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.1"
+agp = "8.11.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -11,6 +11,8 @@ googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 gson = "2.10.1"
 firebaseAuth = "23.2.1"
+firebaseFirestore = "26.0.0"
+firebaseStorage = "22.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,6 +25,8 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

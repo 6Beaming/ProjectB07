@@ -14,6 +14,11 @@
     <string name="next">Next</string>
     <string name="this_question_is_required">This question is required.</string>
     <string name="questionnaire_questions">Questionnaire questions</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="documents_to_pack">Documents to pack</string>
+    <string name="emergency_contacts">Emergency Contacts</string>
+    <string name="safe_locations">Safe Locations</string>
+    <string name="medications">Medications</string>
 
     <string-array name="categories_array">
         <item>Books</item>
