@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".PinLoginActivity">
 
+    <LinearLayout
+        android:id="@+id/pinLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/pinInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Enter PIN" />
+        <Button
+            android:id="@+id/buttonUnlock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Unlock" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
