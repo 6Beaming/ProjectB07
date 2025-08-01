@@ -50,7 +50,7 @@ public class PinSetupActivity extends AppCompatActivity {
             Toast.makeText(this,"Saved! Here's your initial questionnaire", Toast.LENGTH_SHORT).show();
             // Then, go to main
             startActivity(new Intent(this, MainActivity.class));
-            finish();
+            finish(); // so if press back, user won't go back to here
         });
     }
 }

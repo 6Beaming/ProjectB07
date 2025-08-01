@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Objects;
 
 // An activity that is launched by AuthChoiceActivity(prerequisite is uid is Non null)
+// If PIN is verified, then go to MainActivity
 public class PinLoginActivity extends AppCompatActivity {
 
     @Override
@@ -29,7 +30,7 @@ public class PinLoginActivity extends AppCompatActivity {
             if (pinManager.verifyPin(uid, typed)) {
                 // PIN verified -> main
                 startActivity(new Intent(this, MainActivity.class));
-                finish();
+                finish(); // so if press back, user won't go back to here
             } else {
                 pinInput.setError("Wrong PIN");
             }
