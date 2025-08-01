@@ -17,8 +17,6 @@ import java.util.Objects;
 // Ask the user to type their PIN twice to confirm
 // Store it as "pin_"+uid as key in SharedPreferences to make sure each user reserves a unique PIN
 public class PinSetupActivity extends AppCompatActivity {
-    private EditText pinFirst;
-    private EditText pinSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +24,8 @@ public class PinSetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pin_setup);
 
         String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        pinFirst = findViewById(R.id.pinFirst);
-        pinSecond = findViewById(R.id.pinSecond);
+        EditText pinFirst = findViewById(R.id.pinFirst);
+        EditText pinSecond = findViewById(R.id.pinSecond);
         Button buttonNext = findViewById(R.id.buttonNext);
 
         PinManager pinManager = new PinManager(this); //utility class
