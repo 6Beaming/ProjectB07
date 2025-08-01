@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
+// This page will only show on the first sign up -> can be used to confirm if this is user's sign up
+// uid has to exist on this activity
 // Ask the user to type their PIN twice to confirm
 // Store it as "pin_"+uid as key in SharedPreferences to make sure each user reserves a unique PIN
-// This page will only show on the first sign up -> can be used to confirm if this is user's sign up
 public class PinSetupActivity extends AppCompatActivity {
     private EditText pinFirst;
     private EditText pinSecond;
@@ -22,7 +25,7 @@ public class PinSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_setup);
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         pinFirst = findViewById(R.id.pinFirst);
         pinSecond = findViewById(R.id.pinSecond);
         Button buttonNext = findViewById(R.id.buttonNext);
