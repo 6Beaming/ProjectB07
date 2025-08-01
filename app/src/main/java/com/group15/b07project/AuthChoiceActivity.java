@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+// Press login with username -> go to LoginActivity
+// Press Login with PIN -> go to PinLoginActivity
 public class AuthChoiceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
