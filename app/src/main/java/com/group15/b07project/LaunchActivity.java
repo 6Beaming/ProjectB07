@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 // if user does not sign in OR has no PIN, this will redirect to LoginActivity
 // else (user has signed in and has PIN), go to AuthChoice page
-// Add finish(); after every activity starts to destory this activity
+// Add finish(); after every activity starts to destroy this activity
 // So press Back won't go to here
 public class LaunchActivity extends AppCompatActivity {
     @Override
