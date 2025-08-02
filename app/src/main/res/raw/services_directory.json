@@ -1,0 +1,37 @@
+{
+  "Toronto": [
+    { "name": "Victim Services Toronto", "phone": "416-808-7066", "url": "https://www.victimservicestoronto.com/" },
+    { "name": "Assaulted Women's Helpline", "phone": "1-866-863-0511", "url": "https://www.awhl.org/" },
+    { "name": "Interval House (Toronto)", "phone": "416-924-1491", "url": "https://www.domesticshelters.org/help/on/toronto/m5s1r8/interval-house" },
+    { "name": "Legal Aid Ontario (Toronto)", "phone": "416-979-1446", "url": "https://www.legalaid.on.ca/" },
+    { "name": "Toronto Police Service (non-emergency)", "phone": "416-808-2222", "url": "https://www.tps.ca/contact/416-808-2222-police-non-emergency/" }
+  ],
+  "Vancouver": [
+    { "name": "Family Services of Greater Vancouver - Victim Services", "phone": "604-874-2938", "url": "https://fsgv.ca/programs/victim-services/" },
+    { "name": "VictimLink BC", "phone": "1-800-563-0808", "url": "https://victimlinkbc.ca/" },
+    { "name": "Vancouver Rape Relief and Women's Shelter", "phone": "604-872-8212", "url": "https://rapereliefshelter.bc.ca/contact/" },
+    { "name": "Legal Aid BC Call Centre", "phone": "604-408-2172", "url": "https://legalaid.bc.ca/contact/call-us" },
+    { "name": "Vancouver Police Department (non-emergency)", "phone": "604-717-3321", "url": "https://vpd.ca/contact-us/" }
+  ],
+  "Ottawa": [
+    { "name": "Ottawa Victim Services", "phone": "613-238-2762", "url": "https://ovs-svo.com/" },
+    { "name": "Assaulted Women's Helpline", "phone": "1-866-863-0511", "url": "https://www.awhl.org/" },
+    { "name": "Interval House of Ottawa", "phone": "613-234-5181", "url": "https://www.intervalhouseottawa.org/" },
+    { "name": "Legal Aid Ontario - Ottawa District Office", "phone": "613-238-7931", "url": "https://www.legalaid.on.ca/legal-aid-offices/ottawa-district-office/" },
+    { "name": "Ottawa Police Service (non-emergency)", "phone": "613-236-1222", "url": "https://www.ottawapolice.ca/en/who-we-are/contact-us.aspx" }
+  ],
+  "Edmonton": [
+    { "name": "Victims Services Edmonton", "phone": "780-427-3460", "url": "https://www.alberta.ca/victims-of-crime" },
+    { "name": "Family Violence Info Line", "phone": "780-310-1818", "url": "https://www.alberta.ca/family-violence-find-supports" },
+    { "name": "Women's Emergency Accommodation Centre (WEAC)", "phone": "780-423-5302", "url": "https://informalberta.ca/public/service/serviceProfileStyled.do?serviceQueryId=1047223" },
+    { "name": "Legal Aid Alberta", "phone": "1-866-845-3425", "url": "https://www.legalaid.ab.ca" },
+    { "name": "Edmonton Police Service (non-emergency)", "phone": "780-423-4567", "url": "https://www.edmontonpolice.ca/ContactEPS" }
+  ],
+  "Montreal": [
+    { "name": "CAVAC Montréal", "phone": "1-866-532-2822", "url": "https://cavac.qc.ca/" },
+    { "name": "SOS violence conjugale", "phone": "1-800-363-9010", "url": "https://sosviolenceconjugale.ca/" },
+    { "name": "Auberge Shalom", "phone": "514-731-0833", "url": "https://amiquebec.org/women/" },
+    { "name": "Legal Aid Montreal", "phone": "514-864-2111", "url": "https://www.aidejuridiquedemontreal.ca/en/contact-us/" },
+    { "name": "SPVM (non-emergency)", "phone": "514-280-2222", "url": "https://spvm.qc.ca/en/contact" }
+  ]
+}
