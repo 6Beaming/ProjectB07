@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,13 +22,19 @@ public class StorageOfEmergencyInfoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Button home_button=view.findViewById(R.id.buttonEmergencyInfoHome);
+        ImageButton home_button=view.findViewById(R.id.buttonEmergencyInfoHome);
         Button document_button=view.findViewById(R.id.button_documents_to_pack);
         Button emergency_contacts_button=view.findViewById(R.id.button_emergency_contacts);
         Button safe_location_button=view.findViewById(R.id.button_safe_locations);
         Button medications_button=view.findViewById(R.id.button_medications);
 
         home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new HomeFragment());
+            }
+        });
+        document_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadFragment(new DocumentsToPackFragment());

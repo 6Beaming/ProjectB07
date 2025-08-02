@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // show questionnaire -- Need refactoring
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new QuestionnaireFragment())
+                .replace(R.id.fragment_container, new StorageOfEmergencyInfoFragment())
                 .commit();
     }
 
