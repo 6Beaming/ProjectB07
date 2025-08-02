@@ -25,6 +25,7 @@
             android:inputType="numberPassword"
             android:digits="0123456789"
             android:imeOptions="actionDone"
+            android:importantForAutofill="no"
             android:padding="12dp"
             android:layout_marginBottom="24dp" />
 
