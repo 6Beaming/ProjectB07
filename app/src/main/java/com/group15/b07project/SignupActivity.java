@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
@@ -72,6 +73,9 @@ public class SignupActivity extends AppCompatActivity {
                                             }
                                         });
                             }
+                        }
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            Toast.makeText(this, "This Email has already been used.", Toast.LENGTH_SHORT).show();
                         }
                     });
         });
