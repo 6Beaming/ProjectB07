@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.B07DemoSummer2024" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.B07DemoSummer2024" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:colorBackground">@color/dark_background</item> <!-- Optional: your night background -->
     </style>

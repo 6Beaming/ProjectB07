@@ -21,6 +21,7 @@
     <string name="emergency_contacts">Emergency Contacts</string>
     <string name="safe_locations">Safe Locations</string>
     <string name="medications">Medications</string>
+    <string name="docs_header">Documents</string>
 
     <string-array name="categories_array">
         <item>Books</item>

@@ -35,12 +35,10 @@
 
         <Button
             android:id="@+id/button_documents_to_pack"
-            style="@style/BrownButton"
             android:layout_width="380dp"
             android:layout_height="70dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
             android:background="@drawable/brown_but"
             android:fontFamily="@font/hand_regular"

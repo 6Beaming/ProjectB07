@@ -35,7 +35,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
         return tips.size();
     }
 
-    static class TipViewHolder extends RecyclerView.ViewHolder {
+    public static class TipViewHolder extends RecyclerView.ViewHolder {
         TextView tip;
 
         public TipViewHolder(@NonNull View itemView) {
