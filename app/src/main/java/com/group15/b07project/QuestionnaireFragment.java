@@ -451,11 +451,14 @@ public class QuestionnaireFragment extends Fragment {
         DatabaseReference ref = userRef.child("questionnaire");
         // Write answers
         ref.setValue(answers)
-                .addOnSuccessListener(a ->Toast.makeText(getContext(), // on success
-                        "Saved!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e ->Toast.makeText(getContext(), // on failure
-                        "Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
-
-        loadFragment(new PlanGenerationFragment());
+                .addOnSuccessListener(a -> {
+                    Toast.makeText(getContext(), "Plan saved! Generating your plan...", Toast.LENGTH_SHORT).show();
+                    userRef.child("newUser").setValue(false); // now that user has answered the questionnaire, they're no more new user
+                                                                        // use this as a way to check if Questionnaire needs to be initiated
+                    loadFragment(new PlanGenerationFragment());
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                );
     }
 }
