@@ -18,6 +18,7 @@ public class DisclaimerActivity extends AppCompatActivity {
             prefs.edit().putBoolean("disclaimer_shown", true).apply();
             Intent intent = new Intent(DisclaimerActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 }

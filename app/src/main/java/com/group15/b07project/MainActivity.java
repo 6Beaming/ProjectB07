@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         if (!disclaimerShown) {
             Intent intent = new Intent(this, DisclaimerActivity.class);
             startActivity(intent);
+            finish();
             return;
         }
         // if is read
