@@ -1,5 +1,7 @@
 package com.group15.b07project;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check if disclaimer is shown and accepted.(from SharedPreference)
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        boolean disclaimerShown = prefs.getBoolean("disclaimer_shown", false);
+        // if not read
+        if (!disclaimerShown) {
+            Intent intent = new Intent(this, DisclaimerActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        // if is read
         setContentView(R.layout.activity_main);
 
         db = FirebaseDatabase.getInstance("https://projectb07-62fc7-default-rtdb.firebaseio.com/");
@@ -37,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null); //  This line enables "Back" to return to previous fragment
+        transaction.addToBackStack(null); // This line enables "Back" to return to previous fragment
+                                                // Remove it if you want to use Back to exit the app instead
         transaction.commit();
     }
 
