@@ -11,42 +11,61 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Edit Questionnaire"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="155dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPlan"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonPlan"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <Button
         android:id="@+id/buttonPlan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="View Safety Plan"
-        app:layout_constraintTop_toBottomOf="@+id/buttonQuestionnaire"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEmergencyInfo"/>
+        app:layout_constraintTop_toBottomOf="@id/buttonQuestionnaire"
+        app:layout_constraintBottom_toTopOf="@id/buttonEmergencyInfo"/>
 
     <Button
         android:id="@+id/buttonEmergencyInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Emergency information"
-        app:layout_constraintTop_toBottomOf="@+id/buttonPlan"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/buttonPlan"
+        app:layout_constraintBottom_toTopOf="@id/buttonSupport"/>
 
     <Button
         android:id="@+id/buttonSupport"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Support Services"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEmergencyInfo" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonEmergencyInfo"/>
 
-
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
