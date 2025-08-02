@@ -8,19 +8,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
+    String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // check if disclaimer is shown and accepted.(from SharedPreference)
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
-        boolean disclaimerShown = prefs.getBoolean("disclaimer_shown", false);
+        boolean disclaimerShown = prefs.getBoolean(uid + "disclaimer_shown", false);
         // if not read
         if (!disclaimerShown) {
             Intent intent = new Intent(this, DisclaimerActivity.class);
