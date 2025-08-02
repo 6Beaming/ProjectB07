@@ -20,6 +20,7 @@ public class HomeFragment extends Fragment {
         Button buttonPlan = view.findViewById(R.id.buttonPlan);
         Button buttonEmergencyInfo = view.findViewById(R.id.buttonEmergencyInfo);
         Button buttonSupport = view.findViewById(R.id.buttonSupport);
+        Button buttonLogout = view.findViewById(R.id.buttonLogout);
 
         buttonQuestionnaire.setOnClickListener(v -> loadFragment(new QuestionnaireFragment()));
 
@@ -28,6 +29,8 @@ public class HomeFragment extends Fragment {
         buttonEmergencyInfo.setOnClickListener(v -> loadFragment(new StorageOfEmergencyInfoFragment()));
 
         buttonSupport.setOnClickListener(v -> loadFragment(new SupportConnectionFragment()));
+
+        //buttonLogout.setOnClickListener(v -> loadFragment(new LogoutFragment()));
 
         return view;
     }
