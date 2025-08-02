@@ -1,8 +1,6 @@
 package com.group15.b07project;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeFragment extends Fragment {
-    private FirebaseAuth firebaseAuth;
 
     @Nullable
     @Override
@@ -40,17 +37,13 @@ public class HomeFragment extends Fragment {
         buttonSupport.setOnClickListener(v -> loadFragment(new SupportConnectionFragment()));
 
         buttonLogout.setOnClickListener(v -> {
-            firebaseAuth = FirebaseAuth.getInstance();
-            //Log out
-            firebaseAuth.signOut();
-            // Reset shared preferences
-            SharedPreferences preference = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-            preference.edit().putBoolean("logged_in", false).apply();
-            Toast.makeText(getContext(), "Logout successful， redirecting to login page", Toast.LENGTH_SHORT).show();
-            //Redirect to LaunchActivity
-            Intent intent = new Intent(requireActivity(), LaunchActivity.class);
-            startActivity(intent);
-            requireActivity().finish();
+            //Sign out and toast a message
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(getContext(),
+                    "Logged out successfully. Redirecting to login page...", Toast.LENGTH_SHORT).show();
+            //Redirect to LoginActivity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         });
         return view;
     }
