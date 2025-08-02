@@ -21,33 +21,13 @@ public class HomeFragment extends Fragment {
         Button buttonEmergencyInfo = view.findViewById(R.id.buttonEmergencyInfo);
         Button buttonSupport = view.findViewById(R.id.buttonSupport);
 
-        buttonQuestionnaire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new QuestionnaireFragment());
-            }
-        });
+        buttonQuestionnaire.setOnClickListener(v -> loadFragment(new QuestionnaireFragment()));
 
+        buttonPlan.setOnClickListener(v -> loadFragment(new PlanGenerationFragment()));
 
-        buttonPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new ScrollerFragment());
-            }
-        });
+        buttonEmergencyInfo.setOnClickListener(v -> loadFragment(new StorageOfEmergencyInfoFragment()));
 
-        buttonEmergencyInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new ManageItemsFragment());}
-        });
-
-        buttonSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new SpinnerFragment());
-            }
-        });
-
+        buttonSupport.setOnClickListener(v -> loadFragment(new SupportConnectionFragment()));
 
         return view;
     }
