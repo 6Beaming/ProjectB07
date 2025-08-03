@@ -25,6 +25,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         findViewById(R.id.loginButton).setOnClickListener(v -> {
             String email = emailEdited.getText().toString();
             String password = passwordEdited.getText().toString();
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (password.isEmpty()) {
+                Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+                return;
+            }
             presenter.loginClicked(email, password);
         });
         findViewById(R.id.createButton).setOnClickListener(v -> presenter.SignUpClicked());
