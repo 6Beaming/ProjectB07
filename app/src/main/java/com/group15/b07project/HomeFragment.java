@@ -42,8 +42,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getContext(),
                     "Logged out successfully. Redirecting to login page...", Toast.LENGTH_SHORT).show();
             //Redirect to LoginActivity
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            requireActivity().finish();
         });
         return view;
     }
