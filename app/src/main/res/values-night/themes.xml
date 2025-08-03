@@ -2,6 +2,14 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.B07DemoSummer2024" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="android:colorBackground">@color/dark_background</item> <!-- Optional: your night background -->
+        <item name="android:colorBackground">@color/dark_background</item>
+<!--        <item name="android:windowBackground">@drawable/app_background_night</item>-->
+    </style>
+    <style name="BottomSheetTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <!-- Customize colors if needed -->
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+    <style name="CustomBottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:background">@color/dark_background</item> <!-- respects day/night -->
     </style>
 </resources>

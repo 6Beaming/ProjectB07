@@ -36,32 +36,26 @@
         <Button
             android:id="@+id/button_documents_to_pack"
             android:layout_width="380dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:stateListAnimator="@null"
-            android:background="@drawable/brown_but"
-            android:fontFamily="@font/hand_regular"
-            android:textColor="#733C2A"
-            android:textSize="22sp"
-            android:text="@string/documents_to_pack"/>
+            android:layout_marginTop="70dp"
+            android:text="@string/documents_to_pack"
+            style="@style/button_style_emergInfoPage" />
 
         <Button
             android:id="@+id/button_emergency_contacts"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_style_emergInfoPage"
             android:text="@string/emergency_contacts" />
 
         <Button
             android:id="@+id/button_safe_locations"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_style_emergInfoPage"
             android:text="@string/safe_locations" />
 
         <Button
             android:id="@+id/button_medications"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_style_emergInfoPage"
             android:text="@string/medications" />
 
 

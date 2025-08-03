@@ -1,30 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <TextView
-        android:id="@+id/textview_file_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="File name"
+        <Button
+            android:id="@+id/file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_edit_file"
+            android:gravity="start"
+            android:text="File name that might be very long and needs truncating"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/typing"
+            android:textAllCaps="false"
+            android:textColor="@color/browngrey"
+            android:backgroundTint="@android:color/transparent"
+            android:elevation="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:textSize="25dp"
         />
         <ImageButton
             android:id="@+id/button_edit_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_delete_file"
+            android:scaleType="centerCrop"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/edit_button"
             />
         <ImageButton
             android:id="@+id/button_delete_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/beige_garbage"
+            android:scaleType="centerCrop"
+            android:backgroundTint="@android:color/transparent"
             />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/timetext"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/file_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="-12dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginBottom="20dp"
+            android:text="20006 112321:123243:!2313424234277788888198919819"
+            android:textColor="@color/very_light_grey"
+            android:gravity="end"
+            android:textStyle="bold"
+            />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

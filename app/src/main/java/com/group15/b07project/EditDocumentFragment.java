@@ -1,5 +1,6 @@
 package com.group15.b07project;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -12,11 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class EditDocumentFragment extends BottomSheetDialogFragment {
     TextView title_input, description_input;
     Button confirm_button;
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new BottomSheetDialog(requireContext(), R.style.BottomSheetTheme);
+    }
 
     @Override
     public void onStart() {

@@ -2,7 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.B07DemoSummer2024" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/light_primary</item>
+<!--        <item name="android:windowBackground">@drawable/app_background</item>-->
     </style>
 
+    <style name="BottomSheetTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <!-- Customize colors if needed -->
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+    <style name="CustomBottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:background">@color/light_primary</item> <!-- respects day/night -->
+    </style>
     <style name="Theme.B07DemoSummer2024" parent="Base.Theme.B07DemoSummer2024" />
 </resources>

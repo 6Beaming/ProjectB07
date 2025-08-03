@@ -1,9 +1,11 @@
 package com.group15.b07project;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -19,7 +21,12 @@ import java.util.UUID;
 public class FirebaseFileHelper {
 
     public interface UploadCallback {
+        default String getExtension(Uri fileUri){
+            return "";
+        };
+        default void onStart(){};
         void onSuccess();
+        default void onProgress(UploadTask.TaskSnapshot taskSnapshot){};
         void onFailure(Exception e);
     }
 
@@ -38,18 +45,31 @@ public class FirebaseFileHelper {
         String uid="123";          //dummy test
 
         String fileId = UUID.randomUUID().toString();
-        String extension = getFileExtension(fileUri.getPath());
+        String extension = callback.getExtension(fileUri);
+        Log.d("UPLOAD_DEBUG", "Extracted extension: " + extension);
         String storagePath = "Documents" +
                 "/" + fileId + (extension != null ? "." + extension : "");
+        Log.d("UPLOAD_DEBUG", "Final storage path: " + storagePath);
 
         StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(storagePath);
-        UploadTask uploadTask = fileRef.putFile(fileUri);
 
+//        StorageReference testRef = fileRef.child("uploads/test.txt");
+//        byte[] testData = "test".getBytes();
+//        testRef.putBytes(testData)
+//                .addOnSuccessListener(taskSnapshot -> {
+//                    Log.d("TEST_UPLOAD", "Test file uploaded successfully.");
+//                })
+//                .addOnFailureListener(e -> {
+//                    Log.e("TEST_UPLOAD", "Test upload failed: " + e.getMessage());
+//                });
+        UploadTask uploadTask = fileRef.putFile(fileUri);
+        callback.onStart();
         uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
             saveFileMetadata(uid, fileId, title, description, downloadUri.toString(), storagePath);
             if (callback != null) callback.onSuccess();
-        })).addOnFailureListener(e -> {
+        })).addOnProgressListener(callback::onProgress).addOnFailureListener(e -> {
             if (callback != null) callback.onFailure(e);
+            Log.e("UPLOAD_ERROR", "Upload failed: " + e.getMessage(), e);
         });
     }
 
@@ -70,15 +90,32 @@ public class FirebaseFileHelper {
         docRef.setValue(metadata);
     }
 
-    private static String getFileExtension(String path) {
-        if (path == null) return null;
-        int dot = path.lastIndexOf('.');
-        return (dot >= 0 && dot < path.length() - 1) ? path.substring(dot + 1) : null;
+    public static void editFileMetadata(String uid, String fileId, String title, String description){
+        DatabaseReference docRef = FirebaseDatabase.getInstance()
+                .getReference("users").child(uid).child("Documents").child(fileId);
+        docRef.child("title").setValue(title);
+        docRef.child("description").setValue(description);
+    }
+
+    public static String getFileExtensionFromUri(Context context, Uri uri) {
+        if (uri == null) return "";
+
+        ContentResolver contentResolver = context.getContentResolver();
+        String mimeType = contentResolver.getType(uri);
+
+        if (mimeType == null) return "";
+
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        String extension = mime.getExtensionFromMimeType(mimeType);
+
+        Log.d("UPLOAD_DEBUG", "MIME type: " + mimeType + ", extension: " + extension);
+
+        return extension != null ? extension : "";
     }
 
     public static void deleteFile(String userId, String uploadId, String storagePath, UploadCallback callback) {
         StorageReference fileRef = FirebaseStorage.getInstance().getReference(storagePath);
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("uploads").child(userId).child(uploadId);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("Documents").child(uploadId);
 
         fileRef.delete().addOnSuccessListener(aVoid -> {
             dbRef.removeValue()
