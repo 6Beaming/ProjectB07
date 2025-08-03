@@ -151,7 +151,7 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
     @Override
     public void onDownloadClick(int position) {
         String url=files.get(position).getDocsdata().getDownloadUrl();
-        String title=files.get(position).getDocsdata().getTitle()+getFileExtension(files.get(position).getDocsdata().getStoragePath());
+        String title=files.get(position).getDocsdata().getTitle()+"."+getFileExtension(files.get(position).getDocsdata().getStoragePath());
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(title);
         request.setDescription("Please wait...");
