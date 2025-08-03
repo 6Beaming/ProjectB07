@@ -21,7 +21,7 @@
             android:id="@+id/pinFirst"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter PIN"
+            android:hint="Enter a 4- or 6-digit PIN"
             android:inputType="numberPassword"
             android:digits="0123456789"
             android:imeOptions="actionDone"
