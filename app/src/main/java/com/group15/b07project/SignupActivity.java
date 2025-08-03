@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -69,6 +70,8 @@ public class SignupActivity extends AppCompatActivity {
                                         .addOnCompleteListener(verifying -> {
                                             if (verifying.isSuccessful()) {
                                                 Toast.makeText(this, "Verification email sent.", Toast.LENGTH_SHORT).show();
+                                                String uid = user.getUid();
+                                                FirebaseDatabase.getInstance().getReference("users").child(uid).child("newUser").setValue(true);
                                                 //directing to login page(login by password page)
                                                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                                                 startActivity(intent);
