@@ -12,6 +12,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_edit_file"
+            android:layout_marginStart="20dp"
             android:gravity="start"
             android:text="File name that might be very long and needs truncating"
             android:maxLines="1"
