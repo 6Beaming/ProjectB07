@@ -7,6 +7,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
     private LoginContract.Presenter presenter;
@@ -29,7 +33,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void loginSucceed() {
-        startActivity(new Intent(this, MainActivity.class));
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        PinManager pinManager = new PinManager(this);
+        if (pinManager.hasPin(uid)) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else{
+            startActivity(new Intent(this, PinSetupActivity.class));
+        }
         finish();
     }
 
