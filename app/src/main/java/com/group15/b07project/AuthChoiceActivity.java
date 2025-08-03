@@ -15,9 +15,11 @@ public class AuthChoiceActivity extends AppCompatActivity {
 
         findViewById(R.id.buttonByPin).setOnClickListener(v -> {
             startActivity(new Intent(this, PinLoginActivity.class));
+            finish();
         });
         findViewById(R.id.buttonByPwd).setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
         });
     }
 }
