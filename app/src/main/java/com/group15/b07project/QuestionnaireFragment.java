@@ -15,6 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -57,19 +60,14 @@ public class QuestionnaireFragment extends Fragment {
         btnNext = view.findViewById(R.id.btnNext);
         btnSubmit = view.findViewById(R.id.btnSubmit);
 
-        // Handle button clicks
-        // Validate, then navigate
-        // If no all answers on this page is answered -> a red text warning will be inserted below the question
         btnPrev.setOnClickListener(v -> goToPage(previousPage())); // You can go to previous page
                                                                         // even if you haven't answered current page's answer
-
-        // Next: validate, then navigate
+        // If no all answers on this page is answered -> a red text warning will be inserted below the question
         btnNext.setOnClickListener(v -> {
             if (validatePage()) {
                 goToPage(nextPage());
             }
         });
-
         btnSubmit.setOnClickListener(v -> {
             if (validatePage()) {
                 onSubmit();
@@ -77,7 +75,33 @@ public class QuestionnaireFragment extends Fragment {
         });
 
         loadQuestions();   // parse questions.json
-        goToPage(Page.WARMUP);    // show warm‑up questions
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            goToPage(Page.WARMUP);
+            return;
+        }
+
+        String uid = user.getUid();
+        DatabaseReference qRef = FirebaseDatabase
+                .getInstance()
+                .getReference("users")
+                .child(uid)
+                .child("questionnaire");
+
+        qRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override public void onDataChange(@NonNull DataSnapshot snap) {
+                @SuppressWarnings("unchecked")
+                Map<String,Object> saved = (Map<String,Object>) snap.getValue();
+                // get saved answers if any
+                if (saved != null && !saved.isEmpty()) {
+                    answers.putAll(saved);
+                }
+                goToPage(Page.WARMUP);
+            }
+            @Override public void onCancelled(@NonNull DatabaseError error) {
+                goToPage(Page.WARMUP);
+            }
+        });
     }
 
     //Load and parse JSON from assets into qBundle
@@ -443,11 +467,9 @@ public class QuestionnaireFragment extends Fragment {
             Toast.makeText(getContext(),"Login required to submit", Toast.LENGTH_SHORT).show();
             return;   // stop submit
         }
-        String uid = Objects.requireNonNull(user).getUid();  // get UID
+        String uid = user.getUid();  // get UID
         // DB ref
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference rootRef = database.getReference("users");
-        DatabaseReference userRef = rootRef.child(uid);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
         DatabaseReference ref = userRef.child("questionnaire");
         // Write answers
         ref.setValue(answers)
