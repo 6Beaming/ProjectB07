@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null); // This line enables "Back" to return to previous fragment
-                                                // Remove it if you want to use Back to exit the app instead
+        // Note transaction.addToBackStack(null); is removed
         transaction.commit();
     }
 }
