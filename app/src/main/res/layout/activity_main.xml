@@ -39,16 +39,15 @@
         app:layout_constraintTop_toBottomOf="@id/textView"
         app:layout_constraintVertical_bias="1.0" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_emergency_exit"
         android:layout_width="66dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:contentDescription="Emergency Exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0.6"
-        android:text="EXIT"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@android:color/holo_red_dark" />
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
