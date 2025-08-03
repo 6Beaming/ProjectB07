@@ -86,13 +86,4 @@ public class MainActivity extends AppCompatActivity {
                                                 // Remove it if you want to use Back to exit the app instead
         transaction.commit();
     }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-    }
 }
