@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import com.group15.b07project.SupportConnectionFragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSupportConnection(View view) {
-        startActivity(new Intent(this, SupportConnectionActivity.class));
+        loadFragment(new SupportConnectionFragment());
     }
 
     private void loadFragment(Fragment fragment) {
