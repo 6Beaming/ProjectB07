@@ -2,6 +2,8 @@ package com.group15.b07project;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,17 +11,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
+    String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check if disclaimer is shown and accepted.(from SharedPreference)
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        boolean disclaimerShown = prefs.getBoolean(uid + "disclaimer_shown", false);
+        // if not read
+        if (!disclaimerShown) {
+            Intent intent = new Intent(this, DisclaimerActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        // if is read
         setContentView(R.layout.activity_main);
 
         // Emergency Exit button initialization start
@@ -50,12 +67,18 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
         }
+        // show questionnaire -- Need refactoring
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new QuestionnaireFragment())
+                .commit();
     }
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(null); // This line enables "Back" to return to previous fragment
+                                                // Remove it if you want to use Back to exit the app instead
         transaction.commit();
     }
 
@@ -67,6 +90,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
-
 }

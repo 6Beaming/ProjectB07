@@ -9,6 +9,9 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
+gson = "2.10.1"
+firebaseAuth = "23.2.1"
+annotationJvm = "1.9.1"
 materialVersion = "1.12.0"
 
 [libraries]
@@ -20,6 +23,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
 material-v1120 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 
 [plugins]
