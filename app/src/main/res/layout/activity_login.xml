@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editPassword" />
 
     <TextView
-        android:id="@+id/createButton"
+        android:id="@+id/forgotButton"
         android:layout_width="122dp"
         android:layout_height="37dp"
         android:layout_marginTop="24dp"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
     <TextView
-        android:id="@+id/forgotButton"
+        android:id="@+id/createButton"
         android:layout_width="191dp"
         android:layout_height="32dp"
         android:layout_marginTop="24dp"
