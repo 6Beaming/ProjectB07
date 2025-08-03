@@ -1,5 +1,6 @@
 package com.group15.b07project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -68,6 +69,10 @@ public class SignupActivity extends AppCompatActivity {
                                         .addOnCompleteListener(verifying -> {
                                             if (verifying.isSuccessful()) {
                                                 Toast.makeText(this, "Verification email sent.", Toast.LENGTH_SHORT).show();
+                                                //directing to login page(login by password page)
+                                                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                                                startActivity(intent);
+                                                finish();
                                             } else {
                                                 Toast.makeText(this, "Unable to send verification email.", Toast.LENGTH_SHORT).show();
                                             }
