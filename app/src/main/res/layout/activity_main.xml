@@ -39,6 +39,17 @@
         app:layout_constraintTop_toBottomOf="@id/textView"
         app:layout_constraintVertical_bias="1.0" />
 
+    <TextView
+        android:id="@+id/exit_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EXIT"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/fab_emergency_exit"
+        app:layout_constraintBottom_toTopOf="@+id/fab_emergency_exit"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_emergency_exit"
         android:layout_width="wrap_content"
