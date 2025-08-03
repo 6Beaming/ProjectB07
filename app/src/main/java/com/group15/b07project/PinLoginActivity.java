@@ -23,6 +23,7 @@ public class PinLoginActivity extends AppCompatActivity {
         String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         EditText pinInput  = findViewById(R.id.pinInput);
         Button buttonUnlock = findViewById(R.id.buttonUnlock);
+        Button buttonBack = findViewById(R.id.buttonBack);
         PinManager pinManager = new PinManager(this);
 
         buttonUnlock.setOnClickListener(v -> {
@@ -34,6 +35,11 @@ public class PinLoginActivity extends AppCompatActivity {
             } else {
                 pinInput.setError("Wrong PIN");
             }
+        });
+
+        buttonBack.setOnClickListener(v -> {
+            startActivity(new Intent(this, AuthChoiceActivity.class));
+            finish();
         });
     }
 }
