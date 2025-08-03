@@ -106,7 +106,7 @@ public class PlanGenerationFragment extends Fragment {
 
 
     private void loadTips() {
-        String json = loadJSONFromAsset(getContext(), "questions.json");
+        String json = loadJSONFromAsset(requireContext(), "questions.json");
         Gson gson = new Gson();
         QuestionsBundle questions = gson.fromJson(json, QuestionsBundle.class);
 
@@ -114,19 +114,16 @@ public class PlanGenerationFragment extends Fragment {
         Load Specific Answer of this user
          */
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get user
-        assert user != null;
+        if (user == null) return;
         String uid = user.getUid();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("answers")
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users")
                 .child(uid)
                 .child("questionnaire");
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("Firebase", "Snapshot contents: " + new Gson().toJson(snapshot.getValue()));
-
-
                 loadWarmupTips(tips, questions, snapshot); //this also sets value of status
                 loadBranchTips(tips,questions,snapshot);
                 loadFollowupTips(tips,questions,snapshot);
