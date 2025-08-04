@@ -12,19 +12,13 @@ public interface LoginContract {
         FirebaseUser getUser();
     }
     interface View {
-        void loginSucceed();
-        void loginFailed(String message);
-        void navigateToSignUp();
-        void navigateToForgotPassword();
-        void showEmailError(String message);
-        void showPasswordError(String message);
-        void navigateToMain();
-        void navigateToPinSetup();
+        void showErrorMessage(String message);
+        void navigate(Class<?> Activity);
+        void navigateAndFinish(Class<?> Activity);
     }
     interface Presenter {
         void loginClicked(String email, String password);
         void SignUpClicked();
         void ForgotClicked();
-        void onLoginSuccess();
     }
 }

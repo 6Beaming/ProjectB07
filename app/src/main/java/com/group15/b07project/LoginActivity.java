@@ -25,49 +25,25 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             String password = passwordEdited.getText().toString();
             presenter.loginClicked(email, password);
         });
+
         findViewById(R.id.createButton).setOnClickListener(v -> presenter.SignUpClicked());
+
         findViewById(R.id.forgotButton).setOnClickListener(v -> presenter.ForgotClicked());
     }
 
     @Override
-    public void showEmailError(String message) {
+    public void showErrorMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showPasswordError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+    public void navigateAndFinish(Class<?> Activity) { // it's used to redirect to Main/PinSetup
+        startActivity(new Intent(this, Activity));
+        finish();
     }
 
-    @Override
-    public void loginSucceed() {
-        presenter.onLoginSuccess(); // then go to the pages based on PIN status
-    }
-
-    @Override
-    public void loginFailed(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void navigateToMain() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish(); // go to main, then can't go back to log in
-    }
-
-    @Override
-    public void navigateToPinSetup() {
-        startActivity(new Intent(this, PinSetupActivity.class));
-        finish(); // go to PIN setup, then can't go back to log in
-    }
-    @Override
-    public void navigateToSignUp() {
-        startActivity(new Intent(this, SignupActivity.class));
-    }
-
-    @Override
-    public void navigateToForgotPassword() {
-        startActivity(new Intent(this, ResetActivity.class));
+    public void navigate(Class<?> Activity) { // used to redirect to SignUp/Reset
+        startActivity(new Intent(this, Activity));
     }
 
 }
