@@ -16,8 +16,15 @@ import java.util.List;
  * Adapter for displaying each service entry in a card layout.
  */
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.VH> {
-    private final List<ServiceEntry> list;
+    private List<ServiceEntry> list;
 
+    /**
+     * Replace the current data list and refresh the RecyclerView.
+     */
+    public void updateData(List<ServiceEntry> newList) {
+        this.list = newList;
+        notifyDataSetChanged();
+    }
     public ServiceAdapter(List<ServiceEntry> list) {
         this.list = list;
     }
