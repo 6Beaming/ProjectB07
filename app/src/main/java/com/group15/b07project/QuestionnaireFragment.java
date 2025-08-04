@@ -473,10 +473,10 @@ public class QuestionnaireFragment extends Fragment {
         // Write answers
         ref.setValue(answers)
                 .addOnSuccessListener(a -> {
-                    Toast.makeText(getContext(), "Plan saved! Generating your plan...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Saved! Your safety plan is ready.", Toast.LENGTH_SHORT).show();
                     userRef.child("newUser").setValue(false); // now that user has answered the questionnaire, they're no more new user
                                                                         // use this as a way to check if Questionnaire needs to be initiated
-                    loadFragment(new PlanGenerationFragment());
+                    loadFragment(new HomeFragment());
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(getContext(), "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show()
