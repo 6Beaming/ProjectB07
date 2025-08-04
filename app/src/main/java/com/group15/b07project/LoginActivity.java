@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         EditText passwordEdited = findViewById(R.id.editPassword);
 
         findViewById(R.id.loginButton).setOnClickListener(v -> {
-            String email = emailEdited.getText().toString();
+            String email = emailEdited.getText().toString().trim();
             String password = passwordEdited.getText().toString();
             presenter.loginClicked(email, password);
         });
