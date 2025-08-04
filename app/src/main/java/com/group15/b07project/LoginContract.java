@@ -1,5 +1,7 @@
 package com.group15.b07project;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public interface LoginContract {
     interface Model {
         interface loginFinishedListener {
@@ -7,6 +9,7 @@ public interface LoginContract {
             void failed(String message);
         }
         void startLogin(String email, String password, loginFinishedListener listener);
+        FirebaseUser getUser();
     }
     interface View {
         void loginSucceed();

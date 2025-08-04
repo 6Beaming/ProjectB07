@@ -2,10 +2,6 @@ package com.group15.b07project;
 
 import android.content.Context;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Objects;
-
 public class LoginPresenter implements LoginContract.Presenter {
 
     private final LoginContract.View view;
@@ -43,7 +39,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     public void onLoginSuccess() {
         // Presenter decides where to go after successfully log in
         // Now that log in is on success, uid can't be null
-        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        String uid = model.getUser().getUid();
         PinManager pinManager = new PinManager((Context) view);
         if (pinManager.hasPin(uid)) {
             view.navigateToMain();
