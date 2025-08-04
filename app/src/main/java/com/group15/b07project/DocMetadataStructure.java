@@ -2,7 +2,7 @@ package com.group15.b07project;
 
 public class DocMetadataStructure {
     String docId;
-    DocsdataStructure docsdata;
+    DocsDataStructure docsData;
 
     public String getDocId() {
         return docId;
@@ -12,16 +12,16 @@ public class DocMetadataStructure {
         this.docId = docId;
     }
 
-    public DocsdataStructure getDocsdata() {
-        return docsdata;
+    public DocsDataStructure getDocsData() {
+        return docsData;
     }
 
-    public void setDocsdata(DocsdataStructure docsdata) {
-        this.docsdata = docsdata;
+    public void setDocsData(DocsDataStructure docsData) {
+        this.docsData = docsData;
     }
 
-    public DocMetadataStructure(String docId, DocsdataStructure docsdata) {
+    public DocMetadataStructure(String docId, DocsDataStructure docsData) {
         this.docId = docId;
-        this.docsdata = docsdata;
+        this.docsData = docsData;
     }
 }

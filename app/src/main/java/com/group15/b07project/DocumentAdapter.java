@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
-    private List<DocMetadataStructure> files;
-    private OnFileItemClickListener listener;
+    private final List<DocMetadataStructure> files;
+    private final OnFileItemClickListener listener;
 
     public interface OnFileItemClickListener {
         void onDownloadClick(int position);
@@ -38,9 +38,9 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     @Override
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
-        holder.fileName.setText(files.get(position).getDocsdata().getTitle());
-        holder.time.setText(files.get(position).getDocsdata().getUploadDate());
-        Log.d("ADAPTER_BIND", "Binding item at position " + position + ": title = " + files.get(position).getDocsdata().getTitle());
+        holder.fileName.setText(files.get(position).getDocsData().getTitle());
+        holder.time.setText(files.get(position).getDocsData().getUploadDate());
+        Log.d("ADAPTER_BIND", "Binding item at position " + position + ": title = " + files.get(position).getDocsData().getTitle());
     }
 
     @Override

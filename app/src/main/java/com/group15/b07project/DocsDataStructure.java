@@ -1,6 +1,6 @@
 package com.group15.b07project;
 
-public class DocsdataStructure {
+public class DocsDataStructure {
     String title,description,uploadDate;
     String downloadUrl,storagePath;
 

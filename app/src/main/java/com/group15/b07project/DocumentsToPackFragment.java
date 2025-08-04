@@ -1,18 +1,13 @@
 package com.group15.b07project;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 import static com.group15.b07project.FirebaseFileHelper.*;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.group15.b07project.FirebaseFileHelper.*;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,17 +23,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,21 +39,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class DocumentsToPackFragment extends Fragment implements DocumentAdapter.OnFileItemClickListener {
-    private RecyclerView recyclerView_docs;
     private List<DocMetadataStructure> files;
-    private ImageButton back_to_emergency_info;
-    private FloatingActionButton fab_add_file;
     private ProgressBar progressBar;
-//    private long downloadId;
-//    private BroadcastReceiver onDownloadComplete;
     private DocumentAdapter documentAdapter;
     private String uid;
     private ActivityResultLauncher<Intent> filePickerLauncher;
@@ -79,79 +62,59 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
             FirebaseApp.initializeApp(requireContext());
         }
 
-        uid="123";
+        uid = "123";
 //        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 //        if (user!=null) uid=user.getUid();
 
-        recyclerView_docs=view.findViewById(R.id.recyclerview_docs);
-        fab_add_file=view.findViewById(R.id.fab_add_docs);
-        back_to_emergency_info=view.findViewById(R.id.button_back_to_emegencyInfo);
-        progressBar=view.findViewById(R.id.upload_progress_bar);
+        RecyclerView recyclerView_docs = view.findViewById(R.id.recyclerview_docs);
+        FloatingActionButton fab_add_file = view.findViewById(R.id.fab_add_docs);
+        ImageButton back_to_emergency_info = view.findViewById(R.id.button_back_to_emegencyInfo);
+        progressBar = view.findViewById(R.id.upload_progress_bar);
 
         recyclerView_docs.setLayoutManager(new LinearLayoutManager(getContext()));
-        files= new ArrayList<>();
-        documentAdapter=new DocumentAdapter(files,this);
+        files = new ArrayList<>();
+        documentAdapter = new DocumentAdapter(files, this);
         recyclerView_docs.setAdapter(documentAdapter);
 
         updateFilesList(uid);
 
-        filePickerLauncher=registerForActivityResult(
+        filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                result->{
-                    if (result.getResultCode()== MainActivity.RESULT_OK && result.getData()!=null){
-                        Toast.makeText(getContext(),"File selected",Toast.LENGTH_SHORT).show();
-                        Uri fileUri=result.getData().getData();
-                        if (fileUri!=null){
-                                        //ask for title and description
+                result -> {
+                    if (result.getResultCode() == MainActivity.RESULT_OK && result.getData() != null) {
+                        Toast.makeText(getContext(), "File selected", Toast.LENGTH_SHORT).show();
+                        Uri fileUri = result.getData().getData();
+                        if (fileUri != null) {
+                            //ask for title and description
                             getChildFragmentManager().setFragmentResultListener(
                                     "metadata_request_key",
                                     this,
-                                    new FragmentResultListener() {
-                                        @Override
-                                        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                                            String title = result.getString("title");
-                                            String description = result.getString("description");
-                                            uploadFileToDatabase(fileUri, title,description);
-                                        }
+                                    (requestKey, result1) -> {
+                                        String title = result1.getString("title");
+                                        String description = result1.getString("description");
+                                        uploadFileToDatabase(fileUri, title, description);
                                     }
                             );
-                            showMetadataBottomSheet(null,null);
+                            showMetadataBottomSheet(null, null);
                             //start uploading
                         }
                     }
                 }
         );
-        fab_add_file.setOnClickListener(new View.OnClickListener() {    //user choose file, then set title, description
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                filePickerLauncher.launch(intent);
-            }
+        //user choose file, then set title, description
+        fab_add_file.setOnClickListener(view1 -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            filePickerLauncher.launch(intent);
         });
-        back_to_emergency_info.setOnClickListener(v->loadFragment(new StorageOfEmergencyInfoFragment()));
-//        onDownloadComplete = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-//                if (id == downloadId) {
-//                    Toast.makeText(context, "Download complete!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        };
-//        ContextCompat.registerReceiver(requireContext(), onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), ContextCompat.RECEIVER_NOT_EXPORTED);
+        back_to_emergency_info.setOnClickListener(v -> loadFragment(new StorageOfEmergencyInfoFragment()));
     }
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        requireContext().unregisterReceiver(onDownloadComplete);
-//    }
 
 
     @Override
     public void onDownloadClick(int position) {
-        String url=files.get(position).getDocsdata().getDownloadUrl();
-        String title=files.get(position).getDocsdata().getTitle()+"."+getFileExtension(files.get(position).getDocsdata().getStoragePath());
+        String url=files.get(position).getDocsData().getDownloadUrl();
+        String title=files.get(position).getDocsData().getTitle()+"."+getFileExtension(files.get(position).getDocsData().getStoragePath());
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(title);
         request.setDescription("Please wait...");
@@ -167,19 +130,16 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
     @Override
     public void onEditClick(int position) {
         String fileId=files.get(position).getDocId();
-        String title_old=files.get(position).getDocsdata().getTitle();
-        String description_old=files.get(position).getDocsdata().getDescription();
+        String title_old=files.get(position).getDocsData().getTitle();
+        String description_old=files.get(position).getDocsData().getDescription();
         getChildFragmentManager().setFragmentResultListener(
                 "metadata_request_key",
                 this,
-                new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        String title = result.getString("title");
-                        String description = result.getString("description");
-                        editFileMetadata(uid,fileId,title,description);
-                        updateFilesList(uid);
-                    }
+                (requestKey, result) -> {
+                    String title = result.getString("title");
+                    String description = result.getString("description");
+                    editFileMetadata(uid,fileId,title,description);
+                    updateFilesList(uid);
                 }
         );
         showMetadataBottomSheet(title_old,description_old);
@@ -188,8 +148,8 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
     @Override
     public void onDeleteClick(int position) {
         String fileId=files.get(position).getDocId();
-        String storagePath=files.get(position).getDocsdata().getStoragePath();
-        String title_time=files.get(position).getDocsdata().getTitle()+files.get(position).getDocsdata().getUploadDate();
+        String storagePath=files.get(position).getDocsData().getStoragePath();
+        String title_time=files.get(position).getDocsData().getTitle()+files.get(position).getDocsData().getUploadDate();
         deleteFile(uid, fileId, storagePath, new UploadCallback(){
             @Override
             public void onSuccess() {
@@ -210,48 +170,42 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
         sheet.show(getChildFragmentManager(), "docSheet");
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateFilesList(String uid){
         files.clear();
 
-        DatabaseReference docsref=FirebaseDatabase.getInstance().getReference("users").child(uid).child("Documents");
-        docsref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference docsRef=FirebaseDatabase.getInstance().getReference("users").child(uid).child("Documents");
+        docsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot docsnapshot:
+                for (DataSnapshot docsSnapshot:
                      snapshot.getChildren()) {
-                    Log.d("FILES_DEBUG", "Found docId: " + docsnapshot.getKey());
-                    String docId=docsnapshot.getKey();
-                    DocsdataStructure docsdataStructure=docsnapshot.getValue(DocsdataStructure.class);
+                    Log.d("FILES_DEBUG", "Found docId: " + docsSnapshot.getKey());
+                    String docId=docsSnapshot.getKey();
+                    DocsDataStructure docsdataStructure=docsSnapshot.getValue(DocsDataStructure.class);
                     DocMetadataStructure docMetadataStructure=new DocMetadataStructure(docId,docsdataStructure);
-//                    StorageReference storageReference=FirebaseStorage.getInstance().getReference(docsdataStructure.getStoragePath());
-//                    storageReference.getDownloadUrl().addOnSuccessListener(v-> {
-//                        files.add(docMetadataStructure);
-//                    }).addOnFailureListener(v->{
-//                            Log.v("updateList missing node","remove the node");
-//                            docsref.child(docId).removeValue();}
-//                    );
 
                     files.add(docMetadataStructure);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                    Collections.sort(files, new Comparator<DocMetadataStructure>() {
-                        @Override
-                        public int compare(DocMetadataStructure d1, DocMetadataStructure d2) {
-                            try {
-                                Date date1 = sdf.parse(d1.getDocsdata().getUploadDate());
-                                Date date2 = sdf.parse(d2.getDocsdata().getUploadDate());
+                    files.sort((d1, d2) -> {
+                        try {
+                            Date date1 = sdf.parse(d1.getDocsData().getUploadDate());
+                            Date date2 = sdf.parse(d2.getDocsData().getUploadDate());
+                            if (date1 != null && date2 != null)
                                 return date2.compareTo(date1); // Descending: newest first
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                return 0; // fallback if parsing fails
-                            }
+                        } catch (ParseException e) {
+                            Log.e("UPDATE_FILES_LIST_ERROR", "comparing upload date failed", e);
+                            return 0; // fallback if parsing fails
                         }
+                        return 0;
                     });
                     Log.d("FILES_DEBUG", "Total files loaded: " + files.size());
 
                     for (int i = 0; i < files.size(); i++) {
                         DocMetadataStructure doc = files.get(i);
-                        String title = doc.getDocsdata().getTitle();
-                        String uploadDate = doc.getDocsdata().getUploadDate();
+                        String title = doc.getDocsData().getTitle();
+                        String uploadDate = doc.getDocsData().getUploadDate();
                         Log.d("FILES_DEBUG", "File " + i + ": title=" + title + ", date=" + uploadDate);
                     }
 
