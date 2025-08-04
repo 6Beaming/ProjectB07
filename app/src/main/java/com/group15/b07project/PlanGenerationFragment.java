@@ -48,18 +48,6 @@ public class PlanGenerationFragment extends Fragment {
     public PlanGenerationFragment() {
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Intercept the device Back button:
-        requireActivity().getOnBackPressedDispatcher().addCallback(this,
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        loadFragment(new HomeFragment());
-                    }
-                });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
