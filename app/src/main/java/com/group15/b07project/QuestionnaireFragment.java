@@ -456,7 +456,6 @@ public class QuestionnaireFragment extends Fragment {
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null); // This enables "Back" to return to this fragment
         transaction.commit();
     }
 
