@@ -7,10 +7,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Objects;
-
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
     private LoginContract.Presenter presenter;
@@ -19,20 +15,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         presenter = new LoginPresenter(this);
         EditText emailEdited = findViewById(R.id.editEmail);
         EditText passwordEdited = findViewById(R.id.editPassword);
+
         findViewById(R.id.loginButton).setOnClickListener(v -> {
             String email = emailEdited.getText().toString();
             String password = passwordEdited.getText().toString();
-            if (email.isEmpty()) {
-                Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (password.isEmpty()) {
-                Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-                return;
-            }
             presenter.loginClicked(email, password);
         });
         findViewById(R.id.createButton).setOnClickListener(v -> presenter.SignUpClicked());
@@ -40,15 +30,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
+    public void showEmailError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPasswordError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void loginSucceed() {
-        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        PinManager pinManager = new PinManager(this);
-        if (pinManager.hasPin(uid)) {
-            startActivity(new Intent(this, MainActivity.class));
-        } else{
-            startActivity(new Intent(this, PinSetupActivity.class));
-        }
-        finish();
+        presenter.onLoginSuccess(); // then go to the pages based on PIN status
     }
 
     @Override
@@ -56,6 +49,17 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void navigateToMain() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish(); // go to main, then can't go back to log in
+    }
+
+    @Override
+    public void navigateToPinSetup() {
+        startActivity(new Intent(this, PinSetupActivity.class));
+        finish(); // go to PIN setup, then can't go back to log in
+    }
     @Override
     public void navigateToSignUp() {
         startActivity(new Intent(this, SignupActivity.class));
@@ -65,6 +69,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void navigateToForgotPassword() {
         startActivity(new Intent(this, ResetActivity.class));
     }
-
 
 }

@@ -13,10 +13,15 @@ public interface LoginContract {
         void loginFailed(String message);
         void navigateToSignUp();
         void navigateToForgotPassword();
+        void showEmailError(String message);
+        void showPasswordError(String message);
+        void navigateToMain();
+        void navigateToPinSetup();
     }
     interface Presenter {
         void loginClicked(String email, String password);
         void SignUpClicked();
         void ForgotClicked();
+        void onLoginSuccess();
     }
 }
