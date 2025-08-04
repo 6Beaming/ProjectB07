@@ -34,10 +34,10 @@ public class ResetActivity extends AppCompatActivity {
             auth.sendPasswordResetEmail(emailed)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(this, "Reset email sent. Please check your inbox.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Reset email sent.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(this, "Failed to send the reset email, please check if the account exists or try again", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Failed to send the reset email", Toast.LENGTH_LONG).show();
                         }
                     });
         });
