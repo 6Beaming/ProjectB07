@@ -24,23 +24,14 @@ public class DocsDataStructure {
         return uploadDate;
     }
 
-    public void setUploadDate(String uploadDate) {
-        this.uploadDate = uploadDate;
-    }
 
     public String getDownloadUrl() {
         return downloadUrl;
     }
 
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-    }
 
     public String getStoragePath() {
         return storagePath;
     }
 
-    public void setStoragePath(String storagePath) {
-        this.storagePath = storagePath;
-    }
 }
