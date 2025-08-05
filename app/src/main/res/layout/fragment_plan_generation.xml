@@ -21,7 +21,9 @@
         app:layout_constraintBottom_toTopOf="@id/recyclerViewTips"
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/plan_header"
-        android:textSize="38sp"
+        android:textColor="@color/browngrey"
+        android:fontFamily="@font/hand_regular"
+        android:textSize="31sp"
         />
 
 
@@ -37,11 +39,14 @@
 
     <Button
         android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:textAllCaps="false"
+        android:layout_margin="20dp"
         app:layout_constraintTop_toBottomOf="@id/recyclerViewTips"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        style="@style/simple_button"
         android:text="@string/homeButton"
         />
 

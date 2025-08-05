@@ -7,6 +7,14 @@
     android:padding="24dp">
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sun_symbol"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:alpha="0.19"
+        />
     <TextView
         android:id="@+id/disclaimer_text"
         android:layout_width="wrap_content"

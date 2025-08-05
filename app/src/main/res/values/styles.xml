@@ -39,4 +39,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:minHeight">48dp</item>
     </style>
+
+    <style name="edit_text_color">
+        <item name="android:textColor">@color/browngrey</item>
+        <item name="android:textColorHint">@color/light_grey</item>
+    </style>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +34,7 @@ public class EmergencyContactsFragment extends Fragment {
     private EmergencyContactsAdapter adapter;
     // Reference to Firebase node for storing emergency contacts
     private DatabaseReference ref;
-
+    private int brown_grey;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,6 +60,7 @@ public class EmergencyContactsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         fabAdd = view.findViewById(R.id.fab_add);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        brown_grey = ContextCompat.getColor(requireContext(), R.color.browngrey);
 
         // Prepare data list and adapter with edit/delete callbacks
         items = new ArrayList<>();
@@ -151,8 +153,11 @@ public class EmergencyContactsFragment extends Fragment {
         EditText etRel   = v.findViewById(R.id.etRelationship);
         EditText etPhone = v.findViewById(R.id.etPhone);
         etName.setText(c.getName());
+        etName.setTextColor(brown_grey);
         etRel.setText(c.getRelationship());
+        etRel.setTextColor(brown_grey);
         etPhone.setText(c.getPhone());
+        etPhone.setTextColor(brown_grey);
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Edit Emergency Contact")

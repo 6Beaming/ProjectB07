@@ -54,6 +54,7 @@
         android:layout_marginTop="76dp"
         android:hint="Email Address"
         android:textSize="20sp"
+        style="@style/edit_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reminder" />

@@ -47,10 +47,9 @@
                 <!-- Leftmost: Previous -->
                 <Button
                     android:id="@+id/btnPrev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/previous"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    style="@style/simple_button"/>
 
                 <!-- Spacer takes up all remaining space -->
                 <View
@@ -61,16 +60,14 @@
                 <!-- Rightmost: Next -->
                 <Button
                     android:id="@+id/btnNext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/next" />
+                    android:text="@string/next"
+                    style="@style/simple_button"/>
 
                 <!-- Rightmost (only visible on last page): Submit -->
                 <Button
                     android:id="@+id/btnSubmit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/submit"
+                    style="@style/simple_button"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>

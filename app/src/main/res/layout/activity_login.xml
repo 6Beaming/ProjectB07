@@ -24,7 +24,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:fontFamily="@font/hand_regular"
-        android:textColor="@color/red_brown"
+        android:textColor="@color/browngrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -39,7 +39,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/theme" />
+        app:layout_constraintTop_toBottomOf="@+id/theme"
+        style="@style/edit_text_color" />
 
     <EditText
         android:id="@+id/editPassword"
@@ -49,6 +50,7 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textSize="20sp"
+        style="@style/edit_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmail" />
@@ -70,6 +72,7 @@
         android:layout_height="37dp"
         android:layout_marginTop="24dp"
         android:text="@string/forgot_password"
+        android:textColor="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +84,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="24dp"
         android:text="@string/don_t_have_account_create_an_account"
+        android:textColor="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.89"
         app:layout_constraintStart_toStartOf="parent"

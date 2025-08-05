@@ -76,20 +76,20 @@ public class PlanGenerationFragment extends Fragment {
     }
 
     private void addOpening(List<String> tips){
-        tips.add("Based on the answers you shared with us, " +
-                "we have made a personalized safety plan for you. Your situation is unique, " +
-                "and your safety matters to us. We want to provide support and guidance on any difficulty you may be facing.");
-        tips.add("Think of this as a living guide—something you can return to, update, or change as your needs shift.");
-        tips.add("You’re in control of what is saved or removed. Nothing is stored unless you choose to.");
-        tips.add("We understand that safety planning can feel overwhelming, especially during uncertain times. This guide is here to support you, gently and privately.");
+//        tips.add("Based on the answers you shared with us, " +
+//                "we have made a personalized safety plan for you. Your situation is unique, " +
+//                "and your safety matters to us. We want to provide support and guidance on any difficulty you may be facing.");
+//        tips.add("Think of this as a living guide—something you can return to, update, or change as your needs shift.");
+//        tips.add("You’re in control of what is saved or removed. Nothing is stored unless you choose to.");
+//        tips.add("We understand that safety planning can feel overwhelming, especially during uncertain times. This guide is here to support you, gently and privately.");
 
     }
 
     private void addClosing(List<String> tips){
         tips.add("Revisit this plan as often as you need. Small steps matter, and even reviewing your plan is an act of care.");
-        tips.add("You're not alone. Help is always available, and your safety and autonomy come first.");
-        tips.add("Take care of yourself, and remember: you’re the expert of your own life.");
-        tips.add("Please remember: this plan is not a substitute for emergency services. If you’re ever in immediate danger, call 911 or your local emergency number.");
+//        tips.add("You're not alone. Help is always available, and your safety and autonomy come first.");
+//        tips.add("Take care of yourself, and remember: you’re the expert of your own life.");
+//        tips.add("Please remember: this plan is not a substitute for emergency services. If you’re ever in immediate danger, call 911 or your local emergency number.");
 
     }
 

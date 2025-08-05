@@ -10,6 +10,7 @@ import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -44,6 +45,8 @@ public class QuestionnaireFragment extends Fragment {
     private final Map<String, Object> answers = new HashMap<>(); // key = question ID;
                                                                 // value = String (single-choice, dropdown, date, or text answers)
                                                                 //          or List<String> (multiple-choice answers)
+    private int brown_grey;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View view;
@@ -59,7 +62,7 @@ public class QuestionnaireFragment extends Fragment {
         btnPrev = view.findViewById(R.id.btnPrev);
         btnNext = view.findViewById(R.id.btnNext);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-
+        brown_grey = ContextCompat.getColor(requireContext(), R.color.browngrey);
         btnPrev.setOnClickListener(v -> goToPage(previousPage())); // You can go to previous page
                                                                         // even if you haven't answered current page's answer
         // If no all answers on this page is answered -> a red text warning will be inserted below the question
@@ -287,6 +290,7 @@ public class QuestionnaireFragment extends Fragment {
         // Add the question label
         TextView tv = new TextView(getContext());
         tv.setText(q.text);
+        tv.setTextColor(brown_grey);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f); // set question font size to 18sp
         wrap.addView(tv);
         // add input view
@@ -316,6 +320,7 @@ public class QuestionnaireFragment extends Fragment {
         for (String opt : q.options) {
             RadioButton rb = new RadioButton(getContext());
             rb.setText(opt);
+            rb.setTextColor(brown_grey);
             rb.setId(View.generateViewId()); // unique ID per button!!!
             rb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
 
@@ -343,6 +348,8 @@ public class QuestionnaireFragment extends Fragment {
         if ("single+text".equals(q.type)) {
             EditText et = new EditText(getContext());
             et.setHint(q.followupTextPrompt);
+            et.setHintTextColor(brown_grey);
+            et.setTextColor(brown_grey);
             et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
             et.setTag(q.id + "_text");
 
@@ -350,6 +357,8 @@ public class QuestionnaireFragment extends Fragment {
             Object prev = answers.get(q.id + "_text");
             if (prev != null) {
                 et.setText(prev.toString());
+                et.setHintTextColor(brown_grey);
+                et.setTextColor(brown_grey);
             }
             // Show the text block only if the answer is "Yes"
             et.setVisibility("Yes".equals(saved) ? View.VISIBLE : View.GONE);
@@ -370,6 +379,7 @@ public class QuestionnaireFragment extends Fragment {
         for (String opt : q.options) {
             CheckBox cb = new CheckBox(getContext());
             cb.setText(opt);
+            cb.setTextColor(brown_grey);
             cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set font size to 16 sp
             if (saved != null && saved.contains(opt)) cb.setChecked(true);
             cb.setOnCheckedChangeListener((b,checked) -> {
@@ -399,7 +409,7 @@ public class QuestionnaireFragment extends Fragment {
         opts.add("Select a city");  // prompt as last item
 
         // Create an ArrayAdapter that uses your custom layouts
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, opts) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), R.layout.custom_questionnaire_spinner, opts) {
             @Override
             public int getCount() { // tells the spinner how many items are in the dropdown list
                 // Hide the last item(the prompt) from the dropdown view
@@ -408,7 +418,7 @@ public class QuestionnaireFragment extends Fragment {
                                             // but the last item is not gone in opts
             }
         };
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // dropdown layout
+        adapter.setDropDownViewResource(R.layout.custom_questionnaire_spinner); // dropdown layout
         spinner.setAdapter(adapter);
 
         if (index != -1) // saved answers -> show the saved answer in the spinner
@@ -440,6 +450,8 @@ public class QuestionnaireFragment extends Fragment {
     private EditText createText(Question q) {
         EditText et = new EditText(getContext());
         et.setHint(q.followupTextPrompt);
+        et.setTextColor(brown_grey);
+        et.setHintTextColor(brown_grey);
         et.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f); // set prompt font size to 16sp
         if ("date".equals(q.type))
             et.setInputType(InputType.TYPE_CLASS_DATETIME);  // change the keyboard layout to digits

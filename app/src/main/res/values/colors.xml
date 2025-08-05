@@ -8,4 +8,5 @@
     <color name="light_primary">#FFF6E9</color>
     <color name="red_brown">#733C2A</color>
     <color name="dark_background">#262626</color>
+    <color name="custom_light">#FFFAF3</color>
 </resources>

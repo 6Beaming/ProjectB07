@@ -45,6 +45,8 @@
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:padding="12dp"
+            android:textColor="@color/browngrey"
+            android:textColorHint="@color/light_grey"
             android:layout_marginBottom="24dp" />
 
         <Button
