@@ -6,5 +6,6 @@
     <color name="browngrey">#DA421E13</color>
     <color name="very_light_grey">#4D000000</color>
     <color name="light_primary">#FFF6E9</color>
+    <color name="red_brown">#733C2A</color>
     <color name="dark_background">#262626</color>
 </resources>

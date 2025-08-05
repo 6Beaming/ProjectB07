@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -37,12 +39,11 @@ public class FirebaseFileHelper {
             return;
         }
 
-//        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
-//        if (user==null){
-//            return;
-//        }
-//        String uid=user.getUid();
-        String uid="123";          //dummy test
+        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+        if (user==null){
+            return;
+        }
+        String uid=user.getUid();
 
         String fileId = UUID.randomUUID().toString();
         String extension = callback.getExtension(fileUri);

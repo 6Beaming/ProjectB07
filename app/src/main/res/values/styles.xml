@@ -10,6 +10,7 @@
     <item name="android:textSize">22sp</item>
 </style>
 
+
     <style name="button_style_emergInfoPage">
         <item name="android:layout_height">70dp</item>
         <item name="android:layout_marginTop">17dp</item>
@@ -27,5 +28,15 @@
         <item name="android:textSize">30dp</item>
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:fontFamily">@font/hand_regular</item>
+    </style>
+
+    <style name="simple_button">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/brown_but</item>
+        <item name="android:fontFamily">@font/hand_regular</item>
+        <item name="android:textColor">@color/red_brown</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">48dp</item>
     </style>
 </resources>

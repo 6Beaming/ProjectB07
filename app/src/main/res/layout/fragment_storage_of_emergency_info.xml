@@ -37,6 +37,7 @@
             android:id="@+id/button_documents_to_pack"
             android:layout_width="380dp"
             android:layout_marginTop="70dp"
+            android:textSize="20sp"
             android:text="@string/documents_to_pack"
             style="@style/button_style_emergInfoPage" />
 
@@ -44,6 +45,7 @@
             android:id="@+id/button_emergency_contacts"
             android:layout_width="wrap_content"
             style="@style/button_style_emergInfoPage"
+            android:textSize="20sp"
             android:text="@string/emergency_contacts" />
 
         <Button

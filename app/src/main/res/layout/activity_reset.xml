@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".ResetActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sun_symbol"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:alpha="0.19"
+        />
     <TextView
         android:id="@+id/theme"
         android:layout_width="match_parent"
@@ -16,6 +24,7 @@
         android:textAlignment="center"
         android:textSize="50sp"
         android:textStyle="bold"
+        android:textColor="@color/browngrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -26,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="@color/browngrey"
         android:text="Please note that you can only reset your password when you have an account."
         android:textAlignment="center"
         android:textSize="18sp"
@@ -54,6 +64,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="76dp"
         android:text="Send the reset email"
+        style="@style/simple_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"

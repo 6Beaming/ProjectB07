@@ -2,6 +2,8 @@ package com.group15.b07project;
 
 import static com.group15.b07project.FirebaseFileHelper.*;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.UploadTask;
 
 import android.annotation.SuppressLint;
@@ -62,9 +64,9 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
             FirebaseApp.initializeApp(requireContext());
         }
 
-        uid = "123";
-//        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-//        if (user!=null) uid=user.getUid();
+
+        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+        if (user!=null) uid=user.getUid();
 
         RecyclerView recyclerView_docs = view.findViewById(R.id.recyclerview_docs);
         FloatingActionButton fab_add_file = view.findViewById(R.id.fab_add_docs);

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
-    private List<String> tips;
+    private final List<String> tips;
 
     public TipAdapter(List<String> tips) {
         this.tips = tips;

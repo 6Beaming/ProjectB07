@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".QuestionnaireFragment">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sun_symbol"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:alpha="0.19"
+        />
     <!-- Scrollable questions area -->
     <ScrollView
         android:id="@+id/scroll"

@@ -6,14 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sun_symbol"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:alpha="0.19"
+        />
     <Button
         android:id="@+id/buttonQuestionnaire"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:textSize="19sp"
         android:text="Edit Questionnaire"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="120dp"
+        style="@style/button_style_emergInfoPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,11 +32,12 @@
     <Button
         android:id="@+id/buttonPlan"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:text="View Safety Plan"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+        style="@style/button_style_emergInfoPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonQuestionnaire"
@@ -35,12 +45,13 @@
 
     <Button
         android:id="@+id/buttonEmergencyInfo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:textSize="16dp"
         android:text="Emergency information"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+        style="@style/button_style_emergInfoPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonPlan"
@@ -49,22 +60,23 @@
     <Button
         android:id="@+id/buttonSupport"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:text="Support Services"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginTop="50dp"
+        android:textSize="19sp"
+        style="@style/button_style_emergInfoPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonEmergencyInfo"/>
 
     <Button
         android:id="@+id/buttonLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
         android:text="Log out"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="32dp"
+        style="@style/simple_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
