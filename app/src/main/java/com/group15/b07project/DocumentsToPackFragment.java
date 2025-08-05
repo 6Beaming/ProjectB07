@@ -44,7 +44,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * Fragment for managing and displaying documents that users need to pack.
+ * Allows users to upload, edit, delete, and download files stored in Firebase.
+ */
 public class DocumentsToPackFragment extends Fragment implements DocumentAdapter.OnFileItemClickListener {
     private List<DocMetadataStructure> files;
     private ProgressBar progressBar;
@@ -80,6 +83,7 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
 
         updateFilesList(uid);
 
+        // Launches file picker and handles metadata input
         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -166,12 +170,19 @@ public class DocumentsToPackFragment extends Fragment implements DocumentAdapter
         });
 
     }
-
+    /**
+     * Displays bottom sheet for entering or editing document metadata.
+     * @param title Existing title (if editing), or null.
+     * @param description Existing description (if editing), or null.
+     */
     private void showMetadataBottomSheet(String title,String description) {        //load sheet for adding file
         EditDocumentFragment sheet = EditDocumentFragment.newInstance(title, description);
         sheet.show(getChildFragmentManager(), "docSheet");
     }
-
+    /**
+     * Fetches updated list of documents from Firebase and refreshes the adapter.
+     * @param uid User ID whose documents are being fetched.
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void updateFilesList(String uid){
         files.clear();
