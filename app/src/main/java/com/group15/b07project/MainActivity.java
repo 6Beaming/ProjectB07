@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +64,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        OnBackPressedCallback backCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment current = fm.findFragmentById(R.id.fragment_container);
+
+                if (current instanceof HomeFragment) {
+                    // already at Home -> exit
+                    finish();
+                }
+                else {
+                    // pop one entry
+                    if (fm.getBackStackEntryCount() > 0) {
+                        fm.popBackStack();
+                    } else {
+                        // no fragments left ->  exit
+                        finish();
+                    }
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, backCallback);
     }
 
     private void setupEmergencyExitButton() {

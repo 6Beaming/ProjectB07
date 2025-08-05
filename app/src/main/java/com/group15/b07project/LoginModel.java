@@ -6,12 +6,23 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginModel implements LoginContract.Model {
+
+    private final FirebaseUser user;
+
+    public LoginModel(){
+        user = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    @Override
+    public FirebaseUser getUser() {
+        return user;
+    }
+
     @Override
     public void startLogin(String email, String password, loginFinishedListener listener) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if (user != null && user.isEmailVerified()) {
                             listener.succeed();
                         } else {

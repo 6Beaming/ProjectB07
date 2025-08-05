@@ -33,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
         signingUp = findViewById(R.id.btn_signup);
 
         signingUp.setOnClickListener(v -> {
-            String email = editedEmail.getText().toString();
+            String email = editedEmail.getText().toString().trim();
             String password = editedPassword.getText().toString();
             String confirmed = confirmedPassword.getText().toString();
 
