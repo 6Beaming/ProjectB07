@@ -12,6 +12,7 @@ firebaseDatabase = "21.0.0"
 gson = "2.10.1"
 firebaseAuth = "23.2.1"
 annotationJvm = "1.9.1"
+materialVersion = "1.12.0"
 firebaseFirestore = "26.0.0"
 firebaseStorage = "22.0.0"
 
@@ -27,6 +28,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
+material-v1120 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 

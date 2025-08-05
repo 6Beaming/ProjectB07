@@ -16,10 +16,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Objects;
+
 public class EditDocumentFragment extends BottomSheetDialogFragment {
     TextView title_input, description_input;
     Button confirm_button;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new BottomSheetDialog(requireContext(), R.style.BottomSheetTheme);
@@ -29,7 +32,7 @@ public class EditDocumentFragment extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
 
-        View bottomSheet = getDialog().findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        View bottomSheet = Objects.requireNonNull(getDialog()).findViewById(com.google.android.material.R.id.design_bottom_sheet);
         if (bottomSheet != null) {
             BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(bottomSheet);
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED); // Expand by default
@@ -44,17 +47,18 @@ public class EditDocumentFragment extends BottomSheetDialogFragment {
             bottomSheet.setLayoutParams(layoutParams);
         }
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_edit_document,container,false);
+        return inflater.inflate(R.layout.fragment_edit_document, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        title_input=view.findViewById(R.id.editText_title);
-        description_input=view.findViewById(R.id.editText_description);
-        confirm_button=view.findViewById(R.id.button_confirm_tile_description);
+        title_input = view.findViewById(R.id.editText_title);
+        description_input = view.findViewById(R.id.editText_description);
+        confirm_button = view.findViewById(R.id.button_confirm_tile_description);
 
         Bundle args = getArguments();
         if (args != null) {
@@ -94,7 +98,4 @@ public class EditDocumentFragment extends BottomSheetDialogFragment {
         return fragment;
     }
 
-    public interface MetadataListener {
-        void onMetadataEntered(String title, String description);
-    }
 }

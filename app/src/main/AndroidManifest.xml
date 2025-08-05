@@ -13,36 +13,41 @@
         android:theme="@style/Theme.B07DemoSummer2024"
         tools:targetApi="31">
         <activity
-            android:name=".ItemAdapater"
-            android:exported="false" />
-        <activity
-            android:name=".Item"
-            android:exported="false" />
-        <activity
-            android:name=".Item2"
-            android:exported="false" />
-        <activity
-            android:name=".SpinnerFragment"
-            android:exported="false" />
-        <activity
-            android:name=".RecyclerViewFragment"
-            android:exported="false" />
-        <activity
-            android:name=".HomeFragment"
-            android:exported="false" />
-        <activity
-            android:name=".Activity2"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LaunchActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".SignupActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ResetActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".PinSetupActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".AuthChoiceActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".PinLoginActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"/>
+
+        <activity
+            android:name=".DisclaimerActivity"
+            android:exported="false"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
