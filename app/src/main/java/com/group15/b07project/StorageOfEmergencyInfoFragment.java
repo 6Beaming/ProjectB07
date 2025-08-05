@@ -40,6 +40,18 @@ public class StorageOfEmergencyInfoFragment extends Fragment {
                 loadFragment(new DocumentsToPackFragment());
             }
         });
+        emergency_contacts_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {loadFragment(new EmergencyContactsFragment());}
+        });
+        safe_location_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {loadFragment(new SafeLocationsFragment());}
+        });
+        medications_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {loadFragment(new MedicationsFragment());}
+        });
     }
 
     private void loadFragment(Fragment fragment) {
