@@ -115,11 +115,11 @@ public class FirebaseFileHelper {
         StorageReference fileRef = FirebaseStorage.getInstance().getReference(storagePath);
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("Documents").child(uploadId);
 
-        fileRef.delete().addOnSuccessListener(aVoid -> {
+        fileRef.delete().addOnSuccessListener(aVoid ->
             dbRef.removeValue()
                     .addOnSuccessListener(unused -> callback.onSuccess())
-                    .addOnFailureListener(callback::onFailure);
-        }).addOnFailureListener(callback::onFailure);
+                    .addOnFailureListener(callback::onFailure)
+        ).addOnFailureListener(callback::onFailure);
     }
 }
 
