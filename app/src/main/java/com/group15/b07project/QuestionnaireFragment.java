@@ -19,15 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 // Modularize the questionnaire into three sections(pages)
@@ -77,7 +71,8 @@ public class QuestionnaireFragment extends Fragment {
             }
         });
 
-        loadQuestions();   // parse questions.json
+        qBundle = ParseJson.loadJson(requireContext(),"questions.json",QuestionsBundle.class);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             goToPage(Page.WARMUP);
@@ -107,20 +102,6 @@ public class QuestionnaireFragment extends Fragment {
         });
     }
 
-    //Load and parse JSON from assets into qBundle
-    private void loadQuestions() {
-        // cannot use a File type because it's not a real file in terms of filesystem
-        // use getContext to get the Activity’s context; open json from assets using getAssets().open
-        // use try-with-resources to automatically closes the InputStream when done; open and read json file
-        try (InputStream is = requireContext().getAssets().open("questions.json");
-             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
-            // parse json into qBundle
-            Gson gson = new Gson();
-            qBundle = gson.fromJson(reader, QuestionsBundle.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private Page previousPage() {
         if (currentPage == Page.BRANCH) {

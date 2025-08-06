@@ -2,7 +2,6 @@ package com.group15.b07project;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +32,7 @@ public class PlanGenerationFragment extends Fragment {
     private TipAdapter tipAdapter;
     private List<String> tips;
     private String status;
+    private QuestionsBundle questions;
 
     public PlanGenerationFragment() {
     }
@@ -65,7 +58,6 @@ public class PlanGenerationFragment extends Fragment {
         tips.clear();
         loadTips(); // into tips
 
-
         home_button.setOnClickListener(view1 -> loadFragment(new HomeFragment()));
     }
 
@@ -82,17 +74,9 @@ public class PlanGenerationFragment extends Fragment {
 
 
     private void loadTips() {
-        QuestionsBundle questions;
-        try (InputStream is = requireContext().getAssets().open("questions.json");
-             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
-            // parse json into qBundle
-            Gson gson = new Gson();
-             questions= gson.fromJson(reader, QuestionsBundle.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-//Load Specific Answer of this user
+        questions = ParseJson.loadJson(requireContext(),"questions.json",QuestionsBundle.class);
 
+        //Load Specific Answer of this user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get user
         if (user == null) return;
         String uid = user.getUid();
@@ -110,12 +94,10 @@ public class PlanGenerationFragment extends Fragment {
                 loadFollowupTips(tips,questions,snapshot);
                 addClosing(tips);
                 tipAdapter.notifyDataSetChanged();
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Error loading answers: " + error.getMessage());
             }
         });
 
@@ -127,64 +109,57 @@ public class PlanGenerationFragment extends Fragment {
         List<Question> warmup = questions.warmUp;
 
         status = snapshot.child("status").getValue(String.class);
-        for (Question question :
-                warmup) {
+
+        for (Question question : warmup) {
             if (question.id.equals("live_with")) {
                 String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
+
                 if (answer.equals("Family")||answer.equals("Roommates")){
-                    tips.add(
-                            "👨‍👩‍👧‍👦 "+((List<String>)question.tips).get(0).replace("{family/roommates}",answer)
-                    );
-                } else if (answer.equals("Alone")) {
-                    tips.add(
-                            "😊 "+((List<String>)question.tips).get(1)
-                    );
-                }else {
+                    tips.add("👨‍👩‍👧‍👦 "+((List<String>)question.tips).get(0).replace("{family/roommates}",answer));
+                }
+                else if (answer.equals("Alone")) {
+                    tips.add("😊 "+((List<String>)question.tips).get(1));
+                }
+                else {
                     String safe_room=snapshot.child("safe_room").getValue(String.class);
                     assert safe_room != null;
-                    tips.add(
-                            "📒 "+((List<String>)question.tips).get(2).replace("{safe_room}",safe_room)
-                    );
+                    tips.add("📒 "+((List<String>)question.tips).get(2).replace("{safe_room}",safe_room));
                 }
-            }else{
+            }
+            else{
                 processTip(tips,snapshot,question);
             }
 
         }
     }
 
-    private void loadBranchTips(List<String> tips,
-                                @NonNull QuestionsBundle questions, @NonNull DataSnapshot snapshot){
+    private void loadBranchTips(List<String> tips, @NonNull QuestionsBundle questions, @NonNull DataSnapshot snapshot){
         List<Question> branchQuestions=questions.branch.get(status);
         assert branchQuestions != null;
-        for (Question question:
-             branchQuestions) {
+        for (Question question: branchQuestions) {
                 if (question.type.equals("multiple")){
                     GenericTypeIndicator<List<String>> typeIndicator = new GenericTypeIndicator<List<String>>() {};
                     List<String> answer=Objects.requireNonNull(snapshot.child(question.id).getValue(typeIndicator));
                     StringJoiner joiner=new StringJoiner(" ,");
+
                     for (int i = 0; i < answer.size(); i++) {
                         joiner.add(answer.get(i));
                     }
                     String cat_answer=joiner.toString();
-                    tips.add(
-                            "🔥 "+((String)question.tips).replace("{abuse_type}",cat_answer)
-                    );
-                }else {
+                    tips.add("🔥 "+((String)question.tips).replace("{abuse_type}",cat_answer));
+                }
+                else {
                     processTip(tips,snapshot,question);
                 }
 
         }
     }
 
-    private void loadFollowupTips(List<String> tips,
-                                  @NonNull QuestionsBundle questions, @NonNull DataSnapshot snapshot){
+    private void loadFollowupTips(List<String> tips, @NonNull QuestionsBundle questions, @NonNull DataSnapshot snapshot){
         Question followupQuestion=questions.followUp.get(0);
         String answer=snapshot.child(followupQuestion.id).getValue(String.class);
         assert answer != null;
-        tips.add(
-                "📕 "+((String) followupQuestion.tips).replace("{support_choice}",answer)
-        );
+        tips.add("📕 "+((String) followupQuestion.tips).replace("{support_choice}",answer));
     }
 
     private void processTip(List<String> tips, DataSnapshot snapshot,
@@ -193,43 +168,38 @@ public class PlanGenerationFragment extends Fragment {
 
         if (type_insert.contains(question.type)){
             insertAnswer(tips,snapshot,question);
-        }else if (question.type.equals("single")){
+        }
+        else if (question.type.equals("single")){
             chooseTip(tips,snapshot,question);
-        }else if (question.type.equals("single+text")){
+        }
+        else if (question.type.equals("single+text")){
             chooseAndInsert(tips,snapshot,question);
         }
 
     }
-    private void insertAnswer(@NonNull List<String> tips, @NonNull DataSnapshot snapshot,
-                              @NonNull Question question) { //precondition: type is dropdown,date,text. except safe_room
+    private void insertAnswer(@NonNull List<String> tips, @NonNull DataSnapshot snapshot, @NonNull Question question) {
+        //precondition: type is dropdown,date,text. except safe_room
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
-        tips.add(
-                "📒 "+((String)question.tips).replace("{answer}", answer)
-        );
+        tips.add("📒 "+((String)question.tips).replace("{answer}", answer));
 
     }
     @SuppressWarnings("unchecked")
-    private void chooseTip(@NonNull List<String> tips, @NonNull DataSnapshot snapshot,
-                           @NonNull Question question){//precondition: type is single
+    private void chooseTip(@NonNull List<String> tips, @NonNull DataSnapshot snapshot, @NonNull Question question){
+        //precondition: type is single
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
         int choice_index=question.options.indexOf(answer);
-        tips.add(
-                "📃 "+((List<String>)question.tips).get(choice_index)
-        );
+        tips.add("📃 "+((List<String>)question.tips).get(choice_index));
     }
     @SuppressWarnings("unchecked")
-    private void chooseAndInsert(List<String> tips, DataSnapshot snapshot,
-                                 Question question){//type must be single+text
+    private void chooseAndInsert(List<String> tips, DataSnapshot snapshot, Question question){
+        //type must be single+text
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
         if (question.options.indexOf(answer)==1){
-            tips.add(
-                    "🌻 "+((List<String>)question.tips).get(1)    //because all followup occur in first choice
-            );
-        }else {
+            tips.add("🌻 "+((List<String>)question.tips).get(1)); //because all followup occur in first choice
+        }
+        else {
             String text = Objects.requireNonNull(snapshot.child(question.id + "_text").getValue(String.class));
-            tips.add(
-                    "☀️ "+((List<String>)question.tips).get(0).replace("{answer}",text)
-            );
+            tips.add("☀️ "+((List<String>)question.tips).get(0).replace("{answer}",text));
         }
     }
 
