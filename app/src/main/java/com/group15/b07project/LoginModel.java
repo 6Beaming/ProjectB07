@@ -23,7 +23,7 @@ public class LoginModel implements LoginContract.Model {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (user != null && user.isEmailVerified()) {
+                        if (user.isEmailVerified()) {
                             listener.succeed();
                         } else {
                             listener.failed("Please verify your email.");
