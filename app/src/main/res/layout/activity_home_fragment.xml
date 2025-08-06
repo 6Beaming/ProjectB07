@@ -16,7 +16,7 @@
         />
     <Button
         android:id="@+id/buttonQuestionnaire"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:textSize="20sp"
         android:text="Edit Questionnaire"
         android:layout_marginStart="50dp"
@@ -45,8 +45,8 @@
 
     <Button
         android:id="@+id/buttonEmergencyInfo"
-        android:layout_width="330dp"
-        android:textSize="19dp"
+        android:layout_width="0dp"
+        android:textSize="20sp"
         android:text="Emergency information"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
@@ -64,7 +64,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginTop="50dp"
-        android:textSize="19sp"
+        android:textSize="20sp"
         style="@style/button_style_emergInfoPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
