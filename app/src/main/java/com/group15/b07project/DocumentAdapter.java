@@ -12,17 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-/**
- * Adapter class for displaying a list of documents in a RecyclerView.
- * Handles binding document metadata and user interactions like download, edit, and delete.
- */
+
+//Adapter class for displaying a list of documents in a RecyclerView.
+//Handles binding document metadata and user interactions like download, edit, and delete.
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
     private final List<DocMetadataStructure> files;
     private final OnFileItemClickListener listener;
 
-    /**
-     * Interface for handling click events on document items.
-     */
+
+    // Interface for handling click events on document items.
     public interface OnFileItemClickListener {
         void onDownloadClick(int position);
         void onEditClick(int position);
@@ -33,9 +31,9 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
         this.files = files;
         this.listener = listener;
     }
-    /**
-     * Inflates the item layout and creates a ViewHolder.
-     */
+
+//    Inflates the item layout and creates a ViewHolder.
+
     @NonNull
     @Override
     public DocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,9 +41,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
                 .inflate(R.layout.document_adapter,parent,false);
         return new DocumentViewHolder(v);
     }
-    /**
-     * Binds data to the ViewHolder at the given position.
-     */
+
+     // Binds data to the ViewHolder at the given position.
     @Override
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
         holder.fileName.setText(files.get(position).getDocsData().getTitle());
@@ -58,10 +55,10 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
         Log.d("ADAPTER_COUNT", "getItemCount(): " + files.size());
         return files.size();
     }
-    /**
-     * ViewHolder class for document items.
-     * Sets up click listeners for download, edit, and delete actions.
-     */
+
+//     ViewHolder class for document items.
+//     Sets up click listeners for download, edit, and delete actions.
+
     public class DocumentViewHolder extends RecyclerView.ViewHolder {
         Button fileName;
         ImageButton edit_button, delete_button;

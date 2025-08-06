@@ -9,38 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-/**
- * RecyclerView Adapter for displaying a list of emergency contacts.
- * Supports edit and delete actions via a provided listener.
- */
-public class EmergencyContactsAdapter
-        extends RecyclerView.Adapter<EmergencyContactsAdapter.VH> {
-    /**
-     * Interface to handle edit and delete button clicks for each item.
-     */
+
+//RecyclerView Adapter for displaying a list of emergency contacts.
+//Supports edit and delete actions via a provided listener.
+public class EmergencyContactsAdapter extends RecyclerView.Adapter<EmergencyContactsAdapter.VH> {
+    // Interface to handle edit and delete button clicks for each item.
     public interface OnItemClickListener {
-        /**
-         * Called when the edit button for a contact is clicked.
-         * @param contact The EmergencyContact to edit.
-         */
         void onEdit(EmergencyContact contact);
-        /**
-         * Called when the delete button for a contact is clicked.
-         * @param contact The EmergencyContact to delete.
-         */
+
         void onDelete(EmergencyContact contact);
     }
 
-    // List of contacts to display
-    private List<EmergencyContact> items;
-    // Listener to forward edit/delete events
-    private OnItemClickListener listener;
+    private final List<EmergencyContact> items;
+    private final OnItemClickListener listener;
 
-    /**
-     * Constructor for the adapter.
-     * @param items Initial data list of EmergencyContact objects.
-     * @param listener Callback listener for item actions.
-     */
+    // Adapter construction
     public EmergencyContactsAdapter(List<EmergencyContact> items, OnItemClickListener listener) {
         this.items = items;
         this.listener = listener;
@@ -73,10 +56,8 @@ public class EmergencyContactsAdapter
         return items.size();
     }
 
-    /**
-     * ViewHolder class to cache view references for each item.
-     */
-    static class VH extends RecyclerView.ViewHolder {
+    // ViewHolder class to cache view references for each item.
+    public static class VH extends RecyclerView.ViewHolder {
         TextView tvName, tvRelationship, tvPhone;
         ImageButton btnEdit, btnDelete;
 
