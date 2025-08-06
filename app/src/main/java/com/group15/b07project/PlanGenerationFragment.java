@@ -1,6 +1,6 @@
 package com.group15.b07project;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +27,8 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +37,6 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 public class PlanGenerationFragment extends Fragment {
-    private RecyclerView recyclerView;
     private TipAdapter tipAdapter;
     private List<String> tips;
     private String status;
@@ -47,13 +48,12 @@ public class PlanGenerationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_plan_generation, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_plan_generation, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        recyclerView = view.findViewById(R.id.recyclerViewTips);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTips);
         Button home_button=view.findViewById(R.id.home_button);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -63,34 +63,15 @@ public class PlanGenerationFragment extends Fragment {
         recyclerView.setAdapter(tipAdapter);
 
         tips.clear();
-        addOpening(tips);
         loadTips(); // into tips
 
 
-        home_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadFragment(new HomeFragment());
-            }
-        });
+        home_button.setOnClickListener(view1 -> loadFragment(new HomeFragment()));
     }
 
-    private void addOpening(List<String> tips){
-//        tips.add("Based on the answers you shared with us, " +
-//                "we have made a personalized safety plan for you. Your situation is unique, " +
-//                "and your safety matters to us. We want to provide support and guidance on any difficulty you may be facing.");
-//        tips.add("Think of this as a living guide—something you can return to, update, or change as your needs shift.");
-//        tips.add("You’re in control of what is saved or removed. Nothing is stored unless you choose to.");
-//        tips.add("We understand that safety planning can feel overwhelming, especially during uncertain times. This guide is here to support you, gently and privately.");
-
-    }
 
     private void addClosing(List<String> tips){
         tips.add("Revisit this plan as often as you need. Small steps matter, and even reviewing your plan is an act of care.");
-//        tips.add("You're not alone. Help is always available, and your safety and autonomy come first.");
-//        tips.add("Take care of yourself, and remember: you’re the expert of your own life.");
-//        tips.add("Please remember: this plan is not a substitute for emergency services. If you’re ever in immediate danger, call 911 or your local emergency number.");
-
     }
 
     private void loadFragment(Fragment fragment) {
@@ -101,13 +82,17 @@ public class PlanGenerationFragment extends Fragment {
 
 
     private void loadTips() {
-        String json = loadJSONFromAsset(requireContext(), "questions.json");
-        Gson gson = new Gson();
-        QuestionsBundle questions = gson.fromJson(json, QuestionsBundle.class);
+        QuestionsBundle questions;
+        try (InputStream is = requireContext().getAssets().open("questions.json");
+             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+            // parse json into qBundle
+            Gson gson = new Gson();
+             questions= gson.fromJson(reader, QuestionsBundle.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//Load Specific Answer of this user
 
-        /*
-        Load Specific Answer of this user
-         */
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get user
         if (user == null) return;
         String uid = user.getUid();
@@ -117,6 +102,7 @@ public class PlanGenerationFragment extends Fragment {
                 .child("questionnaire");
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 loadWarmupTips(tips, questions, snapshot); //this also sets value of status
@@ -135,22 +121,7 @@ public class PlanGenerationFragment extends Fragment {
 
     }
 
-    public String loadJSONFromAsset(Context context, String filename) {
-        String json = null;
-        try {
-            InputStream is = context.getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
+    @SuppressWarnings("unchecked")
     private void loadWarmupTips(List<String> tips,
                                 @NonNull QuestionsBundle questions, @NonNull DataSnapshot snapshot) {
         List<Question> warmup = questions.warmUp;
@@ -237,7 +208,7 @@ public class PlanGenerationFragment extends Fragment {
         );
 
     }
-
+    @SuppressWarnings("unchecked")
     private void chooseTip(@NonNull List<String> tips, @NonNull DataSnapshot snapshot,
                            @NonNull Question question){//precondition: type is single
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));
@@ -246,7 +217,7 @@ public class PlanGenerationFragment extends Fragment {
                 "📃 "+((List<String>)question.tips).get(choice_index)
         );
     }
-
+    @SuppressWarnings("unchecked")
     private void chooseAndInsert(List<String> tips, DataSnapshot snapshot,
                                  Question question){//type must be single+text
         String answer=Objects.requireNonNull(snapshot.child(question.id).getValue(String.class));

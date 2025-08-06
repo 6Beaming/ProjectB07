@@ -23,12 +23,18 @@ import java.util.UUID;
 public class FirebaseFileHelper {
 
     public interface UploadCallback {
-        default String getExtension(Uri fileUri){
+        default String getExtension(Uri fileUri) {
             return "";
-        };
-        default void onStart(){};
+        }
+
+        default void onStart() {
+        }
+
         void onSuccess();
-        default void onProgress(UploadTask.TaskSnapshot taskSnapshot){};
+
+        default void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+        }
+
         void onFailure(Exception e);
     }
 
@@ -39,11 +45,11 @@ public class FirebaseFileHelper {
             return;
         }
 
-        FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-        if (user==null){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
             return;
         }
-        String uid=user.getUid();
+        String uid = user.getUid();
 
         String fileId = UUID.randomUUID().toString();
         String extension = callback.getExtension(fileUri);
@@ -54,22 +60,13 @@ public class FirebaseFileHelper {
 
         StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(storagePath);
 
-//        StorageReference testRef = fileRef.child("uploads/test.txt");
-//        byte[] testData = "test".getBytes();
-//        testRef.putBytes(testData)
-//                .addOnSuccessListener(taskSnapshot -> {
-//                    Log.d("TEST_UPLOAD", "Test file uploaded successfully.");
-//                })
-//                .addOnFailureListener(e -> {
-//                    Log.e("TEST_UPLOAD", "Test upload failed: " + e.getMessage());
-//                });
         UploadTask uploadTask = fileRef.putFile(fileUri);
         callback.onStart();
         uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
             saveFileMetadata(uid, fileId, title, description, downloadUri.toString(), storagePath);
-            if (callback != null) callback.onSuccess();
+            callback.onSuccess();
         })).addOnProgressListener(callback::onProgress).addOnFailureListener(e -> {
-            if (callback != null) callback.onFailure(e);
+            callback.onFailure(e);
             Log.e("UPLOAD_ERROR", "Upload failed: " + e.getMessage(), e);
         });
     }
@@ -91,7 +88,7 @@ public class FirebaseFileHelper {
         docRef.setValue(metadata);
     }
 
-    public static void editFileMetadata(String uid, String fileId, String title, String description){
+    public static void editFileMetadata(String uid, String fileId, String title, String description) {
         DatabaseReference docRef = FirebaseDatabase.getInstance()
                 .getReference("users").child(uid).child("Documents").child(fileId);
         docRef.child("title").setValue(title);
