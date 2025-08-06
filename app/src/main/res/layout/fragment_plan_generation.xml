@@ -22,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/plan_header"
         android:textColor="@color/browngrey"
-        android:fontFamily="@font/hand_regular"
         android:textSize="31sp"
         />
 

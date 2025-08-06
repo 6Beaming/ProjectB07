@@ -23,7 +23,6 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:fontFamily="@font/hand_regular"
         android:textColor="@color/browngrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
