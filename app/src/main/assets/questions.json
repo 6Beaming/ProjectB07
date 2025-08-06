@@ -40,7 +40,7 @@
       "text": "Do you have children?",
       "options": ["Yes", "No"],
       "followupTextPrompt": "Enter a code word for your children",
-      "tips": ["Practice your safety plan with your children so that when they hear {answer},they know exactly what to do.",
+      "tips": ["Practice your safety plan with your children so that when they hear {answer}, they know exactly what to do.",
         "Even without children, it helps to identify a second safe space in your home."]
 
     }
@@ -52,7 +52,7 @@
         "type": "multiple",
         "text": "Which form(s) of abuse are you experiencing?",
         "options": ["Physical", "Emotional", "Financial", "Other"],
-        "tips": "If you face {abuse_type} abuse, remember you don’t have to face it alone. Reach out to your emergency contact right away."
+        "tips": "If you face {abuse_type} abuse, remember you don't have to face it alone. Reach out to your emergency contact right away."
 
       },
       {
