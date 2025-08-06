@@ -9,20 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-/**
- * Adapter to bind SafeLocation data to the RecyclerView.
- */
+//Adapter to bind SafeLocation data to the RecyclerView.
+
 public class SafeLocationsAdapter extends RecyclerView.Adapter<SafeLocationsAdapter.VH> {
-    /**
-     * Listener interface for edit and delete actions.
-     */
+    //Listener interface for edit and delete actions.
+
     public interface OnItemClickListener {
         void onEdit(SafeLocation location);
         void onDelete(SafeLocation location);
     }
 
-    private List<SafeLocation> items;
-    private OnItemClickListener listener;
+    private final List<SafeLocation> items;
+    private final OnItemClickListener listener;
 
     public SafeLocationsAdapter(List<SafeLocation> items, OnItemClickListener listener) {
         this.items = items;
@@ -53,10 +51,9 @@ public class SafeLocationsAdapter extends RecyclerView.Adapter<SafeLocationsAdap
         return items.size();
     }
 
-    /**
-     * ViewHolder caches view references for performance.
-     */
-    static class VH extends RecyclerView.ViewHolder {
+    //ViewHolder caches view references for performance.
+
+    public static class VH extends RecyclerView.ViewHolder {
         TextView tvAddress, tvNotes;
         ImageButton btnEdit, btnDelete;
 

@@ -1,22 +1,16 @@
 package com.group15.b07project;
 
-/**
- * Model class representing a medication with its name and dosage.
- */
+//Model class representing a medication with its name and dosage.
 public class Medication {
     private String id;
     private String name;
     private String dosage;
 
-    /** Default constructor for Firebase. */
+    //Default constructor required for Firebase deserialization.
     public Medication() {}
 
-    /**
-     * Create a new Medication entry.
-     * @param id     Database key
-     * @param name   Medication name
-     * @param dosage Dosage information
-     */
+    //Create a new Medication entry.
+
     public Medication(String id, String name, String dosage) {
         this.id = id;
         this.name = name;

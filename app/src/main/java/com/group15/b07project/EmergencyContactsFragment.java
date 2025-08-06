@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 
 // Fragment to display and manage a list of emergency contacts.
-// Provides CRUD operations (Create, Read, Update, Delete) via Firebase Realtime Database.
 public class EmergencyContactsFragment extends Fragment {
     // Data list and adapter for RecyclerView
     private List<EmergencyContact> items;
@@ -109,9 +108,7 @@ public class EmergencyContactsFragment extends Fragment {
                 .popBackStack());
     }
 
-    /**
-     * Show a dialog for adding a new emergency contact.
-     */
+    //Show a dialog for adding a new emergency contact.
     private void showAddDialog() {
         // Inflate the custom dialog layout
         View v = LayoutInflater.from(getContext())
@@ -140,10 +137,8 @@ public class EmergencyContactsFragment extends Fragment {
                 .show();
     }
 
-    /**
-     * Show a dialog to edit an existing emergency contact.
-     * @param c the contact to be edited
-     */
+    //Show a dialog to edit an existing emergency contact.
+
     private void showEditDialog(EmergencyContact c) {
         // Inflate the same layout but pre-fill fields
         View v = LayoutInflater.from(getContext())

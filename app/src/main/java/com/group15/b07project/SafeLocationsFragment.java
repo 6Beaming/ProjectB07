@@ -1,5 +1,6 @@
 package com.group15.b07project;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,13 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-/**
- * Fragment to display and manage Safe Locations CRUD operations.
- */
+//Fragment to display and manage Safe Locations CRUD operations.
 public class SafeLocationsFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private FloatingActionButton fabAdd;
     private List<SafeLocation> items;
     private SafeLocationsAdapter adapter;
     private DatabaseReference ref;
@@ -47,7 +45,7 @@ public class SafeLocationsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Build Firebase path: /users/{uid}/EmergencyInfo/SafeLocations
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         ref = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(uid)
@@ -55,8 +53,8 @@ public class SafeLocationsFragment extends Fragment {
                 .child("SafeLocations");
 
         // RecyclerView & adapter setup
-        recyclerView = view.findViewById(R.id.recyclerView);
-        fabAdd       = view.findViewById(R.id.fab_add);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        FloatingActionButton fabAdd = view.findViewById(R.id.fab_add);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         items   = new ArrayList<>();
         adapter = new SafeLocationsAdapter(items, new SafeLocationsAdapter.OnItemClickListener() {
@@ -67,6 +65,7 @@ public class SafeLocationsFragment extends Fragment {
 
         // Listen for data changes and update UI
         ref.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
@@ -89,43 +88,43 @@ public class SafeLocationsFragment extends Fragment {
         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
     }
 
-    /** Show dialog to add a new safe location. */
+    //Show dialog to add a new safe location.
     private void showAddDialog() {
         View v = LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_safe_location, null);
-        EditText etAddr  = v.findViewById(R.id.etAddress);
+        EditText etAddress = v.findViewById(R.id.etAddress);
         EditText etNotes = v.findViewById(R.id.etNotes);
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Add Safe Location")
                 .setView(v)
                 .setPositiveButton("Save", (d, w) -> {
                     String id = ref.push().getKey();
                     SafeLocation sl = new SafeLocation(
                             id,
-                            etAddr.getText().toString().trim(),
+                            etAddress.getText().toString().trim(),
                             etNotes.getText().toString().trim()
                     );
-                    ref.child(id).setValue(sl);
+                    ref.child(Objects.requireNonNull(id)).setValue(sl);
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    /** Show dialog to edit an existing safe location. */
+    //how dialog to edit an existing safe location./
     private void showEditDialog(SafeLocation sl) {
         View v = LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_safe_location, null);
-        EditText etAddr  = v.findViewById(R.id.etAddress);
+        EditText etAddress = v.findViewById(R.id.etAddress);
         EditText etNotes = v.findViewById(R.id.etNotes);
-        etAddr.setText(sl.getAddress());
+        etAddress.setText(sl.getAddress());
         etNotes.setText(sl.getNotes());
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Edit Safe Location")
                 .setView(v)
                 .setPositiveButton("Update", (d, w) -> {
-                    sl.setAddress(etAddr.getText().toString().trim());
+                    sl.setAddress(etAddress.getText().toString().trim());
                     sl.setNotes(etNotes.getText().toString().trim());
                     ref.child(sl.getId()).setValue(sl);
                 })

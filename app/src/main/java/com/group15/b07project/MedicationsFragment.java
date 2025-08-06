@@ -1,5 +1,6 @@
 package com.group15.b07project;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,13 +25,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-/**
- * Fragment to manage Medication entries (CRUD) via Firebase.
- */
+
+//Fragment to manage Medication entries (CRUD) via Firebase.
 public class MedicationsFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private FloatingActionButton fabAdd;
     private List<Medication> items;
     private MedicationsAdapter adapter;
     private DatabaseReference ref;
@@ -47,7 +46,7 @@ public class MedicationsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Firebase path: /users/{uid}/EmergencyInfo/Medications
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         ref = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(uid)
@@ -55,8 +54,8 @@ public class MedicationsFragment extends Fragment {
                 .child("Medications");
 
         // Setup RecyclerView & adapter
-        recyclerView = view.findViewById(R.id.recyclerView);
-        fabAdd       = view.findViewById(R.id.fab_add);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        FloatingActionButton fabAdd = view.findViewById(R.id.fab_add);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         items   = new ArrayList<>();
         adapter = new MedicationsAdapter(items, new MedicationsAdapter.OnItemClickListener() {
@@ -67,6 +66,7 @@ public class MedicationsFragment extends Fragment {
 
         // Listen for data changes
         ref.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
@@ -89,14 +89,14 @@ public class MedicationsFragment extends Fragment {
         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
     }
 
-    /** Prompt user to add a new Medication. */
+    //Prompt user to add a new Medication.
     private void showAddDialog() {
         View v = LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_medication, null);
         EditText etName   = v.findViewById(R.id.etName);
         EditText etDosage = v.findViewById(R.id.etDosage);
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Add Medication")
                 .setView(v)
                 .setPositiveButton("Save", (d, w) -> {
@@ -106,13 +106,13 @@ public class MedicationsFragment extends Fragment {
                             etName.getText().toString().trim(),
                             etDosage.getText().toString().trim()
                     );
-                    ref.child(id).setValue(m);
+                    ref.child(Objects.requireNonNull(id)).setValue(m);
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    /** Prompt user to edit an existing Medication. */
+    //Prompt user to edit an existing Medication.
     private void showEditDialog(Medication m) {
         View v = LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_medication, null);
@@ -121,7 +121,7 @@ public class MedicationsFragment extends Fragment {
         etName.setText(m.getName());
         etDosage.setText(m.getDosage());
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Edit Medication")
                 .setView(v)
                 .setPositiveButton("Update", (d, w) -> {

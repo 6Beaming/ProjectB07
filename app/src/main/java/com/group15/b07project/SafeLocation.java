@@ -1,22 +1,16 @@
 package com.group15.b07project;
 
-/**
- * Model class representing a safe location with an address and notes.
- */
+//Model class representing a safe location with an address and notes.
 public class SafeLocation {
     private String id;
     private String address;
     private String notes;
 
-    /** Default constructor required for Firebase deserialization. */
+    //Default constructor required for Firebase deserialization.
     public SafeLocation() {}
 
-    /**
-     * Convenient constructor to create a SafeLocation instance.
-     * @param id       Unique key in the database
-     * @param address  Location address
-     * @param notes    Additional notes about the location
-     */
+    //Create a new SafeLocation entry.
+
     public SafeLocation(String id, String address, String notes) {
         this.id = id;
         this.address = address;

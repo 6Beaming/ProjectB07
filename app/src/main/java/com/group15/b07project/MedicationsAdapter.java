@@ -9,17 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-/**
- * Adapter for displaying Medication items with edit/delete actions.
- */
+
+//Adapter for displaying Medication items with edit/delete actions.
 public class MedicationsAdapter extends RecyclerView.Adapter<MedicationsAdapter.VH> {
     public interface OnItemClickListener {
         void onEdit(Medication med);
         void onDelete(Medication med);
     }
 
-    private List<Medication> items;
-    private OnItemClickListener listener;
+    private final List<Medication> items;
+    private final OnItemClickListener listener;
 
     public MedicationsAdapter(List<Medication> items, OnItemClickListener listener) {
         this.items = items;
@@ -48,10 +47,8 @@ public class MedicationsAdapter extends RecyclerView.Adapter<MedicationsAdapter.
         return items.size();
     }
 
-    /**
-     * ViewHolder caches views for a medication item.
-     */
-    static class VH extends RecyclerView.ViewHolder {
+    //ViewHolder caches views for a medication item.
+    public static class VH extends RecyclerView.ViewHolder {
         TextView tvName, tvDosage;
         ImageButton btnEdit, btnDelete;
 

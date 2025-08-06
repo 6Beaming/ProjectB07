@@ -6,6 +6,10 @@ public class EmergencyContact {
     private String relationship;
     private String phone;
 
+    //Default constructor required for Firebase deserialization.
+    public EmergencyContact() {}
+
+    //Create a new EmergencyContact entry.
     public EmergencyContact(String id, String name, String relationship, String phone) {
         this.id = id;
         this.name = name;
@@ -13,6 +17,7 @@ public class EmergencyContact {
         this.phone = phone;
     }
 
+    // Getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
