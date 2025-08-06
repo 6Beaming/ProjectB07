@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginModel implements LoginContract.Model {
 
-    private final FirebaseUser user;
+    private FirebaseUser user;
 
     public LoginModel(){
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -23,11 +23,13 @@ public class LoginModel implements LoginContract.Model {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (user.isEmailVerified()) {
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user!= null && user.isEmailVerified()) {
                             listener.succeed();
                         } else {
                             listener.failed("Please verify your email.");
                         }
+                        listener.succeed();
                     } else {
                         Exception except = task.getException();
                         String message;
