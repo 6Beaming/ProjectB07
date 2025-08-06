@@ -11,7 +11,7 @@
         android:scaleType="centerCrop"
         android:alpha="0.19"
         />
-    <!-- RecyclerView to show service entries -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvServices"
         android:layout_width="0dp"

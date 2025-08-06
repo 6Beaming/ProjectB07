@@ -24,13 +24,12 @@
     <string name="docs_header">Documents</string>
     <string name="exit">EXIT</string>
     <string name="emergency_exit">Emergency Exit</string>
-    <string name="please_sign_in">Please sign in</string>
+    <string name="sign_in">Sign in</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="forgot_password">Forgot password</string>
-    <string name="don_t_have_account_create_an_account">Don\'t have account? Create an account</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="forgot_password">Forgotten password?</string>
+    <string name="create_an_account">Or create an account</string>
 
     <string-array name="categories_array">
         <item>Books</item>

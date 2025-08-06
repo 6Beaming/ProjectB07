@@ -13,7 +13,7 @@
         android:scaleType="centerCrop"
         android:alpha="0.19"
         />
-    <!-- Scrollable questions area -->
+
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="0dp"
@@ -37,33 +37,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <!-- Navigation buttons always below the questions-->
+
             <LinearLayout
                 android:id="@+id/navButtons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Leftmost: Previous -->
                 <Button
                     android:id="@+id/btnPrev"
                     android:text="@string/previous"
                     android:visibility="gone"
                     style="@style/simple_button"/>
 
-                <!-- Spacer takes up all remaining space -->
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
 
-                <!-- Rightmost: Next -->
                 <Button
                     android:id="@+id/btnNext"
                     android:text="@string/next"
                     style="@style/simple_button"/>
 
-                <!-- Rightmost (only visible on last page): Submit -->
                 <Button
                     android:id="@+id/btnSubmit"
                     android:text="@string/submit"

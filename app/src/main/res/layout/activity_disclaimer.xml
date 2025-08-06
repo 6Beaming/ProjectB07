@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
-
+    tools:context=".DisclaimerActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/sun_symbol"
         android:adjustViewBounds="false"
-        android:scaleType="centerCrop"
         android:alpha="0.19"
-        />
+        android:scaleType="centerCrop"
+        android:src="@drawable/sun_symbol" />
+
     <TextView
         android:id="@+id/disclaimer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please note that this app is not a
+        android:text="      Please note that this app is not a
         \n.     substitute for emergency services
         \n In any emergency, call 911 or local authorities.
         \n\nSafety plans are personal and not guaranteed to prevent harm"
