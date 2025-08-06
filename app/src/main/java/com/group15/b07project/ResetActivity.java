@@ -37,7 +37,7 @@ public class ResetActivity extends AppCompatActivity {
                             Toast.makeText(this, "Reset email sent.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(this, "Failed to send the reset email", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Please verify your account before use.", Toast.LENGTH_LONG).show();
                         }
                     });
         });
