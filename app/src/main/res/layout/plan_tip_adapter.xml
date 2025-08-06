@@ -14,7 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="tip text"
-        android:textSize="22sp"
+        android:textColor="@color/light_grey"
+        android:textSize="20sp"
         />
 
 

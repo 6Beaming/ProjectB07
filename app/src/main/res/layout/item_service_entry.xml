@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="4dp"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:backgroundTint="@color/light_primary">
 
     <LinearLayout
         android:orientation="vertical"
@@ -17,6 +18,7 @@
             android:id="@+id/name"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/browngrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

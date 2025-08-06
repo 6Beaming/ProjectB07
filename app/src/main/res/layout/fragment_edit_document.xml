@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:alpha="0.19"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sun_symbol"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_head"
+        style="@style/title_description_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        app:layout_constraintBottom_toTopOf="@+id/editText_title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="28dp"
+        android:hint="Enter your file title"
+        android:textColor="@color/browngrey"
+        app:layout_constraintBottom_toTopOf="@+id/editText_description"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        />
+
+    <TextView
+        android:id="@+id/description_head"
+        style="@style/title_description_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        app:layout_constraintBottom_toTopOf="@+id/editText_description"
+        app:layout_constraintStart_toStartOf="parent"
+         />
+
+    <EditText
+        android:id="@+id/editText_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="28dp"
+        android:layout_marginBottom="102dp"
+        android:hint="Enter a brief description of your file"
+        android:textColor="@color/browngrey"
+        app:layout_constraintBottom_toTopOf="@+id/button_confirm_tile_description"
+        app:layout_constraintTop_toBottomOf="@+id/editText_title" />
+
+    <Button
+        android:id="@+id/button_confirm_tile_description"
+        style="@style/button_style_emergInfoPage"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:text="Confirm"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

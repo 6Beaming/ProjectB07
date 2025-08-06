@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BrownButton" parent="Widget.Material3.Button">
+    <item name="android:background">@drawable/brown_but</item>
+    <item name="android:backgroundTint">@android:color/transparent</item>
+    <item name="android:foreground">@null</item>
+    <item name="android:stateListAnimator">@null</item>
+    <item name="android:textColor">#733C2A</item>
+    <item name="android:fontFamily">@font/hand_regular</item>
+    <item name="android:textSize">22sp</item>
+</style>
+
+
+    <style name="button_style_emergInfoPage">
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_marginTop">17dp</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:background">@drawable/brown_but</item>
+        <item name="android:fontFamily">@font/hand_regular</item>
+        <item name="android:textColor">#733C2A</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="title_description_hint">
+        <item name="android:layout_marginStart">28dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:fontFamily">@font/hand_regular</item>
+    </style>
+
+    <style name="simple_button">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/brown_but</item>
+        <item name="android:fontFamily">@font/hand_regular</item>
+        <item name="android:textColor">@color/red_brown</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="edit_text_color">
+        <item name="android:textColor">@color/browngrey</item>
+        <item name="android:textColorHint">@color/light_grey</item>
+    </style>
+</resources>

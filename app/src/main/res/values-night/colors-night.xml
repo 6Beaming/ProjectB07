@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_grey">#A2E9B1AD</color>     <!-- semi-transparent black -->
+    <color name="browngrey">#DAE6B4A4</color>      <!-- warm brownish grey -->
+    <color name="very_light_grey">#4DD5B1B1</color>
+    <color name="light_primary">#FFF6E9</color>
+    <color name="dark_background">#262626</color>
+    <color name="custom_light">#3A3838</color>
+</resources>

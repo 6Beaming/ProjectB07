@@ -10,12 +10,27 @@
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
     <string name="submit">Submit</string>
-   <string name="plan_header">Your Personalized Saftey Plan</string>
+   <string name="plan_header">Personalized Safety Plan</string>
     <string name="homeButton">Back to Home</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="this_question_is_required">This question is required.</string>
     <string name="questionnaire_questions">Questionnaire questions</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="documents_to_pack">Documents to pack</string>
+    <string name="emergency_contacts">Emergency Contacts</string>
+    <string name="safe_locations">Safe Locations</string>
+    <string name="medications">Medications</string>
+    <string name="docs_header">Documents</string>
+    <string name="exit">EXIT</string>
+    <string name="emergency_exit">Emergency Exit</string>
+    <string name="please_sign_in">Please sign in</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="don_t_have_account_create_an_account">Don\'t have account? Create an account</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 
     <string-array name="categories_array">
         <item>Books</item>

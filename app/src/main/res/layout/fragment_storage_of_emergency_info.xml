@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sun_symbol"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:alpha="0.19"
+        />
+
+    <ImageButton
+        android:id="@+id/buttonEmergencyInfoHome"
+        android:layout_width="80dp"
+        android:layout_height="68dp"
+        android:background="@drawable/brown_back_button"
+        android:contentDescription="@string/back"
+        app:layout_constraintBottom_toTopOf="@+id/EmergencyInfoContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/EmergencyInfoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEmergencyInfoHome">
+
+        <Button
+            android:id="@+id/button_documents_to_pack"
+            android:layout_width="380dp"
+            android:layout_marginTop="70dp"
+            android:textSize="20sp"
+            android:text="@string/documents_to_pack"
+            style="@style/button_style_emergInfoPage" />
+
+        <Button
+            android:id="@+id/button_emergency_contacts"
+            android:layout_width="wrap_content"
+            style="@style/button_style_emergInfoPage"
+            android:textSize="20sp"
+            android:text="@string/emergency_contacts" />
+
+        <Button
+            android:id="@+id/button_safe_locations"
+            android:layout_width="wrap_content"
+            style="@style/button_style_emergInfoPage"
+            android:text="@string/safe_locations" />
+
+        <Button
+            android:id="@+id/button_medications"
+            android:layout_width="wrap_content"
+            style="@style/button_style_emergInfoPage"
+            android:text="@string/medications" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

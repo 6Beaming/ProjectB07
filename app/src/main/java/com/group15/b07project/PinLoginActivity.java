@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +24,7 @@ public class PinLoginActivity extends AppCompatActivity {
         String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         EditText pinInput  = findViewById(R.id.pinInput);
         Button buttonUnlock = findViewById(R.id.buttonUnlock);
-        Button buttonBack = findViewById(R.id.buttonBack);
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
         PinManager pinManager = new PinManager(this);
 
         buttonUnlock.setOnClickListener(v -> {

@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:padding="24dp">
 
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sun_symbol"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:alpha="0.19"
+        />
     <TextView
         android:id="@+id/disclaimer_text"
         android:layout_width="wrap_content"
@@ -17,6 +26,7 @@
         android:textSize="22sp"
         android:textStyle="bold|italic"
         android:textAlignment="center"
+        android:textColor="@color/browngrey"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_understand"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,12 +35,13 @@
 
     <Button
         android:id="@+id/btn_understand"
-        android:layout_width="164dp"
+        android:layout_width="220dp"
         android:layout_height="66dp"
         android:text="I understand."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/disclaimer_text"
+        style="@style/simple_button"
         app:layout_constraintVertical_bias="0.1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
