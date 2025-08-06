@@ -6,8 +6,6 @@ public class EmergencyContact {
     private String relationship;
     private String phone;
 
-    public EmergencyContact() {}
-
     public EmergencyContact(String id, String name, String relationship, String phone) {
         this.id = id;
         this.name = name;

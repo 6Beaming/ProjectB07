@@ -1,5 +1,6 @@
 package com.group15.b07project;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-/**
- * Fragment to display and manage a list of emergency contacts.
- * Provides CRUD operations (Create, Read, Update, Delete) via Firebase Realtime Database.
- */
+// Fragment to display and manage a list of emergency contacts.
+// Provides CRUD operations (Create, Read, Update, Delete) via Firebase Realtime Database.
 public class EmergencyContactsFragment extends Fragment {
-    // RecyclerView to show the list of contacts
-    private RecyclerView recyclerView;
-    // FloatingActionButton to add a new contact
-    private FloatingActionButton fabAdd;
     // Data list and adapter for RecyclerView
     private List<EmergencyContact> items;
     private EmergencyContactsAdapter adapter;
@@ -48,7 +44,7 @@ public class EmergencyContactsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Get the current user ID from Firebase Authentication
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         // Build the database reference path: /users/{uid}/EmergencyInfo/EmergencyContacts
         ref = FirebaseDatabase.getInstance()
                 .getReference("users")
@@ -57,8 +53,10 @@ public class EmergencyContactsFragment extends Fragment {
                 .child("EmergencyContacts");
 
         // Initialize RecyclerView and FAB
-        recyclerView = view.findViewById(R.id.recyclerView);
-        fabAdd = view.findViewById(R.id.fab_add);
+        // RecyclerView to show the list of contacts
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        // FloatingActionButton to add a new contact
+        FloatingActionButton fabAdd = view.findViewById(R.id.fab_add);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         brown_grey = ContextCompat.getColor(requireContext(), R.color.browngrey);
 
@@ -84,6 +82,7 @@ public class EmergencyContactsFragment extends Fragment {
 
         // Listen for database changes and update UI accordingly
         ref.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();  // Clear old data
@@ -122,7 +121,7 @@ public class EmergencyContactsFragment extends Fragment {
         EditText etRel   = v.findViewById(R.id.etRelationship);
         EditText etPhone = v.findViewById(R.id.etPhone);
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Add Emergency Contact")
                 .setView(v)
                 .setPositiveButton("Save", (dialog, which) -> {
@@ -135,7 +134,7 @@ public class EmergencyContactsFragment extends Fragment {
                             etPhone.getText().toString().trim()
                     );
                     // Save to Firebase
-                    ref.child(id).setValue(c);
+                    ref.child(Objects.requireNonNull(id)).setValue(c);
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
@@ -159,7 +158,7 @@ public class EmergencyContactsFragment extends Fragment {
         etPhone.setText(c.getPhone());
         etPhone.setTextColor(brown_grey);
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle("Edit Emergency Contact")
                 .setView(v)
                 .setPositiveButton("Update", (dialog, which) -> {
