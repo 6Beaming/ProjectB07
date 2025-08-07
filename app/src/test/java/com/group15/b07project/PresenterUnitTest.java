@@ -35,6 +35,7 @@ public class PresenterUnitTest {
 
     private LoginPresenter presenter;
 
+    //Setup
     @Before
     public void setUp() {
         presenter = new LoginPresenter(view, model, pinManager);
@@ -57,12 +58,16 @@ public class PresenterUnitTest {
         String password = "PASSWORD";
         String uid = "12345678";
 
+        //Mock uid
         when(model.getUser()).thenReturn(user);
         when(user.getUid()).thenReturn(uid);
+        //Mock user having PIN
         when(pinManager.hasPin(uid)).thenReturn(true);
         presenter = new LoginPresenter(view, model, pinManager);
         presenter.loginClicked(email, password);
+        //Capture the loginfinishedlistener that was passed to startlogin
         ArgumentCaptor<LoginContract.Model.loginFinishedListener> captor = ArgumentCaptor.forClass(LoginContract.Model.loginFinishedListener.class);
+        //Check if startlogin is called, and capture the loginfinishedlistener
         verify(model).startLogin(eq(email), eq(password), captor.capture());
         captor.getValue().succeed();
         verify(view).navigateAndFinish(MainActivity.class);
@@ -74,12 +79,16 @@ public class PresenterUnitTest {
         String password = "PASSWORD";
         String uid = "12345678";
 
+        //mock uid
         when(model.getUser()).thenReturn(user);
         when(user.getUid()).thenReturn(uid);
+        //Mock user not having PIN
         when(pinManager.hasPin(uid)).thenReturn(false);
         presenter = new LoginPresenter(view, model, pinManager);
         presenter.loginClicked(email, password);
+        //Capture the loginfinishedlistener that was passed to startlogin
         ArgumentCaptor<LoginContract.Model.loginFinishedListener> captor = ArgumentCaptor.forClass(LoginContract.Model.loginFinishedListener.class);
+        //Check if startlogin is called, and capture the loginfinishedlistener
         verify(model).startLogin(eq(email), eq(password), captor.capture());
         captor.getValue().succeed();
         verify(view).navigateAndFinish(PinSetupActivity.class);
@@ -92,6 +101,7 @@ public class PresenterUnitTest {
         String errorMessage = "Login failed";
 
         doAnswer(invocation -> {
+            //Get the loginfinishedlistener
             LoginContract.Model.loginFinishedListener listener = invocation.getArgument(2);
             listener.failed(errorMessage);
             return null;
