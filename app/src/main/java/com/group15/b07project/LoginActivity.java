@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        presenter = new LoginPresenter(this, new LoginModel());
+        presenter = new LoginPresenter(this, new LoginModel(), new PinManager(this));
         EditText emailEdited = findViewById(R.id.editEmail);
         EditText passwordEdited = findViewById(R.id.editPassword);
 

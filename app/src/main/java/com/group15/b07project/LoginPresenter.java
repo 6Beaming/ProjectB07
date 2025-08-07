@@ -1,15 +1,16 @@
 package com.group15.b07project;
 
-import android.content.Context;
 
 public class LoginPresenter implements LoginContract.Presenter {
 
     private final LoginContract.View view;
     private final LoginContract.Model model;
+    private final PinManager pinManager;
 
-    public LoginPresenter(LoginContract.View view, LoginContract.Model model) {
+    public LoginPresenter(LoginContract.View view, LoginContract.Model model, PinManager pinManager) {
         this.view = view;
         this.model = model;
+        this.pinManager = pinManager;
     }
 
     @Override
@@ -28,7 +29,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                 // Presenter decides where to go after successfully log in
                 // Now that log in is on success, uid can't be null
                 String uid = model.getUser().getUid();
-                PinManager pinManager = new PinManager((Context) view);
                 if (pinManager.hasPin(uid)) {
                     view.navigateAndFinish(MainActivity.class);
                 } else {
