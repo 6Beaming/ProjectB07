@@ -29,7 +29,6 @@ public class LoginModel implements LoginContract.Model {
                         } else {
                             listener.failed("Please verify your email.");
                         }
-                        listener.succeed();
                     } else {
                         Exception except = task.getException();
                         String message;
