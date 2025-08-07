@@ -7,9 +7,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     private final LoginContract.View view;
     private final LoginContract.Model model;
 
-    public LoginPresenter(LoginContract.View view) {
+    public LoginPresenter(LoginContract.View view, LoginContract.Model model) {
         this.view = view;
-        this.model = new LoginModel();
+        this.model = model;
     }
 
     @Override
