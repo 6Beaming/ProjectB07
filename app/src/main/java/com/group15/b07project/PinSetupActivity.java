@@ -47,7 +47,7 @@ public class PinSetupActivity extends AppCompatActivity {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            Toast.makeText(this,"Saved! Here's your initial questionnaire", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Your PIN is saved!", Toast.LENGTH_SHORT).show();
             // Then, go to main
             startActivity(new Intent(this, MainActivity.class));
             finish(); // so if press back, user won't go back to here
